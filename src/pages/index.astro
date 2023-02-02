@@ -1,26 +1,79 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
-import Technologies from '../components/Technologies.astro';
+// import Technologies from '../components/Technologies.astro';
+// import Tech from '../components/Tech';
 ---
+
+<script>
+import type { log } from "astro/dist/core/logger/core";
+
+	window.addEventListener('load', (event) => {
+
+		setTimeout(() => {
+			const elem = document.getElementById('job-title');
+			if (elem) {
+				elem.classList.remove('opacity-0');
+				elem.classList.add('opacity-100');
+			}
+		}, 2000)
+
+		setTimeout(() => {
+			const elem = document.getElementById('goat');
+		
+			if (elem) {
+				elem.classList.remove('opacity-0');
+				elem.classList.add('opacity-30');
+			}
+		}, 2500);
+
+		setTimeout(() => {
+			const elem = document.getElementById('developer');
+			
+			if (elem) {
+				elem.classList.remove('opacity-0');
+				elem.classList.add('opacity-30');
+			}
+		}, 3000)
+
+		setTimeout(() => {
+			const elem = document.getElementById('techstack');
+
+			if (elem) {
+				elem.classList.remove('opacity-0');
+				elem.classList.add('opacity-100');
+			}
+		}, 4500)
+	});
+</script>
 
 <Layout title="Simon Hylander | Fullstack Developer">
 	<main class="flex flex-col items-center justify-center h-full pb-4">
 		<div class="flex flex-col items-center justify-center h-full">
+			<div aria-hidden="true" id="goat" class="text-black mb-4 font-extrabold text-5xl lg:text-9xl text-center opacity-0 transition-opacity ease-in duration-[2000ms]">G.O.A.T</div>
 
-			<div aria-hidden="true" class="text-black opacity-20 mb-4 font-extrabold text-5xl lg:text-9xl text-center">G.O.A.T</div>
+			<h1 class="text-white font-bold text-5xl text-center lg:text-left lg:text-5xl mb-2">
+				<br class="block md:hidden" />
+				<span class="relative">
+					<span class="h-20 pt-2 overflow-x-hidden whitespace-nowrap text-brand-accent">
+						Simon
+						<span id="hylander" class="text-red-500">Hylander</span>
+					</span>
+					<span
+					class="{`${styles.cursor} absolute -bottom-0 left-0 -top-1 inline-block bg-slate-800 w-full animate-type will-change`} "
+					></span>
+				</span>
+			</h1>
 
-			<h1 class="text-white font-bold text-5xl text-center lg:text-left lg:text-5xl mb-2">Simon <span class="text-red-500">Hylander</span></h1>
-
-			<p class="text-white text-center mb-4">
+			<p id="job-title" class="text-white text-center mb-4 opacity-0 transition-opacity duration-1000">
 				Senior Fullstack Developer 
 				<a href="https://skoglit.se" target="_blank" rel="noopener noreferrer" class="text-red-500 text-center block">@Skoglit</a>
 			</p>
 
-			<div class="text-black opacity-20 font-extrabold text-5xl lg:text-9xl text-center">DEVELOPER</div>
+			<div id="developer" class="text-black font-extrabold text-5xl lg:text-9xl text-center opacity-0 transition-opacity ease-in duration-1000">DEVELOPER</div>
 		</div>
 
-		<div class="hidden lg:flex flex-col items-center">
+		<div id="techstack" class="hidden lg:flex flex-col items-center opacity-0 transition-opacity duration-1000">
 			<svg class="mb-4" style="width: 4rem" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><title>Typescript</title><path fill="#fff" d="M22.67 47h99.67v73.67H22.67z"/><path data-name="original" fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"/></svg>
 			
 			<div class="flex items-center justify-center">
