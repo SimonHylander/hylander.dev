@@ -128,20 +128,6 @@ const ServiceCard = ({ index, language, className }: ServiceCardProps) => {
     return 0;
   };
 
-  /* if (selectedCard !== undefined && language.title === selectedCard.title) {
-    console.log(selectedCard, language.title);
-    return null;
-  } */
-
-  /* animate={{ scale: selectedCard ? 0.8 : 1 }}
-  transition={{ duration: 0.5 }}
-  variants={fadeIn(
-    `${left.includes(index ?? 0) ? "left" : "right"}`,
-    "spring",
-    delay(),
-    1
-  )} */
-
   return (
     <Tilt
       className={tw(
