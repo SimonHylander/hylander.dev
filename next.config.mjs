@@ -8,6 +8,7 @@ await import("./src/env.mjs");
 const config = {
   experimental: {
     appDir: true,
+    serverActions: true,
   },
   typescript: {
     ignoreBuildErrors: true,

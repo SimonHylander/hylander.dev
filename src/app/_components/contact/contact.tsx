@@ -1,23 +1,19 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { ReactNode, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-
 import { styles } from "~/styles";
+import { z } from "zod";
 
 const stylesWithCssVar = (styles) => styles;
 
-const Contact = () => {
-  return (
-    <>
-      <Oga />
-    </>
-  );
-};
+const schema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  message: z.string().min(1),
+});
 
-export default Contact;
-
-const Oga = () => {
+const Contact = ({ children }: { children: ReactNode }) => {
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -26,12 +22,6 @@ const Oga = () => {
 
   const scale = useTransform(scrollYProgress, [1, 1, 1, 1], [1.9, 1.8, 1.5, 1]);
   const x = useTransform(scrollYProgress, [0.3, 1], ["-50%", "0%"]);
-
-  /*  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.5, 0.6, 0.85, 0.9],
-    [1, 1, 0.4, 0.4, 1]
-  ); */
 
   const getInTouchOpacity = useTransform(
     scrollYProgress,
@@ -69,29 +59,6 @@ const Oga = () => {
     ["30%", "30%", "50%"]
   );
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-  };
-
   return (
     <section ref={targetRef} className="flex h-[300vh] flex-col justify-start">
       <span className="hash-span" id={"contact"}>
@@ -123,19 +90,21 @@ const Oga = () => {
                 Contact.
               </motion.p>
 
-              <motion.form className="mt-12 flex w-6/12 flex-col gap-8 text-base">
-                <motion.label className="flex flex-col">
+              <motion.div className="mt-12 flex w-6/12 flex-col gap-8 text-base">
+                {children}
+                {/* <motion.label className="flex flex-col">
                   <span className="mb-4 font-medium text-red-100">
                     Your Name
                   </span>
                   <input
                     type="text"
-                    name="contact-name"
-                    value={form.name}
-                    onChange={handleChange}
+                    {...register("name")}
                     placeholder="What's your full name?"
                     className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
                   />
+                  {errors.name && (
+                    <span className="text-red-500">{errors.name?.message}</span>
+                  )}
                 </motion.label>
                 <motion.label className="flex flex-col">
                   <span className="mb-4 font-medium text-red-100">
@@ -143,12 +112,15 @@ const Oga = () => {
                   </span>
                   <input
                     type="email"
-                    name="contact-email"
-                    value={form.email}
-                    onChange={handleChange}
+                    {...register("email")}
                     placeholder="What's your email?"
                     className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
                   />
+                  {errors.email && (
+                    <span className="text-red-500">
+                      {errors.email?.message}
+                    </span>
+                  )}
                 </motion.label>
                 <label className="flex flex-col">
                   <span className="mb-4 font-medium text-red-100">
@@ -156,20 +128,23 @@ const Oga = () => {
                   </span>
                   <textarea
                     rows={7}
-                    name="contact-message"
-                    value={form.message}
-                    onChange={handleChange}
+                    {...register("message")}
                     placeholder="What you want to say?"
                     className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
                   />
+                  {errors.message && (
+                    <span className="text-red-500">
+                      {errors.message?.message}
+                    </span>
+                  )}
                 </label>
                 <button
                   type="submit"
                   className="shadow-primary w-fit rounded-xl bg-gradient-to-r from-[#2f2035] to-[#37253d] px-8 py-3 font-bold text-red-100 shadow-md outline-none"
                 >
                   {loading ? "Sending..." : "Send"}
-                </button>
-              </motion.form>
+                </button> */}
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -177,3 +152,5 @@ const Oga = () => {
     </section>
   );
 };
+
+export default Contact;

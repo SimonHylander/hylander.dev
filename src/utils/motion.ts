@@ -2,6 +2,8 @@
 
 import { Variants } from "framer-motion";
 
+export { motion, useScroll, useTransform } from "framer-motion";
+
 export const textFadeIn = (delay: number): Variants => {
   return {
     visible: {
