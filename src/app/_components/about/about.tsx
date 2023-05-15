@@ -18,7 +18,7 @@ import { Language, Library } from "~/data/about";
 import { X } from "lucide-react";
 
 import { ParentSize } from "@visx/responsive";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Pack, hierarchy } from "@visx/hierarchy";
 import { twMerge as tw, twMerge } from "tailwind-merge";
 import Delayed from "../Delay";
@@ -26,6 +26,8 @@ import Delayed from "../Delay";
 const About = ({ languages }: { languages: Language[] }) => {
   const { selectedCard, setSelectedCard, fadeInCard } = useAboutStore();
   const [scope, animate] = useAnimate();
+
+  const selectedCardRef = useRef<HTMLElement>();
 
   const closeCard = async () => {
     await animate(
@@ -46,6 +48,31 @@ const About = ({ languages }: { languages: Language[] }) => {
       );
     }
   }, [scope, fadeInCard]);
+
+  useEffect(() => {
+    if (selectedCardRef?.current && selectedCard) {
+      const rect = selectedCardRef.current.getBoundingClientRect();
+
+      function isInViewport(rect: DOMRect) {
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <=
+            (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <=
+            (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+
+      if (!isInViewport(rect)) {
+        selectedCardRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      }
+    }
+  }, [selectedCardRef, selectedCard]);
 
   return (
     <motion.section
@@ -102,7 +129,10 @@ const About = ({ languages }: { languages: Language[] }) => {
         >
           {selectedCard && (
             <>
-              <div className="relative right-2 top-6 flex justify-end">
+              <div
+                className="relative right-2 top-6 flex justify-end"
+                ref={selectedCardRef}
+              >
                 <button
                   type="button"
                   className={twMerge(
