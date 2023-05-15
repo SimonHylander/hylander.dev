@@ -52,6 +52,7 @@ const About = ({ languages }: { languages: Language[] }) => {
   useEffect(() => {
     if (selectedCardRef?.current && selectedCard) {
       const rect = selectedCardRef.current.getBoundingClientRect();
+      alert(JSON.stringify(rect));
 
       function isInViewport(rect: DOMRect) {
         return (
