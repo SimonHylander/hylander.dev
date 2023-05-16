@@ -1,16 +1,16 @@
-export type Experience = {
+export type Project = {
   title: string;
-  company_name: string;
+  technologies: string;
   iconBg: string;
   date: string;
   isPresent: boolean;
   points: string[];
 };
 
-export const experiences: Experience[] = [
+export const projects: Project[] = [
   {
     title: "Project Management System",
-    company_name:
+    technologies:
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Zustand, TailwindCSS.",
     iconBg: "#2f2035",
     date: "2022",
@@ -24,7 +24,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Anti-fraud Marketplace",
-    company_name:
+    technologies:
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Redux. Astro.",
     iconBg: "#2f2035",
     date: "2021",
@@ -37,7 +37,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Gamification Platform",
-    company_name: "Java, Quarkus, MySQL, React.js, Redux.",
+    technologies: "Java, Quarkus, MySQL, React.js, Redux.",
     iconBg: "#2f2035",
     date: "2020",
     isPresent: false,
@@ -49,7 +49,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Order Management System",
-    company_name: "C#, Asp.NET, Oracle PL/SQL, MSSQL, Azure.",
+    technologies: "C#, Asp.NET, Oracle PL/SQL, MSSQL, Azure.",
     iconBg: "#2f2035",
     date: "2019",
     isPresent: false,
@@ -59,7 +59,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Project Management System",
-    company_name:
+    technologies:
       "Java, Quarkus, Spring Boot, Hibernate, PHP, MySQL, Angular, AWS.",
     iconBg: "#2f2035",
     date: "2018",
@@ -75,7 +75,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Order Management System",
-    company_name: "PHP, Symfony, Doctrine, MySQL, Knockout.js",
+    technologies: "PHP, Symfony, Doctrine, MySQL, Knockout.js",
     iconBg: "#2f2035",
     date: "2018",
     isPresent: false,
@@ -85,7 +85,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Websites and Ecommerce Solution",
-    company_name: "PHP, Laravel, Wordpress, WooCommerce, MySQL, Typescript",
+    technologies: "PHP, Laravel, Wordpress, WooCommerce, MySQL, Typescript",
     iconBg: "#2f2035",
     date: "2017",
     isPresent: false,
@@ -95,7 +95,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Information Platform",
-    company_name: "PHP, Symfony, Doctrine, MySQL, Oracle PL/SQL, JQuery",
+    technologies: "PHP, Symfony, Doctrine, MySQL, Oracle PL/SQL, JQuery",
     iconBg: "#2f2035",
     date: "2016",
     isPresent: false,
@@ -105,7 +105,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Real Estate Platform",
-    company_name: "PHP, Symfony, Doctrine, MySQL, JQuery",
+    technologies: "PHP, Symfony, Doctrine, MySQL, JQuery",
     iconBg: "#2f2035",
     date: "2015",
     isPresent: false,
@@ -115,7 +115,7 @@ export const experiences: Experience[] = [
   },
   {
     title: "Internal Tools and API's",
-    company_name: "Java, SOAP, REST, Hibernate, Oracle PL/SQL, Linux, Bash",
+    technologies: "Java, SOAP, REST, Hibernate, Oracle PL/SQL, Linux, Bash",
     iconBg: "#2f2035",
     date: "2014",
     isPresent: false,

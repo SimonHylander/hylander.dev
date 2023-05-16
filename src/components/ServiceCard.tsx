@@ -16,6 +16,7 @@ type ServiceCardProps = {
 const ServiceCard = ({ index, language, className }: ServiceCardProps) => {
   const { initiallyLoaded, setInitiallyLoaded, selectedCard, setSelectedCard } =
     useAboutStore();
+
   const [scope, animate] = useAnimate();
 
   const [isHover, setHover] = useState(false);
@@ -42,48 +43,14 @@ const ServiceCard = ({ index, language, className }: ServiceCardProps) => {
   }, [isHover, isVisible]);
 
   useEffect(() => {
-    /* const direction = left.includes(index ?? 0) ? "left" : "right";
-
-    animate(scope.current, {
-      hidden: {
-        x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-        y: 0,
-        opacity: 0,
-      },
-      show: {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        transition: {
-          type: "spring",
-          delay: delay(),
-          duration: 1,
-          ease: "easeOut",
-        },
-      },
-    }); */
-
     if (scope.current) {
       if (!initiallyLoaded) {
-        animate(
-          scope.current,
-          {
-            opacity: 1,
-            x: 100,
-            scale: selectedCard ? 0.8 : 1,
-          },
-          {
-            duration: 0.3,
-            delay: delay(),
-          }
-        );
         setInitiallyLoaded(true);
       } else {
         animate(
           scope.current,
           {
             opacity: 1,
-            x: 0,
             scale: 1,
           },
           {
@@ -112,17 +79,17 @@ const ServiceCard = ({ index, language, className }: ServiceCardProps) => {
   const delay = () => {
     switch (index) {
       case 0:
-        return 0.5;
-      case 1:
-        return 0.7;
-      case 2:
         return 1;
-      case 3:
+      case 1:
         return 1.2;
-      case 4:
-        return 1.4;
-      case 5:
+      case 2:
         return 1.5;
+      case 3:
+        return 1.7;
+      case 4:
+        return 2;
+      case 5:
+        return 2.2;
     }
 
     return 0;
@@ -146,12 +113,7 @@ const ServiceCard = ({ index, language, className }: ServiceCardProps) => {
     >
       <motion.div
         ref={scope}
-        initial="hidden"
-        variants={{
-          hidden: {
-            opacity: 0,
-          },
-        }}
+        variants={fadeIn("left", "spring", delay(), 2)}
         className="w-full rounded-[20px] p-[1px] shadow-card"
       >
         <button

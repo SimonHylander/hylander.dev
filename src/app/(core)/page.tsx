@@ -1,16 +1,16 @@
 import About from "../_components/about/about";
-import Experience from "../_components/experience/experience";
+import Project from "../_components/project/project";
 import Contact from "../_components/contact/contact";
 
 import { languages } from "~/data/about";
-import { experiences } from "~/data/experience";
+import { projects } from "~/data/project";
 import ContactForm from "../_components/contact/contact-form";
 
 export default async function Home() {
   return (
     <>
       <About languages={languages} />
-      <Experience experiences={experiences} />
+      <Project projects={projects} />
       <Contact>
         <ContactForm />
       </Contact>

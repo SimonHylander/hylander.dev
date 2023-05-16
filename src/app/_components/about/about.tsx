@@ -6,6 +6,7 @@ import ServiceCard from "~/components/ServiceCard";
 import { styles } from "~/styles";
 
 import {
+  fadeInLeft,
   staggerContainer,
   textFadeIn,
   textVariant,
@@ -52,7 +53,6 @@ const About = ({ languages }: { languages: Language[] }) => {
   useEffect(() => {
     if (selectedCardRef?.current && selectedCard) {
       const rect = selectedCardRef.current.getBoundingClientRect();
-      alert(JSON.stringify(rect));
 
       function isInViewport(rect: DOMRect) {
         return (
@@ -87,40 +87,51 @@ const About = ({ languages }: { languages: Language[] }) => {
         &nbsp;
       </span>
 
-      <motion.div variants={textVariant()} className="flex flex-col">
-        <p className={styles.sectionSubText}>Introduction</p>
-        <h2 className={styles.sectionHeadText}>Simon Hylander</h2>
+      <div className="relative">
+        <div className="relative z-10 flex max-w-[700px] flex-col gap-8">
+          <motion.div variants={textVariant()} className="flex flex-col">
+            <p className={styles.sectionSubText}>Introduction</p>
+            <h2 className={styles.sectionHeadText}>Simon Hylander</h2>
 
-        <p className={`${styles.sectionSubText}`}>
-          Senior Fullstack Developer{" "}
-          <a
-            href="https://skoglit.com"
-            target="_blank"
-            rel="noreferrer"
-            className="text-orange-500"
-          >
-            @Skoglit
-          </a>
-        </p>
+            <p className={`${styles.sectionSubText}`}>
+              Senior Fullstack Developer
+            </p>
 
-        <p className="">
-          I am a self-taught developer hailing from Sweden with over 9 years of
-          professional experience in the industry. I have a diverse skillset in
-          both frontend and backend development as well as integrations,
-          architecture, documentation and some DevOps.
-        </p>
-      </motion.div>
+            <p className="leading-6">
+              I am a self-taught developer from Sweden with over 9 years of
+              professional experience. I have a diverse skillset in both
+              frontend and backend development as well as integrations,
+              architecture, documentation and some DevOps.
+            </p>
+          </motion.div>
 
-      <div>
-        <motion.p
-          variants={textVariant2()}
-          className="max-w-3xl text-[17px] leading-[30px]"
-        >
-          I am dedicated to staying on top of the latest cutting-edge
-          technologies. My passion for improving workflows has driven me to
-          spend a significant amount of time building developer tools that
-          enhance my productivity.
-        </motion.p>
+          <div>
+            <motion.p
+              variants={textVariant2()}
+              className="max-w-3xl text-[17px] leading-6"
+            >
+              I am a seasoned professional at{" "}
+              <a
+                href="https://skoglit.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-orange-400 hover:underline"
+              >
+                Skoglit
+              </a>
+              , where I thrive on solving intricate business challenges by
+              developing innovative applications and digital tools. In addition
+              to my technical expertise, I also mentor a team of three junior
+              developers.
+            </motion.p>
+          </div>
+        </div>
+
+        <motion.img
+          variants={fadeInLeft(0.5)}
+          src="/binarysearch.png"
+          className="pointer-events-none absolute right-0 top-0 z-0 w-[400px] rounded-xl"
+        />
       </div>
 
       <div className={`${selectedCard ? "" : "py-20"} `}>
@@ -147,7 +158,7 @@ const About = ({ languages }: { languages: Language[] }) => {
               <div className="w-full rounded-[20px] p-[1px] shadow-card">
                 <div className="flex min-h-[270px] flex-col rounded-[20px] bg-gradient-to-r from-purple-900 to-purple-800 py-6">
                   <Delayed delay={100}>
-                    <SponsorPack sponsors={selectedCard.libraries || []} />
+                    <Libraries sponsors={selectedCard.libraries || []} />
                   </Delayed>
                 </div>
               </div>
@@ -185,7 +196,7 @@ const About = ({ languages }: { languages: Language[] }) => {
 
 export default About;
 
-function SponsorPack({ sponsors }: { sponsors: Library[] }) {
+function Libraries({ sponsors }: { sponsors: Library[] }) {
   const pack = useMemo(
     () => ({
       children: sponsors,
