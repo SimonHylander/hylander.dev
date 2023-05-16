@@ -45,7 +45,7 @@ const ContactForm = () => {
   }
 
   return (
-    <form action={contactMe}>
+    <form action={contactMe} className="flex flex-col gap-4">
       <label className="flex flex-col">
         <span className="mb-4 font-medium text-red-100">Your Name</span>
         <input

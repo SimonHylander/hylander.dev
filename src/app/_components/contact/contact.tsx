@@ -3,17 +3,12 @@
 import React, { ReactNode, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { styles } from "~/styles";
-import { z } from "zod";
 
-const stylesWithCssVar = (styles) => styles;
-
-const schema = z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  message: z.string().min(1),
-});
+import { useMediaQuery } from "react-responsive";
 
 const Contact = ({ children }: { children: ReactNode }) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
+
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -59,38 +54,43 @@ const Contact = ({ children }: { children: ReactNode }) => {
     ["30%", "30%", "50%"]
   );
 
+  console.log(isMobile);
+
   return (
-    <section ref={targetRef} className="flex h-[300vh] flex-col justify-start">
+    <section
+      ref={targetRef}
+      className="flex flex-col justify-start lg:h-[300vh]"
+    >
       <span className="hash-span" id={"contact"}>
         &nbsp;
       </span>
 
-      <div className="sticky top-[16.7vh] leading-[1] text-red-100">
-        <div className="flex w-full justify-center">
+      <div className="leading-[1] text-red-100 lg:sticky lg:top-[16.7vh]">
+        <div className="flex w-full lg:justify-center">
           <motion.div
-            style={{ x, scale }}
-            className="h-[924px] w-[1362px] bg-contact bg-no-repeat text-2xl leading-[1] text-red-100"
+            style={isMobile ? {} : { x, scale }}
+            className="w-full bg-contact bg-no-repeat text-2xl leading-[1] text-red-100 lg:h-[924px] lg:w-[1362px]"
           >
-            <div className="translate-y-centered-offset absolute left-0 top-10 w-[1362px] p-8">
+            <div className="translate-y-centered-offset p-8 lg:absolute lg:left-0 lg:top-10 lg:w-[1362px]">
               <motion.p
                 className={styles.sectionSubText}
-                style={stylesWithCssVar({
-                  opacity: getInTouchOpacity,
-                })}
+                style={{
+                  opacity: isMobile ? 1 : getInTouchOpacity,
+                }}
               >
                 Get in touch
               </motion.p>
 
               <motion.p
                 className={styles.sectionHeadText}
-                style={stylesWithCssVar({
-                  opacity: contactOpacity,
-                })}
+                style={{
+                  opacity: isMobile ? 1 : contactOpacity,
+                }}
               >
                 Contact.
               </motion.p>
 
-              <motion.div className="mt-12 flex w-6/12 flex-col gap-8 text-base">
+              <motion.div className="mt-12 flex flex-col gap-8 text-base lg:w-6/12">
                 {children}
                 {/* <motion.label className="flex flex-col">
                   <span className="mb-4 font-medium text-red-100">

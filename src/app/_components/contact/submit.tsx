@@ -12,7 +12,7 @@ const SubmitButton = () => {
       disabled={pending}
       className={twMerge(
         pending ? "cursor-not-allowed opacity-50" : "",
-        "shadow-primary w-fit rounded-xl bg-gradient-to-r from-[#2f2035] to-[#37253d] px-8 py-3 font-bold text-red-100 shadow-md outline-none"
+        "shadow-primary w-full rounded-xl bg-gradient-to-r from-[#2f2035] to-[#37253d] px-8 py-3 font-bold text-red-100 shadow-md outline-none lg:w-fit"
       )}
     >
       Send
