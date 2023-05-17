@@ -23,12 +23,15 @@ import { useEffect, useMemo, useRef } from "react";
 import { Pack, hierarchy } from "@visx/hierarchy";
 import { twMerge as tw, twMerge } from "tailwind-merge";
 import Delayed from "../Delay";
+import { useMediaQuery } from "react-responsive";
 
 const About = ({ languages }: { languages: Language[] }) => {
   const { selectedCard, setSelectedCard, fadeInCard } = useAboutStore();
   const [scope, animate] = useAnimate();
 
   const selectedCardRef = useRef<HTMLElement>();
+
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   const closeCard = async () => {
     await animate(
@@ -127,11 +130,13 @@ const About = ({ languages }: { languages: Language[] }) => {
           </div>
         </div>
 
-        <motion.img
-          variants={fadeInLeft(0.5)}
-          src="/binarysearch.png"
-          className="pointer-events-none absolute right-0 top-0 z-0 w-[400px] rounded-xl"
-        />
+        {!isMobile && (
+          <motion.img
+            variants={fadeInLeft(0.5)}
+            src="/binarysearch.png"
+            className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[400px] rounded-xl lg:block"
+          />
+        )}
       </div>
 
       <div className={`${selectedCard ? "" : "py-20"} `}>
