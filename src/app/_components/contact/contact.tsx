@@ -66,58 +66,6 @@ const Contact = ({ children }: { children: ReactNode }) => {
 
               <motion.div className="mt-12 flex flex-col gap-8 text-base lg:w-6/12">
                 {children}
-                {/* <motion.label className="flex flex-col">
-                  <span className="mb-4 font-medium text-red-100">
-                    Your Name
-                  </span>
-                  <input
-                    type="text"
-                    {...register("name")}
-                    placeholder="What's your full name?"
-                    className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
-                  />
-                  {errors.name && (
-                    <span className="text-red-500">{errors.name?.message}</span>
-                  )}
-                </motion.label>
-                <motion.label className="flex flex-col">
-                  <span className="mb-4 font-medium text-red-100">
-                    Your email
-                  </span>
-                  <input
-                    type="email"
-                    {...register("email")}
-                    placeholder="What's your email?"
-                    className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
-                  />
-                  {errors.email && (
-                    <span className="text-red-500">
-                      {errors.email?.message}
-                    </span>
-                  )}
-                </motion.label>
-                <label className="flex flex-col">
-                  <span className="mb-4 font-medium text-red-100">
-                    Your Message
-                  </span>
-                  <textarea
-                    rows={7}
-                    {...register("message")}
-                    placeholder="What you want to say?"
-                    className="rounded-lg border-none bg-gradient-to-r from-[#2f2035] to-[#37253d] px-6 py-4 font-medium text-red-100 outline-none placeholder:text-red-100"
-                  />
-                  {errors.message && (
-                    <span className="text-red-500">
-                      {errors.message?.message}
-                    </span>
-                  )}
-                </label>
-                <button
-                  type="submit"
-                  className="shadow-primary w-fit rounded-xl bg-gradient-to-r from-[#2f2035] to-[#37253d] px-8 py-3 font-bold text-red-100 shadow-md outline-none"
-                >
-                  {loading ? "Sending..." : "Send"}
-                </button> */}
               </motion.div>
             </div>
           </motion.div>

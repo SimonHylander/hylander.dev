@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useAnimate } from "framer-motion";
+import { motion, useAnimate, useScroll, useTransform } from "framer-motion";
 import ServiceCard from "~/components/ServiceCard";
 
 import { styles } from "~/styles";
@@ -28,6 +28,15 @@ import { useMediaQuery } from "react-responsive";
 const About = ({ languages }: { languages: Language[] }) => {
   const { selectedCard, setSelectedCard, fadeInCard } = useAboutStore();
   const [scope, animate] = useAnimate();
+
+  const targetRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end end"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   const selectedCardRef = useRef<HTMLElement>();
 
@@ -80,11 +89,12 @@ const About = ({ languages }: { languages: Language[] }) => {
 
   return (
     <motion.section
+      ref={targetRef}
       variants={staggerContainer()}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.25 }}
-      className={`${styles.padding} relative z-0 mx-auto flex max-w-7xl flex-col gap-8`}
+      className={`relative z-0 mx-auto flex max-w-7xl flex-col gap-8 px-6 pt-10 sm:px-16 sm:pb-32`}
     >
       <span className="hash-span" id={"about"}>
         &nbsp;
@@ -100,7 +110,7 @@ const About = ({ languages }: { languages: Language[] }) => {
               Senior Fullstack Developer
             </p>
 
-            <p className="leading-6">
+            <p className="text-[17px] leading-6">
               I am a self-taught developer from Sweden with over 9 years of
               professional experience. I have a diverse skillset in both
               frontend and backend development as well as integrations,
@@ -111,7 +121,7 @@ const About = ({ languages }: { languages: Language[] }) => {
           <div>
             <motion.p
               variants={textVariant2()}
-              className="max-w-3xl text-[17px] leading-6"
+              className="text-[17px] leading-6"
             >
               I am a seasoned professional at{" "}
               <a
@@ -132,11 +142,16 @@ const About = ({ languages }: { languages: Language[] }) => {
 
         {!isMobile && (
           <motion.img
+            style={{ x }}
             variants={fadeInLeft(0.5)}
             src="/binarysearch.png"
             className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[400px] rounded-xl lg:block"
           />
         )}
+        {/* <motion.div
+            style={isMobile ? {} : { x, scale }}
+            className="w-full bg-contact bg-no-repeat text-2xl leading-[1] text-red-100 lg:h-[924px] lg:w-[1362px]"
+          ></motion.div> */}
       </div>
 
       <div className={`${selectedCard ? "" : "py-20"} `}>

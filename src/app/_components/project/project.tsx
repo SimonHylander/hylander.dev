@@ -27,7 +27,7 @@ const Projects = ({ projects }: { projects: Project[] }) => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.25 }}
-      className={`${styles.padding} relative z-0 mx-auto max-w-7xl`}
+      className={`relative z-0 mx-auto max-w-7xl px-6 py-10 sm:px-16 sm:py-16 sm:pt-0`}
     >
       <span className="hash-span" id={"projects"}>
         &nbsp;
