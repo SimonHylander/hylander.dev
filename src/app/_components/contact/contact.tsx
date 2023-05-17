@@ -30,32 +30,6 @@ const Contact = ({ children }: { children: ReactNode }) => {
     [1, 0, 0]
   );
 
-  const text2Opacity = useTransform(
-    scrollYProgress,
-    [0.5, 0.6, 0.7],
-    [0, 1, 0]
-  );
-
-  const text3Opacity = useTransform(
-    scrollYProgress,
-    [0.7, 0.8, 0.9, 1],
-    [0.5, 1, 1, 1]
-  );
-
-  const text3Y = useTransform(
-    scrollYProgress,
-    [0.7, 0.8, 0.9],
-    ["100px", "0px", "-150px"]
-  );
-
-  const formWidth = useTransform(
-    scrollYProgress,
-    [0, 0.8, 1],
-    ["30%", "30%", "50%"]
-  );
-
-  console.log(isMobile);
-
   return (
     <section
       ref={targetRef}
