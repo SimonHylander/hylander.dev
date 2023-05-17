@@ -17,6 +17,16 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
+        <meta
+          property="og:title"
+          content="Simon Hylander - Fullstack Developer"
+        />
+        <meta
+          property="og:description"
+          content="Senior Fullstack developer at Skoglit"
+        />
+        <meta property="og:image" content="https://hylander.dev/logo.svg" />
+
         <link rel="icon" type="image/svg+xml" href="/logo.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
