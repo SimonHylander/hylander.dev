@@ -7,6 +7,7 @@ export const metadata = {
 };
 
 import React from "react";
+import OpenGraph from "./_components/opengraph/open-graph";
 
 export default async function RootLayout({
   children,

@@ -19,10 +19,12 @@ const OpenGraph = () => {
       />
       <meta
         property="twitter:description"
-        content="Senior Fullstack developer at Skoglit"
+        content="Simon is a seasoned professional at Skoglit, where he solves intricate business challenges through software development."
       />
       <meta property="twitter:image" content="https://hylander.dev/logo.svg" />
       <meta property="twitter:site" content="@simon_hylander" />
     </>
   );
 };
+
+export default OpenGraph;
