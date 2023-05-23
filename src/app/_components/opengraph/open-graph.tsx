@@ -15,7 +15,7 @@ const OpenGraph = () => {
         property="og:image"
         content="https://hylander.dev/simonhylander.png"
       />
-      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:card" content="summary" />
       <meta
         property="twitter:title"
         content="Simon Hylander - Fullstack Developer"
