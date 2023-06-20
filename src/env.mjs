@@ -17,7 +17,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_GA_TAG_ID: z.string().optional(),
   },
 
   /**
@@ -27,5 +27,6 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
+    NEXT_PUBLIC_GA_TAG_ID: process.env.NEXT_PUBLIC_GA_TAG_ID,
   },
 });
