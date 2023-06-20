@@ -10,6 +10,8 @@ import React from "react";
 import OpenGraph from "./_components/opengraph/open-graph";
 import Script from "next/script";
 
+import { env } from "~/env.mjs";
+
 export default async function RootLayout({
   children,
 }: {
@@ -42,7 +44,7 @@ export default async function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '');
+            gtag('config', '${env.NEXT_PUBLIC_GA_TAG_ID}');
         `,
           }}
         />
