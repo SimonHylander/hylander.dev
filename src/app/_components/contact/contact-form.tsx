@@ -7,6 +7,11 @@ const ContactForm = () => {
   async function contactMe(formData: FormData) {
     "use server";
 
+    // honeypot
+    if (!formData.has("phone")) {
+      return;
+    }
+
     if (
       !formData.has("name") ||
       !formData.has("email") ||
@@ -46,6 +51,8 @@ const ContactForm = () => {
 
   return (
     <form action={contactMe} className="flex flex-col gap-4">
+      <input type="hidden" name="phone" className="hidden" />
+
       <label className="flex flex-col">
         <span className="mb-4 font-medium text-red-100">Your Name</span>
         <input
