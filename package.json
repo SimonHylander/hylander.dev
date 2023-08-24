@@ -19,6 +19,7 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
+    "@vercel/analytics": "^1.0.2",
     "@visx/hierarchy": "^3.0.0",
     "@visx/responsive": "^3.0.0",
     "autoprefixer": "10.4.14",
