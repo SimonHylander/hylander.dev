@@ -30,7 +30,7 @@ export const projects: Project[] = [
     date: "2021",
     isPresent: true,
     points: [
-      "Developed a marketplace aimed at reducing fraud during private deals and classified ads.",
+      "Developed a marketplace aimed at reducing fraud during secondhand deals and classified ads.",
       "Integrations with Stripe, Swish, BankID and Shipping Solutions.",
       "Public API that enables platforms to integrate with the marketplace.",
     ],
