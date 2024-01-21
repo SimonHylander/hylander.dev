@@ -20,11 +20,15 @@ const ContactForm = () => {
       return;
     }
 
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const message = formData.get("message");
+    const name = formData.get("name")?.toString();
+    const email = formData.get("email")?.toString();
+    const message = formData.get("message")?.toString();
 
     if (name?.length === 0 || email?.length === 0 || message?.length === 0) {
+      return;
+    }
+
+    if (!validateEmail(email)) {
       return;
     }
 
