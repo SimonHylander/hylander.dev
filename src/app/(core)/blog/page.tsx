@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 
 export default async function Home() {
   const allPostsData = getSortedPostsData();
-  console.log(allPostsData);
 
   return (
     <>

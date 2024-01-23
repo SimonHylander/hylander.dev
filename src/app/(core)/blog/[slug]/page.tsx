@@ -2,7 +2,7 @@ import { getPost } from "~/utils/posts";
 
 const Post = async ({ params }: { params: { slug: string } }) => {
   const post = await getPost(params.slug);
-  console.log(post);
+  // todo randomize tag color like dev.to
 
   return (
     <>
@@ -22,6 +22,13 @@ const Post = async ({ params }: { params: { slug: string } }) => {
 
         <article className="text-lg">
           <h2 className="hidden">Introduction</h2>
+
+          {post?.tags?.map((tag, index) => (
+            <div key={index} className="text-xs">
+              #{tag}
+            </div>
+          ))}
+
           <div
             className="flex flex-col gap-4"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}

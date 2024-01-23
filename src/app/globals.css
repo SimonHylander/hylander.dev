@@ -17,6 +17,10 @@ html {
   font-variation-settings: normal;
 }
 
+body {
+  background: #110f1d;
+}
+
 * {
   margin: 0;
   padding: 0;
