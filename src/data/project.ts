@@ -9,21 +9,21 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Project Management System",
+    title: "Enava",
     technologies:
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Zustand, TailwindCSS.",
     iconBg: "#2f2035",
     date: "2022",
     isPresent: true,
     points: [
-      "Built internal tools and dashboards for a company specialized in private sewage and water.",
+      "Built an internal project management system, internal tools and dashboards for a company specialized in private sewage and water.",
       "Project & user management.",
       "Data visualization.",
-      "Third party integrations.",
+      "Integrations with google maps & hubspot.",
     ],
   },
   {
-    title: "Anti-fraud Marketplace",
+    title: "Treddy.se",
     technologies:
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Redux. Astro.",
     iconBg: "#2f2035",
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Gamification Platform",
+    title: "Salestrigger",
     technologies: "Java, Quarkus, MySQL, React.js, Redux.",
     iconBg: "#2f2035",
     date: "2020",
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Project Management System",
+    title: "Byggdagboken",
     technologies:
       "Java, Quarkus, Spring Boot, Hibernate, PHP, MySQL, Angular, AWS.",
     iconBg: "#2f2035",
@@ -84,17 +84,18 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Websites and Ecommerce Solution",
+    title: "Websites and Ecommerce Solutions",
     technologies: "PHP, Laravel, Wordpress, WooCommerce, MySQL, Typescript",
     iconBg: "#2f2035",
     date: "2017",
     isPresent: false,
     points: [
-      "Updated several websites for a medium sized media company as well as building a webshop for merchandise sales.",
+      "Developed and maintained several websites for a medium sized media company.",
+      "Built a webhop using WooCommerce for selling digital goods and merchandise."
     ],
   },
   {
-    title: "Information Platform",
+    title: "SSIL",
     technologies: "PHP, Symfony, Doctrine, MySQL, Oracle PL/SQL, JQuery",
     iconBg: "#2f2035",
     date: "2016",
@@ -104,7 +105,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Real Estate Platform",
+    title: "Citymark",
     technologies: "PHP, Symfony, Doctrine, MySQL, JQuery",
     iconBg: "#2f2035",
     date: "2015",
