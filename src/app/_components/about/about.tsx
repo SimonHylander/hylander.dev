@@ -111,7 +111,7 @@ const About = ({ languages }: { languages: Language[] }) => {
             </p>
 
             <p className="text-[17px] leading-6">
-              I am a self-taught developer from Sweden with over 9 years of
+              I am a self-taught developer from Sweden with 10 years of
               professional experience. I have a diverse skillset in both
               frontend and backend development as well as integrations,
               architecture, documentation and some DevOps.
