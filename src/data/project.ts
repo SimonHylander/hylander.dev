@@ -9,12 +9,28 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Byggdagboken",
+    technologies:
+      "Typescript, Node.js, Next.js, React, Java, Quarkus, Spring Boot, Hibernate, PHP, MySQL, AWS.",
+    iconBg: "#2f2035",
+    date: "2018",
+    isPresent: true,
+    points: [
+      "Swedens premier project management software aimed towards the construction industry.",
+      "Client Lead.",
+      "Rewrite of monolithic system into a scalable microservice architecture.",
+      "Architected a BFF solution to enable client teams to work independently of API team.",
+      "Implemented distributed tracing to give us better monitoring and observability of the distributed system.",
+      "Developed pricing model based on customer network usage.",
+    ],
+  },
+  {
     title: "Enava",
     technologies:
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Zustand, TailwindCSS.",
     iconBg: "#2f2035",
     date: "2022",
-    isPresent: true,
+    isPresent: false,
     points: [
       "Built an internal project management system, internal tools and dashboards for a company specialized in private sewage and water.",
       "Project & user management.",
@@ -28,7 +44,7 @@ export const projects: Project[] = [
       "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Redux. Astro.",
     iconBg: "#2f2035",
     date: "2021",
-    isPresent: true,
+    isPresent: false,
     points: [
       "Developed a marketplace aimed at reducing fraud during secondhand deals and classified ads.",
       "Integrations with Stripe, Swish, BankID and Shipping Solutions.",
@@ -55,22 +71,6 @@ export const projects: Project[] = [
     isPresent: false,
     points: [
       "Internal order management system for one of Sweden's market-leading software and information companies.",
-    ],
-  },
-  {
-    title: "Byggdagboken",
-    technologies:
-      "Java, Quarkus, Spring Boot, Hibernate, PHP, MySQL, Angular, AWS.",
-    iconBg: "#2f2035",
-    date: "2018",
-    isPresent: true,
-    points: [
-      "Swedens premier project and inventory management software aimed towards the construction industry.",
-      "Rewrite of monolithic system into a scalable microservice architecture.",
-      "Lead frontend developer.",
-      "Architected a BFF solution to enable client teams to work independently of API team.",
-      "Implemented distributed tracing to give us better monitoring and observability of the distributed system.",
-      "Developed pricing model based on customer network usage.",
     ],
   },
   {

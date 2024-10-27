@@ -107,14 +107,15 @@ const About = ({ languages }: { languages: Language[] }) => {
             <h2 className={styles.sectionHeadText}>Simon Hylander</h2>
 
             <p className={`${styles.sectionSubText}`}>
-              Senior Fullstack Developer
+              Senior Software Engineer
             </p>
 
             <p className="text-[17px] leading-6">
-              I am a self-taught developer from Sweden with 10 years of
+              I am a self-taught software engineer from Sweden with 10 years of
               professional experience. I have a diverse skillset in both
               frontend and backend development as well as integrations,
               architecture, documentation and some DevOps.
+              I also have previous experience in being team lead and mentoring junior developers.
             </p>
           </motion.div>
 
@@ -123,19 +124,21 @@ const About = ({ languages }: { languages: Language[] }) => {
               variants={textVariant2()}
               className="text-[17px] leading-6"
             >
-              I am a seasoned professional at{" "}
+              As Client Lead at {" "}
               <a
-                href="https://skoglit.com"
+                href="https://byggdagboken.se/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-orange-400 hover:underline"
+                className="text-[#EAAA3D] hover:underline"
               >
-                Skoglit
+                Byggdagboken
               </a>
-              , where I thrive on solving intricate business challenges by
-              developing innovative applications and digital tools. In addition
-              to my technical expertise, I also mentor a team of three junior
-              developers.
+              , I oversee the web and app teams, focusing on building a scalable,
+              modern architecture that empowers our frontend developers to maximize productivity and
+              deliver high-quality user experiences.
+              I act as a key liaison between our native app team and backend services,
+              ensuring seamless integration and alignment across projects to drive efficient,
+              cohesive development.
             </motion.p>
           </div>
         </div>
