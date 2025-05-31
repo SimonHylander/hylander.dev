@@ -1,11 +1,11 @@
 import { Analytics } from "@vercel/analytics/react";
 
-import "./globals.css";
+import "../styles/globals.css";
 
 export const metadata = {
-  title: "Simon Hylander - Fullstack Developer",
-  description: "Simon Hylander - Fullstack Developer at skoglit.se",
-  icons: "/favicon.svg",
+  title: "Simon Hylander - Senior Software Engineer",
+  description: "Simon Hylander - Senior Software Engineer at byggdagboken",
+  icons: "/favicon/favicon.svg",
 };
 
 import React from "react";

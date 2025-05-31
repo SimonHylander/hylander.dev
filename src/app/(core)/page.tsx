@@ -1,19 +1,20 @@
 import About from "../_components/about/about";
-import Project from "../_components/project/project";
-import Contact from "../_components/contact/contact";
 
 import { languages } from "~/data/about";
-import { projects } from "~/data/project";
-import ContactForm from "../_components/contact/contact-form";
+import { jobs } from "~/data/experience";
+import JobSlider from "../_components/experience/expierience";
 
 export default async function Home() {
   return (
     <>
       <About languages={languages} />
-      <Project projects={projects} />
-      <Contact>
-        <ContactForm />
-      </Contact>
+
+      <JobSlider jobs={jobs} />
+
+      <section
+        className={`relative z-0 mx-auto max-w-7xl px-6 py-10 sm:px-16 sm:py-16 sm:pt-0`}
+      >
+      </section>
     </>
   );
 }

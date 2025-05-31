@@ -6,10 +6,6 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  experimental: {
-    appDir: true,
-    serverActions: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
