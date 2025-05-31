@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.4
         version: 1.1.10(@types/react-dom@18.0.11)(@types/react@18.0.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@t3-oss/env-nextjs':
-        specifier: ^0.2.1
-        version: 0.2.2(zod@3.25.42)
+        specifier: ^0.13.6
+        version: 0.13.6(typescript@5.0.3)(zod@3.25.42)
       '@tanstack/react-query':
         specifier: ^4.28.0
         version: 4.39.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -113,6 +113,9 @@ importers:
       typescript:
         specifier: 5.0.3
         version: 5.0.3
+      zod:
+        specifier: ^3.25.42
+        version: 3.25.42
       zustand:
         specifier: ^4.3.8
         version: 4.5.7(@types/react@18.0.31)(react@18.3.1)
@@ -492,15 +495,39 @@ packages:
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
 
-  '@t3-oss/env-core@0.2.2':
-    resolution: {integrity: sha512-Jiuph14/L3L9EDaU0O0YiLeaKUcWA9c3mWYuKem8+L64i3Iwz+IbKdl5Jp4cx+JbOsS/aptwGZplnxSHhm2gMQ==}
+  '@t3-oss/env-core@0.13.6':
+    resolution: {integrity: sha512-rH7FgcB1YGbv/tvv7mdJAxnNvRkK/gEqdVYBwO1AVvaWOTNuftqskxkEYyhM2O+lkNPJmTq5YBE7H+Unl7CLjg==}
     peerDependencies:
-      zod: ^3.0.0
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
 
-  '@t3-oss/env-nextjs@0.2.2':
-    resolution: {integrity: sha512-9LnVpTkf/8WkggyVN6Liz9Ma9a7fLzV00b5BngWj3HI3iWDfddsWaqCf/H0f46Bgu29NubP3Bwajf1JieVrxFA==}
+  '@t3-oss/env-nextjs@0.13.6':
+    resolution: {integrity: sha512-KcA5U8L+Be4OuR5YxmrBzkeo7WsKkEFJDwcAgYFwcBgxxc3oJBdTB7KPQfVrx7wjtX5aDr2jZ0LG55yEXqQi9A==}
     peerDependencies:
-      zod: ^3.0.0
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
 
   '@tailwindcss/typography@0.5.16':
     resolution: {integrity: sha512-0wDLwCVF5V3x3b1SGXPCDcdsbDHMBe+lkFzBRaHeLvNi+nrrnZ1lA18u+OTWO8iSWU2GxUOCvlXtDuqftc1oiA==}
@@ -2892,13 +2919,16 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.2.2(zod@3.25.42)':
-    dependencies:
+  '@t3-oss/env-core@0.13.6(typescript@5.0.3)(zod@3.25.42)':
+    optionalDependencies:
+      typescript: 5.0.3
       zod: 3.25.42
 
-  '@t3-oss/env-nextjs@0.2.2(zod@3.25.42)':
+  '@t3-oss/env-nextjs@0.13.6(typescript@5.0.3)(zod@3.25.42)':
     dependencies:
-      '@t3-oss/env-core': 0.2.2(zod@3.25.42)
+      '@t3-oss/env-core': 0.13.6(typescript@5.0.3)(zod@3.25.42)
+    optionalDependencies:
+      typescript: 5.0.3
       zod: 3.25.42
 
   '@tailwindcss/typography@0.5.16(tailwindcss@3.3.1(postcss@8.4.21))':

@@ -12,7 +12,7 @@ import React from "react";
 import OpenGraph from "./_components/opengraph/open-graph";
 import Script from "next/script";
 
-import { env } from "~/env.mjs";
+import { env } from "~/env.js";
 
 export default async function RootLayout({
   children,
