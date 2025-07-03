@@ -76,10 +76,21 @@ export const jobs: Job[] = [
                 ],
               },
               {
+                name: "Ljusdals Energi",
+                technologies:
+                  "Svelte, C# .NET 8, Vertical Slice, CQRS, SQL Server, Sitevision",
+                date: "2024",
+                points: [
+                    "Designed and implemented a small module in svelte and .NET for the municipality that allowed residents to search for their address on the website and get an overview of collection days for their garbage bins.",
+                    "Integrated with BFUS, a business system from CGI for energy and waste management.",
+                    "Built a nightly job as a cache layer, to store the data on our end since their API’s was very slow.",
+                ],
+              },
+              {
                 name: "Enava",
                 technologies:
                   "Java, Quarkus, Hibernate, MySQL, Typescript, Next.js, Zustand, TailwindCSS.",
-                date: "2022",
+                date: "2022 - 2024",
                 points: [
                   "Built an internal project management system, internal tools and dashboards for a company specialized in private sewage and water.",
                   "Project & user management.",
@@ -91,7 +102,7 @@ export const jobs: Job[] = [
                 name: "Treddy.se",
                 technologies:
                   "Java, Quarkus, Hibernate, Websockets,MySQL, Typescript, Next.js, Redux. Astro.",
-                date: "2021",
+                date: "2021 - 2024",
                 points: [
                   "Developed a marketplace aimed at reducing fraud during secondhand deals and classified ads.",
                   "Integrations with Stripe, Swish, BankID and Shipping Solutions.",
@@ -101,7 +112,7 @@ export const jobs: Job[] = [
               {
                 name: "Salestrigger",
                 technologies: "Java, Quarkus, Websockets, MySQL, React.js, React Native, Redux.",
-                date: "2020",
+                date: "2020 - 2024",
                 points: [
                   "Developed a platform focused on gamification of sales competitions.",
                   "Visualization of organization activities and goals.",
@@ -120,7 +131,7 @@ export const jobs: Job[] = [
         ]
     },
     {
-        title: "Byggfakta Group",
+        title: "Docu Group Sweden",
         role: "Software Developer",
         period: "2016 - 2018",
         projects: [
@@ -152,7 +163,7 @@ export const jobs: Job[] = [
         ]
     },
     {
-        title: "Docu Group Sweden",
+        title: "Docu Nordic",
         role: "Junior Developer",
         period: "2014 - 2016",
         projects: [

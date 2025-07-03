@@ -46,11 +46,11 @@ const About = ({ languages }: { languages: Language[] }) => {
               </p>
 
               <p className="text-[17px] leading-6">
-                With over <strong>10 years</strong> of professional experience, I have a diverse skillset over the entire stack in a number of different <strong>technologies</strong>.
+                With over <strong>11 years</strong> of professional experience, I have a diverse skillset over the entire stack in a number of different <strong>technologies</strong>.
               </p>
 
               <p className="text-[17px] leading-6">
-                I am especially excited about creating <strong>scalable</strong> and <strong>performant</strong> architectures as well as <strong>developer tooling</strong> that enable teams to move fast.
+                I am especially excited about creating <strong>scalable</strong> and <strong>performant</strong> architectures using serverless technologies, as well as <strong>developer tooling</strong> that enable teams to move fast.
               </p>
             </motion.div>
 
@@ -59,7 +59,7 @@ const About = ({ languages }: { languages: Language[] }) => {
                 variants={textVariant2()}
                 className="text-[17px] leading-6"
               >
-                As <strong>Client Lead</strong> at {" "}
+                As <strong>Lead Engineer</strong> at {" "}
                 <a
                   href="https://byggdagboken.se/"
                   target="_blank"
@@ -68,13 +68,12 @@ const About = ({ languages }: { languages: Language[] }) => {
                 >
                   Byggdagboken
                 </a>
-                , I oversee the <strong>web</strong> and <strong>app</strong> teams, focusing on building a <strong>scalable</strong>,
+                , I personally oversee the <strong>web</strong> and <strong>app</strong> teams, focusing on building a <strong>scalable</strong>, {" "}
                 <strong>modern</strong> architecture that empowers our frontend developers to maximize productivity and
                 deliver high-quality user experiences.
-                I act as a key liaison between our <strong>native app team</strong> and <strong>backend team</strong>,
-                ensuring seamless integration and alignment across projects to drive efficient,
-                cohesive development.
-              </motion.p>
+                <br/>
+
+                Outside of this, my current focus has shifted to evolving our backend to meet growing demands for scalability, performance, and reliability.              </motion.p>
             </div>
           </div>
         </div>
