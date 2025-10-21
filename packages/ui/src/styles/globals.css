@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@source "../../../apps/**/*.{ts,tsx}";
-@source "../../../components/**/*.{ts,tsx}";
-@source "../**/*.{ts,tsx}";
-
 @import "tw-animate-css";
 
 :root {
@@ -93,6 +89,28 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Technology colors */
+  --color-typescript: #007acc;
+  --color-go: #00add8;
+  --color-java: #f89820;
+  --color-rust: #c45508;
+  --color-php: #aeb2d5;
+  --color-csharp: #9b4993;
+  --color-nodejs: #3c873a;
+  --color-nextjs: #000000;
+  --color-react: #61dafb;
+  --color-svelte: #ff3e00;
+  --color-vuejs: #42b883;
+  --color-angular: #dd0031;
+  --color-tailwindcss: #38bdf8;
+  --color-quarkus: #4695eb;
+  --color-spring: #6db33f;
+  --color-hibernate: #59666c;
+  --color-mysql: #00758f;
+  --color-postgresql: #336791;
+  --color-oracle: #f80000;
+  --color-neo4j: #008cc1;
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);

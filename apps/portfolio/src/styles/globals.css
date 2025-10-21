@@ -1,2 +1,10 @@
 @import "tailwindcss";
+
+/* Scan portfolio app files */
+@source "../../**/*.{ts,tsx}";
+
+/* Scan UI package components */
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+/* Import UI package design tokens and theme */
 @import "@hylanderdev/ui/globals.css";
