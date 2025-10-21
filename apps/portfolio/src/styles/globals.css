@@ -1,4 +1,2 @@
+@import "tailwindcss";
 @import "@hylanderdev/ui/globals.css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
