@@ -1,0 +1,11 @@
+{
+  "extends": "@hylanderdev/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [".eslintrc.cjs", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs", ".next/types/**/*.ts", "_tailwind.config.ts"],
+  "exclude": ["node_modules"]
+}
