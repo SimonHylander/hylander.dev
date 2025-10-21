@@ -1,5 +1,5 @@
 {
-  "name": "shadcn-ui-monorepo",
+  "name": "hylander.dev",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,8 +12,6 @@
     "shadcn:add": "cd packages/ui && pnpm dlx shadcn@latest add $1"
   },
   "devDependencies": {
-    "@hylanderdev/eslint-config": "workspace:*",
-    "@hylanderdev/typescript-config": "workspace:*",
     "prettier": "^3.6.2",
     "turbo": "^2.5.5",
     "typescript": "5.7.3"
