@@ -4,6 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build": "tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css",
+    "dev": "tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css --watch",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
@@ -11,6 +13,7 @@
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/cli": "^4.1.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
@@ -33,6 +36,7 @@
     "typescript": "^5.9.2"
   },
   "exports": {
+    "./styles.css": "./dist/styles.css",
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
