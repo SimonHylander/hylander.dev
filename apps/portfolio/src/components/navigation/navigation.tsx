@@ -5,7 +5,7 @@ import Link from "next/link";
 const LeftNavigation = () => {
   return (
     <nav
-      className={`max-w-[280px] mt-4 text-foreground border border-secondary grid grid-cols-[auto_1fr] bg-white mx-auto shadow-[5px_5px_0_rgb(38_26_42),10px_10px_0_rgb(218_178_255)]`}
+      className={`max-w-[280px] md:max-w-none mt-4 text-foreground border border-secondary grid grid-cols-[auto_1fr] bg-white mx-auto shadow-[5px_5px_0_rgb(38_26_42),10px_10px_0_rgb(218_178_255)]`}
     >
       <div className="grid justify-center items-center bg-background">
         <Link href="/" className="relative p-4">
