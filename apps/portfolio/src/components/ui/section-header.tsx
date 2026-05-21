@@ -1,7 +1,9 @@
 export function SectionHeader({ title }: { title: string }) {
   return (
-    <div className="flex flex-col items-center justify-center shadow-md py-4 bg-background border border-secondary">
-      <h2 className="text-2xl md:text-4xl font-bold text-secondary">{title}</h2>
-    </div>
+    <header className="py-6 md:py-8">
+      <h2 className="text-center text-2xl font-bold text-secondary md:text-4xl">
+        {title}
+      </h2>
+    </header>
   );
 }

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Card, CardContent } from "@hylanderdev/ui/components/card";
 import { SectionHeader } from "~/components/ui/section-header";
 
 const projects = [
@@ -25,39 +24,41 @@ const projects = [
 export default function Projects() {
   return (
     <section
-      className={`relative z-0 mx-auto flex flex-col gap-4 px-8 mt-16 md:mt-64`}
+      className={`relative z-0 mx-auto mt-16 flex flex-col gap-4 px-8 md:mt-64`}
     >
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-12 md:gap-16">
         <SectionHeader title="Featured Projects" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {projects.map((project, i) => (
-            <Card key={i} className="relative p-0 h-full">
-              <CardContent className="p-0 h-full">
-                <div className="bg-secondary w-full flex items-center justify-center  z-10">
-                  <div>
-                    <h2 className="text-xl md:text-2xl font-bold text-primary">
-                      {project.name}
-                    </h2>
-                  </div>
+        <ul className="flex list-none flex-col gap-0 border border-secondary">
+          {projects.map((project, index) => (
+            <li
+              key={project.name}
+              className={
+                index > 0 ? "border-t border-secondary" : undefined
+              }
+            >
+              <Link
+                href={project.link}
+                className="group grid grid-cols-1 transition-opacity duration-200 ease-out hover:opacity-90 md:grid-cols-[minmax(12rem,1fr)_1.4fr]"
+              >
+                <div className="flex items-end bg-secondary px-6 py-8 md:px-10 md:py-12">
+                  <h3 className="text-xl font-bold text-primary md:text-2xl">
+                    {project.name}
+                  </h3>
                 </div>
-
-                <Link
-                  href={project.link}
-                  className="hover:opacity-50 transition-all duration-200 w-full h-full object-cover block"
-                >
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-background">
                   <Image
                     src={project.image}
                     alt={project.name}
                     width={500}
                     height={500}
-                    className="w-full h-full object-cover object-left"
+                    className="h-full w-full object-cover object-left"
                   />
-                </Link>
-              </CardContent>
-            </Card>
+                </div>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

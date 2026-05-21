@@ -1,10 +1,13 @@
+import { SiteShell } from "~/components/site-shell";
 
+import WorkExperience from "../(core)/expierience";
 
-export default async function Home() {
+export default function ResumePage() {
   return (
-      <section
-        className={`relative z-0 mx-auto max-w-7xl px-6 py-10 sm:px-16 sm:py-16 sm:pt-0`}
-      >
-      </section>
+    <SiteShell>
+      <div className="flex flex-col gap-4 pb-16">
+        <WorkExperience />
+      </div>
+    </SiteShell>
   );
 }
