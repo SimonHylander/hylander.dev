@@ -1,78 +1,109 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactLinks } from "@/components/contact-links";
+import { ActivityHeatmapSlot, IntegrationGraphSlot, WorkArtifactSlot } from "@/components/slots";
+import { WorkRow } from "@/components/work-row";
 import { career, currentJob } from "@/content/career";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
 import { writing } from "@/content/writing";
-import { formatDate, formatPartialDate, formatPeriod } from "@/lib/format";
+import { formatDate, formatYears } from "@/lib/format";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-// Section order follows the content map in PRODUCT.md.
+// Section order follows the content map in PRODUCT.md. Contact lives in the footer.
 export default function HomePage() {
   return (
-    <div className="space-y-12">
-      <section className="space-y-2">
-        <h1 className="text-3xl">{profile.name}</h1>
-        <p>{profile.positioning}</p>
+    <>
+      <section aria-labelledby="intro" className="flex gap-10 pt-14 pb-4 sm:pt-20">
+        <div className="max-w-[36rem] space-y-5">
+          <p className="reveal font-medium text-muted">
+            {profile.name}
+          </p>
+          <h1
+            id="intro"
+            className="reveal text-hero font-bold tracking-[-0.02em] text-balance text-ink [--reveal-step:1] sm:text-hero-lg"
+          >
+            {profile.positioning}
+          </h1>
+          <p className="reveal flex items-center gap-3 text-muted [--reveal-step:2]">
+            <span aria-hidden className="ping relative size-2 shrink-0 rounded-full bg-lilac" />
+            <span>
+              <span className="text-ink">Now</span> {currentJob.team} at {currentJob.company}, {profile.location}
+            </span>
+          </p>
+        </div>
+        <IntegrationGraphSlot />
       </section>
 
-      <section id="now" className="space-y-2">
-        <h2>Now</h2>
-        <p>
-          {currentJob.role}, {currentJob.team}, at {currentJob.company} since{" "}
-          {formatPartialDate(currentJob.start)}.
-        </p>
-        <p>{currentJob.summary}</p>
-      </section>
+      <ActivityHeatmapSlot />
 
-      <section id="work" className="space-y-2">
-        <h2>Selected work</h2>
-        <ul className="space-y-4">
+      <section id="work" aria-labelledby="work-heading" className="mt-16 scroll-mt-8">
+        <h2 id="work-heading" className="section-heading pb-2">
+          Selected work
+        </h2>
+        <ul className="border-t border-line">
           {work.entries.map((entry) => (
-            <li key={entry.slug}>
-              <Link href={`/work/${entry.slug}`}>{entry.title}</Link>
-              <p>{entry.summary}</p>
-            </li>
+            <WorkRow
+              key={entry.slug}
+              slug={entry.slug}
+              title={entry.title}
+              tagline={entry.tagline}
+              summary={entry.summary}
+              years={entry.period && formatYears(entry.period)}
+            >
+              <WorkArtifactSlot slug={entry.slug} />
+            </WorkRow>
           ))}
         </ul>
       </section>
 
-      <section id="writing" className="space-y-2">
-        <h2>Writing</h2>
+      <section id="writing" aria-labelledby="writing-heading" className="mt-16 scroll-mt-8">
+        <h2 id="writing-heading" className="section-heading pb-2">
+          Writing
+        </h2>
         {writing.entries.length > 0 ? (
-          <ul className="space-y-4">
+          <ul className="border-t border-line">
             {writing.entries.map((entry) => (
-              <li key={entry.slug}>
-                <Link href={`/writing/${entry.slug}`}>{entry.title}</Link>{" "}
-                <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+              <li key={entry.slug} className="border-b border-line">
+                <Link
+                  href={`/writing/${entry.slug}`}
+                  className="flex items-baseline justify-between gap-4 py-3.5 transition-colors duration-200 ease-out hover:text-lilac"
+                >
+                  <span className="font-medium">{entry.title}</span>
+                  <time dateTime={entry.date} className="font-mono text-meta text-muted tabular-nums">
+                    {formatDate(entry.date)}
+                  </time>
+                </Link>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No posts yet.</p>
+          <p className="text-muted">Nothing published yet.</p>
         )}
       </section>
 
-      <section id="career" className="space-y-2">
-        <h2>Career</h2>
-        <ul>
+      <section id="career" aria-labelledby="career-heading" className="mt-16 scroll-mt-8">
+        <h2 id="career-heading" className="section-heading pb-2">
+          Career
+        </h2>
+        <ul className="border-t border-line">
           {career.map((job) => (
-            <li key={`${job.company}-${job.start}`}>
-              {job.role}, {job.company}, {formatPeriod(job)}
+            <li
+              key={`${job.company}-${job.start}`}
+              className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 border-b border-line py-3"
+            >
+              <span className="flex flex-wrap items-baseline gap-x-3">
+                <span className="font-medium">{job.company}</span>
+                <span className="text-sm text-muted">{job.role}</span>
+              </span>
+              <span className="font-mono text-meta text-muted tabular-nums">{formatYears(job)}</span>
             </li>
           ))}
         </ul>
-        <p>
-          <Link href="/cv">Full CV</Link>
-        </p>
+        <Link href="/cv" className="link mt-4 inline-block text-sm">
+          Full CV <span aria-hidden>→</span>
+        </Link>
       </section>
-
-      <section id="contact" className="space-y-2">
-        <h2>Contact</h2>
-        <ContactLinks />
-      </section>
-    </div>
+    </>
   );
 }

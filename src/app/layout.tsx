@@ -1,10 +1,15 @@
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ContactLinks } from "@/components/contact-links";
+import type { Metadata, Viewport } from "next";
+import { Familjen_Grotesk, Geist_Mono } from "next/font/google";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Toaster } from "@/components/toast";
 import { profile } from "@/content/profile";
+
+const sans = Familjen_Grotesk({ subsets: ["latin"], variable: "--font-familjen", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.url),
@@ -26,6 +31,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = { themeColor: "#0f0c1d", colorScheme: "dark" };
+
 // The site's one canonical identity. Search engines link the socials to this Person.
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -39,36 +46,27 @@ const personJsonLd = {
   sameAs: profile.socials.map(({ href }) => href),
 };
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/#work" },
-  { label: "Writing", href: "/#writing" },
-  { label: "CV", href: "/cv" },
-] as const;
+// Without JavaScript: hide controls that need it, and open every collapsible panel.
+const noScriptStyles =
+  "<style>[data-requires-js]{display:none!important}.disclosure-panel{grid-template-rows:1fr!important;visibility:visible!important}</style>";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
-      <body className="mx-auto max-w-2xl space-y-12 px-4 py-8">
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+      <head>
+        <noscript dangerouslySetInnerHTML={{ __html: noScriptStyles }} />
+      </head>
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
         />
-        <header className="print:hidden">
-          <nav aria-label="Main">
-            <ul className="flex gap-4">
-              {navLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </header>
-        <main>{children}</main>
-        <footer className="border-t border-border pt-4 print:hidden">
-          <ContactLinks />
-        </footer>
+        <div className="mx-auto flex min-h-dvh w-full max-w-[44rem] flex-col px-5 sm:px-6">
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </div>
+        <Toaster />
         <Analytics />
       </body>
     </html>

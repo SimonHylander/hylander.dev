@@ -1,15 +1,47 @@
 @import "tailwindcss";
 
-/*
- * Placeholder tokens: the current plum/lavender values, dark only.
- * The design-direction PR replaces this whole layer.
- */
-@theme {
-  --color-background: oklch(0.182 0.046 286.89);
-  --color-foreground: oklch(90.2% 0.063 306.7);
-  --color-muted: oklch(0.271 0.011 254.02);
-  --color-accent: oklch(0.833 0.107 306.71);
-  --color-border: oklch(0.833 0.107 306.71);
+/* Design tokens. DESIGN.md documents each one. Print overrides them at the bottom of this file. */
+:root {
+  --plum: oklch(0.17 0.035 290);
+  --plum-2: oklch(0.21 0.04 292);
+  --plum-3: oklch(0.27 0.045 295);
+  --ink: oklch(0.93 0.035 306);
+  --muted: oklch(0.72 0.04 302);
+  --lilac: oklch(0.83 0.107 306.71);
+  --line: oklch(0.34 0.05 298);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Only the tokens above exist as Tailwind colors, so off-palette utilities fail to generate. */
+@theme inline {
+  --color-*: initial;
+  --color-plum: var(--plum);
+  --color-plum-2: var(--plum-2);
+  --color-plum-3: var(--plum-3);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-lilac: var(--lilac);
+  --color-line: var(--line);
+
+  --font-sans: var(--font-familjen), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-section: 0.9375rem;
+  --text-section--line-height: 1.5;
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.4;
+  --text-hero: 1.625rem;
+  --text-hero--line-height: 1.2;
+  --text-hero-lg: 1.875rem;
+  --text-hero-lg--line-height: 1.2;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+
+  --ease-out: var(--ease);
 }
 
 @layer base {
@@ -17,25 +49,213 @@
     color-scheme: dark;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-plum font-sans text-base/[1.6] text-ink antialiased;
+  }
+
+  ::selection {
+    @apply bg-lilac text-plum;
+  }
+
+  :focus-visible {
+    @apply rounded-[4px] outline-2 outline-offset-2 outline-lilac;
+  }
+
+  /* The open palette locks page scroll. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  /* Section heading: quiet, sentence case, muted. Hierarchy comes from the content below it. */
+  .section-heading {
+    @apply text-section font-medium text-muted;
+  }
+
+  /* Plain text link that brightens to the accent. */
+  .link {
+    @apply text-ink underline decoration-line underline-offset-[3px] transition-colors duration-200 ease-out hover:text-lilac hover:decoration-lilac;
+  }
+
+  .kbd {
+    @apply inline-flex items-center rounded-sm border border-line bg-plum-3 px-1.5 font-mono text-[0.75rem] leading-5 text-ink;
+  }
+
+  /* MDX body. Case studies and posts render inside this. */
+  .prose {
+    @apply max-w-[65ch] text-base/[1.7] text-ink;
+
+    & > * + * {
+      @apply mt-4;
+    }
+    & h2 {
+      @apply mt-10 text-title font-semibold text-ink;
+    }
+    & h3 {
+      @apply mt-8 font-semibold text-ink;
+    }
+    & h2 + :not(h2, h3),
+    & h3 + :not(h2, h3) {
+      @apply mt-2;
+    }
+    & a {
+      @apply text-ink underline decoration-line underline-offset-[3px] hover:text-lilac hover:decoration-lilac;
+    }
+    & strong {
+      @apply font-semibold text-ink;
+    }
+    & ul,
+    & ol {
+      @apply space-y-2 pl-5;
+    }
+    & ul {
+      @apply list-disc;
+    }
+    & ol {
+      @apply list-decimal;
+    }
+    & li::marker {
+      @apply text-muted;
+    }
+    & code {
+      @apply rounded-sm bg-plum-3 px-1 py-0.5 font-mono text-[0.875em];
+    }
+    & pre {
+      @apply overflow-x-auto rounded-md border border-line bg-plum-2 p-4 text-sm/relaxed;
+    }
+    & pre code {
+      @apply bg-transparent p-0;
+    }
+    & blockquote {
+      @apply text-muted;
+    }
+  }
+
+  /* Expandable home-page row: the panel animates grid-template-rows between 0fr and 1fr. */
+  .disclosure-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 320ms var(--ease),
+      visibility 0s linear 320ms;
+
+    &[data-open="true"] {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      transition:
+        grid-template-rows 320ms var(--ease),
+        visibility 0s;
+    }
+  }
+}
+
+/* Hero entrance: one short stagger. CSS only, so the text is there without JavaScript. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.reveal {
+  animation: rise 700ms var(--ease) both;
+  animation-delay: calc(var(--reveal-step, 0) * 70ms);
+}
+
+/* Soft ping behind the "Now" dot. */
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.ping::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lilac);
+  animation: ping 2.4s var(--ease) infinite;
+}
+
+@keyframes palette-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.985);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ping::after {
+    display: none;
+  }
+}
+
+/* The CV page replaces a PDF. Print is black on white, without site chrome. */
+@media print {
+  :root {
+    color-scheme: light;
+    --plum: white;
+    --plum-2: white;
+    --plum-3: white;
+    --ink: black;
+    --muted: oklch(0.35 0 0);
+    --lilac: black;
+    --line: oklch(0.8 0 0);
+  }
+
+  @page {
+    margin: 16mm 18mm;
+  }
+
+  body {
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-bold;
-  }
-
-  h2 {
-    @apply text-xl;
-  }
-
-  a {
-    @apply underline underline-offset-2;
-  }
-
-  a:focus-visible {
-    @apply outline-2 outline-offset-2 outline-accent;
+    break-after: avoid;
   }
 }

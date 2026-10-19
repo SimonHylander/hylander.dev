@@ -1,0 +1,42 @@
+export const metadata = {
+  title: "Byggdagboken strangler-fig migration",
+  summary: "Moving a live web platform from PHP and Angular.js to Next.js, one route at a time.",
+  date: "2026-10-19",
+  pillar: "architecture",
+  tagline: "PHP and Angular.js to Next.js",
+  role: "Senior Software Engineer, client engineering lead",
+  period: { start: "2024-05", end: "2026-02" },
+  // TODO(simon): confirm the stack used for the migration itself.
+  stack: ["Next.js", "CloudFront Functions", "PHP", "Angular.js", "OAuth2", "OpenID Connect"],
+};
+
+## Problem
+
+The Byggdagboken web platform was a monolithic legacy system built on PHP and Angular.js.
+
+{/* TODO(simon): What did the legacy system cost the team and the users? Why migrate now? */}
+
+## My role
+
+I owned all client-side engineering at Byggdagboken: the native apps and the web client. I led client engineering and a small app team, and owned the delivery roadmap. I led this re-architecture.
+
+{/* TODO(simon): Team size, timeline, and who else worked on the migration. */}
+
+## Constraints
+
+The product was live, so the migration could not stop it.
+
+{/* TODO(simon): Other constraints, such as shared sessions, SEO, or the native apps depending on the same backend. */}
+
+## Decisions
+
+- **Strangler fig.** The new Next.js client takes over the legacy system route by route.
+- **Route-level canaries.** CloudFront Functions roll each migrated route out gradually.
+- **A backend-for-frontend.** The native apps read through a BFF layer that aggregates their data.
+- **One identity.** OAuth2 and OpenID Connect with PKCE unify sign-in across platforms.
+
+{/* TODO(simon): Why a strangler fig instead of a rewrite, and how a canary was promoted or rolled back. */}
+
+## Result
+
+{/* TODO(simon): How many routes moved, whether the legacy system is retired, and any numbers on speed or incidents. */}
