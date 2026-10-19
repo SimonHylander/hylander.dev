@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/*
+ * Placeholder tokens: the current plum/lavender values, dark only.
+ * The design-direction PR replaces this whole layer.
+ */
+@theme {
+  --color-background: oklch(0.182 0.046 286.89);
+  --color-foreground: oklch(90.2% 0.063 306.7);
+  --color-muted: oklch(0.271 0.011 254.02);
+  --color-accent: oklch(0.833 0.107 306.71);
+  --color-border: oklch(0.833 0.107 306.71);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-bold;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  a {
+    @apply underline underline-offset-2;
+  }
+
+  a:focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
