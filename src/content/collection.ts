@@ -40,10 +40,15 @@ type MdxModule = { default: MDXContent; metadata?: unknown };
 
 /**
  * Turns imported MDX modules, keyed by slug, into validated entries in registration order.
+ * Each entry's `slug` is typed as the union of registered keys.
  * Invalid metadata throws at import time, so a bad entry fails the build.
  */
-export function defineCollection<Schema extends z.ZodType<z.output<typeof postSchema>>>(schema: Schema, modules: Record<string, MdxModule>) {
-  const entries = Object.entries(modules).map(([slug, module]) => {
+export function defineCollection<Schema extends z.ZodType<z.output<typeof postSchema>>, Slug extends string>(
+  schema: Schema,
+  modules: Record<Slug, MdxModule>,
+) {
+  // Object.entries widens keys to string. Keeping them as `Slug` lets other modules type slug references.
+  const entries = (Object.entries(modules) as [Slug, MdxModule][]).map(([slug, module]) => {
     const result = schema.safeParse(module.metadata);
     if (!result.success) {
       throw new Error(`Invalid metadata in "${slug}.mdx":\n${z.prettifyError(result.error)}`);

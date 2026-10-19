@@ -16,3 +16,6 @@ export const work = defineCollection(caseStudySchema, {
 });
 
 export type CaseStudy = (typeof work.entries)[number];
+
+/** Union of registered slugs. Content that points at a case study types its slug with this. */
+export type CaseStudySlug = CaseStudy["slug"];
