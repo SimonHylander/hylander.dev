@@ -57,7 +57,7 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
         ))}
       </dl>
 
-      <WorkArtifactSlot slug={entry.slug} />
+      <WorkArtifactSlot slug={entry.slug} placement="page" />
 
       <div className="prose mt-10">
         <Content />

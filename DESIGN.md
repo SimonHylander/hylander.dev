@@ -109,7 +109,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Header 24px from the top. Hero 56px (mobile) to 80px (desktop) below it. Sections 64px apart. Rows 14px vertical padding. Footer 96px below the last section. Page gutter 20px mobile, 24px from `sm`.
 
-**Reserved slots.** `src/components/slots.tsx` holds empty components for layer 4: the integration graph (beside the hero on desktop), the activity heatmap (between the hero and Selected work), and a per-case-study artifact (in the expanded home row and above the case study prose).
+**Slots.** `src/components/slots.tsx` places the interactive pieces: the integration graph (beside the hero from `md`, below it on mobile), the activity heatmap (between the hero and Selected work), and a per-case-study artifact (in the expanded home row and above the case study prose).
 
 ## Colors
 
@@ -177,7 +177,7 @@ Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three p
 
 ### Cards / Containers
 
-None. Lists are rows divided by hairlines. The palette and the toast are the only bounded surfaces (plum 2, line border, `rounded-lg` and `rounded-md`).
+None. Lists are rows divided by hairlines. The bounded surfaces are the palette and the toast (plum 2, line border, `rounded-lg` and `rounded-md`) and the artifact panels (plum 2, no border, `rounded-md`).
 
 ### Inputs / Fields
 
@@ -197,6 +197,18 @@ A hairline row: title (ink 500), tagline (muted 14px), years (mono 13px), and a 
 
 A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Case studies, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
 
+### Integration graph (signature)
+
+An SVG beside the hero, max 300px wide: the lilac SH circle with seven nodes on an ellipse (plum 2 rounded rects, Geist Mono 10.5px muted labels) joined by 1px line edges. Hovering or focusing a node turns it and its edge lilac and lights the titles of related work rows. Hovering a row lights its nodes. While idle and on screen, a lilac dot travels a random edge every 650ms (`cubic-bezier(.45, 0, .2, 1)`, 1.1s), paused when the tab is hidden and absent under reduced motion. A visually hidden caption lists each system and its case studies.
+
+### Artifacts
+
+A plum 2 `rounded-md` panel with a small header (title in ink, hint in mono muted), one per case study: the route-level canary split (range input), the review-time bar with an "AI pre-review" switch, the RAG pipeline chips with Replay, and the Treddy partner graph. Controls carry `data-requires-js`; the server-rendered state reads without them.
+
+### Activity heatmap
+
+"Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
+
 ### Case study meta row
 
 A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result value is the case study's one lilac element.
@@ -206,6 +218,7 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 - Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
 - Hero: one CSS-only rise (6px, 700ms, 70ms stagger over three lines).
 - "Now" dot: a soft ping every 2.4s.
+- Graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 650ms. Canary split 450ms, review bar 700ms, pipeline chips 280ms apart.
 - Palette 200ms, toast 240ms, row 320ms.
 - `prefers-reduced-motion: reduce` collapses every animation and transition and removes the ping.
 

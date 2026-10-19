@@ -14,7 +14,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default function HomePage() {
   return (
     <>
-      <section aria-labelledby="intro" className="flex gap-10 pt-14 pb-4 sm:pt-20">
+      <section aria-labelledby="intro" className="flex flex-col gap-10 pt-14 pb-4 sm:pt-20 md:flex-row md:items-center md:gap-8">
         <div className="max-w-[36rem] space-y-5">
           <p className="reveal font-medium text-muted">
             {profile.name}
@@ -51,7 +51,7 @@ export default function HomePage() {
               summary={entry.summary}
               years={entry.period && formatYears(entry.period)}
             >
-              <WorkArtifactSlot slug={entry.slug} />
+              <WorkArtifactSlot slug={entry.slug} placement="row" />
             </WorkRow>
           ))}
         </ul>

@@ -23,12 +23,17 @@ All content lives in `src/content/`. Pages only render it.
 - `work/`: case studies, rendered at `/work/[slug]`.
 - `writing/`: posts, rendered at `/writing/[slug]`.
 - `collection.ts`: the metadata schemas for case studies and posts.
+- `systems.ts`: the nodes of the integration graph and the case studies each one relates to. Slugs are typed, so a typo fails typecheck.
 
 Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`) and Open Graph images all read from these modules.
 
 ## Design
 
-Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/components/slots.tsx` holds empty placeholders for the interactive pieces planned next (integration graph, activity heatmap, per-case-study artifacts).
+Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/components/slots.tsx` plugs the interactive pieces into the pages:
+
+- **Integration graph** (`integration-graph.tsx`): nodes from `systems.ts`. Hover state is shared with the work rows through `src/lib/graph-focus.ts`.
+- **Artifacts** (`artifacts/`): one small interactive piece per case study, registered by slug in `artifacts/index.tsx`.
+- **Activity heatmap** (`activity-heatmap.tsx`): GitHub contributions for the last 12 months, refreshed daily. Set `GITHUB_TOKEN` (no scopes needed) to use the GraphQL API; without it the public calendar page is parsed. If both fail the section is hidden and the build logs a warning. `SHOW_HEATMAP` in `profile.ts` turns it off.
 
 ## Add a case study
 
