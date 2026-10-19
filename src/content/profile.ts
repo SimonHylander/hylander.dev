@@ -15,3 +15,9 @@ export const profile = {
     { label: "X", href: "https://x.com/simon_hylander" },
   ],
 } as const;
+
+/**
+ * Shows the GitHub contribution heatmap ("Shipping") on the home page. The calendar is sparse
+ * before Oct 2026 because private Proposales work may not be counted. Simon decides whether it stays.
+ */
+export const SHOW_HEATMAP = true;
