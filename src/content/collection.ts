@@ -23,7 +23,11 @@ export const postSchema = z.object({
   summary: z.string().min(1),
   date: z.iso.date(),
   pillar: z.enum(pillars),
+  /** Drafts render in `next dev` and with SHOW_DRAFTS=1, and are left out of production builds. */
+  draft: z.boolean().default(false),
 });
+
+const showDrafts = process.env.NODE_ENV === "development" || process.env.SHOW_DRAFTS === "1";
 
 /** Shape of `export const metadata` in every case study. */
 export const caseStudySchema = postSchema.extend({
@@ -41,7 +45,8 @@ type MdxModule = { default: MDXContent; metadata?: unknown };
 /**
  * Turns imported MDX modules, keyed by slug, into validated entries in registration order.
  * Each entry's `slug` is typed as the union of registered keys.
- * Invalid metadata throws at import time, so a bad entry fails the build.
+ * Invalid metadata throws at import time, so a bad entry fails the build. Drafts are dropped
+ * unless drafts are shown, so every list, route and the sitemap skip them.
  */
 export function defineCollection<Schema extends z.ZodType<z.output<typeof postSchema>>, Slug extends string>(
   schema: Schema,
@@ -54,7 +59,7 @@ export function defineCollection<Schema extends z.ZodType<z.output<typeof postSc
       throw new Error(`Invalid metadata in "${slug}.mdx":\n${z.prettifyError(result.error)}`);
     }
     return { slug, ...result.data, Content: module.default };
-  });
+  }).filter((entry) => showDrafts || !entry.draft);
 
   return {
     entries,

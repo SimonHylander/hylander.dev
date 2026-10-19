@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./code.css";
 
 /* Design tokens. DESIGN.md documents each one. Print overrides them at the bottom of this file. */
 :root {
@@ -133,6 +134,22 @@
     }
     & blockquote {
       @apply text-muted;
+    }
+  }
+
+  /* One step of a <BuildDiagram>, numbered by position: 01, 02, ... */
+  .diagram-step {
+    counter-increment: diagram-step;
+
+    &::before {
+      content: counter(diagram-step, decimal-leading-zero);
+      @apply mb-1 block font-mono text-meta text-muted tabular-nums;
+    }
+    & > * + * {
+      @apply mt-3;
+    }
+    & + & {
+      @apply mt-6;
     }
   }
 

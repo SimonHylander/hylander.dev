@@ -1,3 +1,4 @@
+import path from "node:path";
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
@@ -14,4 +15,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default createMDX()(nextConfig);
+// Turbopack only accepts serializable MDX options, so the rehype plugin is passed as a file path.
+const withMDX = createMDX({
+  options: { rehypePlugins: [path.resolve("./src/lib/rehype-code.mjs")] },
+});
+
+export default withMDX(nextConfig);
