@@ -1,33 +1,35 @@
 export const metadata = {
   title: "Uppgraderingspaket",
-  summary: "Price matching for PC hardware, with a RAG chat, Inngest scraping and vector search.",
+  summary: "AI price matching for PC hardware, with RAG chat search over scraped products.",
   date: "2026-10-19",
   pillar: "ai-native",
   tagline: "RAG price matching for PC hardware",
   role: "Owner, end to end",
-  // TODO(simon): add `period` once the project years are confirmed.
-  // TODO(simon): add the framework, database, vector store and model.
-  stack: ["Inngest"],
+  period: { start: "2025-10" },
+  // TODO(simon): name the vector database, the embedding model and the LLM.
+  stack: ["Next.js", "Vercel", "Inngest", "Vector database", "Embeddings", "LLM"],
   metric: "Live site",
 };
 
-## Problem
-
-{/* TODO(simon): Who is it for, and what was hard about matching hardware prices before? */}
+{/* TODO(simon): ## Problem. Who is it for, and what was hard about matching hardware prices before? */}
 
 ## My role
 
-It is my side project. I own it end to end.
+It is my own product. I own it end to end.
 
-## Constraints
-
-{/* TODO(simon): Constraints such as scraping limits, data freshness, or running costs. */}
+{/* TODO(simon): ## Constraints. Constraints such as scraping limits, data freshness, or running costs. */}
 
 ## Decisions
 
-The site has three parts: scraping with Inngest, vector search, and a RAG chat.
+Uppgraderingspaket is an AI price matching service for PC hardware, built as a RAG pipeline in three steps:
 
-{/* TODO(simon): How the parts connect, and why Inngest for the scraping. */}
+1. **Scrape.** A web scraping flow runs in Inngest and pulls in products.
+2. **Embed.** The products go into a vector database as embeddings.
+3. **Answer.** Chat search retrieves the matching products and feeds them to an LLM as context.
+
+It runs on Next.js and Vercel.
+
+{/* TODO(simon): Why Inngest for the scraping, and how the steps are scheduled and retried. */}
 
 ## Result
 

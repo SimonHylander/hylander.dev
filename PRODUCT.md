@@ -62,10 +62,16 @@ Claims the site may make, and their source. Only claims marked public can appear
 | Strangler-fig migration from PHP/Angular.js to Next.js with CloudFront Functions canaries | Byggdagboken | None yet | Yes | LinkedIn, current resume, bragdoc |
 | Local-first rearchitecture of the apps and web client | Byggdagboken | None yet | Yes | LinkedIn farewell post |
 | Backend-for-frontend for the native apps, plus OAuth2/OpenID with PKCE | Byggdagboken | None yet | Yes | LinkedIn, bragdoc |
-| Led client engineering and a small app team, and owned the delivery roadmap | Byggdagboken | None yet | Yes | LinkedIn |
-| Partner platform with an API layer and webhooks (BankID, Swish, Stripe, nShift, Schenker) | Treddy | 6 partner integrations | Yes | LinkedIn projects |
+| Node.js BFF aggregating data across microservices; Authorization Code + PKCE with Redis for short-lived tokens | Byggdagboken | None yet | Yes | LinkedIn projects |
+| Led client engineering (web and mobile) and a small app team, and owned the delivery roadmap and backlog with management | Byggdagboken | None yet | Yes | LinkedIn |
+| Context framework and practices for working with AI | Byggdagboken | None yet | Yes | LinkedIn projects |
+| Led the technical architecture and development of a fraud-reduction startup for online marketplaces, Sep 2021 to Apr 2024, via Skoglit | Treddy | None yet | Yes | LinkedIn projects |
+| Integration platform with an API layer and a real-time webhook system | Treddy | 6 strategic partner integrations | Yes | LinkedIn projects |
+| Integrations with BankID, Finnish Trust Network, Stripe, Swish, Ping Payments, nShift and Schenker | Treddy | None yet | Yes | LinkedIn projects |
+| Treddy Developer Platform: partner API with OAuth, REST and webhook events; partner onboarding and docs, Dec 2022 to Apr 2024 | Treddy | None yet | Yes | LinkedIn projects |
+| Secure payment flows with an emphasis on accessibility and user trust | Treddy | None yet | Yes | LinkedIn projects |
 | Lead developer across client projects, and mentored interns and juniors | Skoglit | None yet | Yes | LinkedIn |
-| Price matching for PC hardware with RAG chat, Inngest scraping and vector search | Uppgraderingspaket | Live site | Yes | LinkedIn projects |
+| AI price matching for PC hardware, Oct 2025 to present: RAG chat search; Inngest scraping into a vector database; embeddings as LLM context; Next.js on Vercel | Uppgraderingspaket | Live site | Yes | LinkedIn projects |
 | Integrations for hotels: OPERA Cloud, pricing and catering packages | Proposales | None yet | Ask Proposales | GitHub PR activity |
 
 ## Case studies

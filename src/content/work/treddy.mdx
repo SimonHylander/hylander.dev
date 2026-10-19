@@ -1,12 +1,14 @@
+import { treddyDiagram } from "../diagrams";
+
 export const metadata = {
   title: "Treddy partner platform",
-  summary: "A partner platform with an API layer and webhooks.",
+  summary: "The integration platform behind a startup that reduces fraud in online marketplaces.",
   date: "2026-10-19",
   pillar: "integrations",
   tagline: "6 partner integrations",
-  role: "Architect",
-  // TODO(simon): add `period` once the Treddy years are confirmed.
-  stack: ["BankID", "Swish", "Stripe", "nShift", "Schenker"],
+  role: "Technical architecture and development lead",
+  period: { start: "2021-09", end: "2024-04" },
+  stack: ["BankID", "Finnish Trust Network", "Stripe", "Swish", "Ping Payments", "nShift", "Schenker", "OAuth", "REST", "Webhooks"],
   metric: "6 partner integrations",
 };
 
@@ -14,24 +16,54 @@ export const metadata = {
 
 ## Problem
 
-{/* TODO(simon): What problem did the partner platform solve, and for whom? Is it still live? */}
+Treddy is a startup focused on reducing fraud in online marketplaces. The product depends on identity, payment and shipping providers, and on partners who build on top of it.
+
+{/* TODO(simon): What did fraud look like before Treddy, and for whom? Is the platform still live? */}
 
 ## My role
 
-I was the architect.
+I led the technical architecture and development, as a consultant through Skoglit. From December 2022 I also built the Treddy Developer Platform and helped onboard partners onto it.
 
-{/* TODO(simon): Team size, timeline, and what you owned beyond the architecture. */}
+{/* TODO(simon): Team size, and what you owned beyond the architecture. */}
 
-## Constraints
-
-{/* TODO(simon): Technical, regulatory or business constraints (payments, identity, shipping). */}
+{/* TODO(simon): ## Constraints. Technical, regulatory or business constraints (payments, identity, shipping). */}
 
 ## Decisions
 
-Partners connect through an API layer and webhooks.
+I built an integration platform: an API layer with a real-time webhook system, connected to every provider the product needs.
+
+<BuildDiagram diagram={treddyDiagram}>
+<DiagramStep>
+
+**The core.** Treddy's own product, built to reduce fraud in online marketplaces. Every integration below connects to it.
+
+</DiagramStep>
+<DiagramStep>
+
+**Identity.** Users identify with BankID or the Finnish Trust Network.
+
+</DiagramStep>
+<DiagramStep>
+
+**Payments.** Stripe, Swish and Ping Payments move the money. The payment flows put security, accessibility and user trust first.
+
+</DiagramStep>
+<DiagramStep>
+
+**Shipping.** nShift and Schenker handle delivery.
+
+</DiagramStep>
+<DiagramStep>
+
+**Partner API.** Partners connect through a REST API with OAuth and receive real-time webhook events. This is the Treddy Developer Platform.
+
+</DiagramStep>
+</BuildDiagram>
 
 {/* TODO(simon): Why an API layer and webhooks, and which alternatives you rejected. */}
 
 ## Result
 
-{/* TODO(simon): The proof inventory names five partners but claims 6 integrations. Name the sixth. Add numbers beyond the integration count, such as volume, partners or fraud reduction. */}
+The integration platform facilitated 6 strategic partner integrations. I also helped improve the developer docs.
+
+{/* TODO(simon): Numbers beyond the integration count, such as volume, partners or fraud reduction. */}

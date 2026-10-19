@@ -1,3 +1,5 @@
+import { byggdagbokenDiagram } from "../diagrams";
+
 export const metadata = {
   title: "Byggdagboken strangler-fig migration",
   summary: "Moving a live web platform from PHP and Angular.js to Next.js, one route at a time.",
@@ -7,7 +9,7 @@ export const metadata = {
   role: "Senior Software Engineer, client engineering lead",
   period: { start: "2024-05", end: "2026-02" },
   // TODO(simon): confirm the stack used for the migration itself.
-  stack: ["Next.js", "CloudFront Functions", "PHP", "Angular.js", "OAuth2", "OpenID Connect"],
+  stack: ["Next.js", "CloudFront Functions", "Node.js", "Redis", "OAuth2", "OpenID Connect", "PHP", "Angular.js"],
 };
 
 ## Problem
@@ -18,7 +20,7 @@ The Byggdagboken web platform was a monolithic legacy system built on PHP and An
 
 ## My role
 
-I owned all client-side engineering at Byggdagboken: the native apps and the web client. I led client engineering and a small app team, and owned the delivery roadmap. I led this re-architecture.
+I led client-side engineering at Byggdagboken, web and mobile, and a small team of app developers. I owned the delivery roadmap and backlog together with management, and I led this re-architecture.
 
 {/* TODO(simon): Team size, timeline, and who else worked on the migration. */}
 
@@ -30,13 +32,37 @@ The product was live, so the migration could not stop it.
 
 ## Decisions
 
-- **Strangler fig.** The new Next.js client takes over the legacy system route by route.
-- **Route-level canaries.** CloudFront Functions roll each migrated route out gradually.
-- **A backend-for-frontend.** The native apps read through a BFF layer that aggregates their data.
-- **One identity.** OAuth2 and OpenID Connect with PKCE unify sign-in across platforms.
+The migration is a strangler fig: the new client takes over the legacy system route by route, while the old one keeps serving the rest.
+
+<BuildDiagram diagram={byggdagbokenDiagram}>
+<DiagramStep>
+
+**The monolith.** Web traffic went through CloudFront to the legacy monolith: PHP on the server, Angular.js in the browser.
+
+</DiagramStep>
+<DiagramStep>
+
+**Route-level canaries.** A CloudFront Function sends a percentage of each migrated route's traffic to the new Next.js web client. The rest stays on the monolith.
+
+</DiagramStep>
+<DiagramStep>
+
+**A backend-for-frontend.** The native apps talk to a Node.js BFF, which aggregates their data across the microservices.
+
+</DiagramStep>
+<DiagramStep>
+
+**One identity.** Sign-in moved to OAuth2 and OpenID Connect, using the Authorization Code flow with PKCE. Redis holds the short-lived tokens.
+
+</DiagramStep>
+</BuildDiagram>
 
 {/* TODO(simon): Why a strangler fig instead of a rewrite, and how a canary was promoted or rolled back. */}
 
-## Result
+{/* TODO(simon): ## Result. How many routes moved, whether the legacy system is retired, and any numbers on speed or incidents. */}
 
-{/* TODO(simon): How many routes moved, whether the legacy system is retired, and any numbers on speed or incidents. */}
+## Also at Byggdagboken
+
+- I introduced new workflows and release routines. The releases that followed had zero major incidents.
+- I fully automated the localization pipeline, and we launched 10 new languages.
+- I re-architected the apps and the web client into a local-first experience.
