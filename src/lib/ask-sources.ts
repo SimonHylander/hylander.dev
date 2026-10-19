@@ -16,14 +16,16 @@ import type { SourceId } from "./ask";
 type Source = { id: SourceId; title: string; text: string };
 
 /**
- * A case study's MDX body without the metadata export, imports and MDX comments (the TODO notes),
- * so the model sees only the published prose. next.config.ts traces these files into the /api/ask function.
+ * A case study's MDX body without the metadata export, imports, MDX comments (the TODO notes)
+ * and component tags such as `<BuildDiagram>`, so the model sees only the published prose.
+ * next.config.ts traces these files into the /api/ask function.
  */
 function readCaseStudyBody(slug: string) {
   return readFileSync(join(process.cwd(), "src/content/work", `${slug}.mdx`), "utf8")
     .replace(/^export const metadata = \{[\s\S]*?^\};?$/m, "")
     .replace(/^import .*$/gm, "")
     .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+    .replace(/<\/?[A-Z][^>]*>/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
