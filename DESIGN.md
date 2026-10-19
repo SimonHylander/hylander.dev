@@ -1,213 +1,229 @@
 ---
 name: hylander.dev
-description: Neo-brutalist portfolio for a playful, builder-curious senior engineer
+description: Quiet, precise dark index for a senior engineer. Plum and lavender, one lilac accent, craft in the details.
 colors:
-  plum-night: "oklch(0.182 0.046 286.89)"
-  lavender-mist: "oklch(90.2% 0.063 306.7)"
-  aubergine-ink: "#261a2a"
-  lilac-accent: "oklch(0.8325 0.107 306.71)"
-  bench-white: "#ffffff"
-  shadow-plum: "#261a2a"
-  shadow-lilac: "#dab2ff"
+  plum: "oklch(0.17 0.035 290)"
+  plum-2: "oklch(0.21 0.04 292)"
+  plum-3: "oklch(0.27 0.045 295)"
+  ink: "oklch(0.93 0.035 306)"
+  muted: "oklch(0.72 0.04 302)"
+  lilac: "oklch(0.83 0.107 306.71)"
+  line: "oklch(0.34 0.05 298)"
 typography:
-  display:
-    fontFamily: "Poppins, sans-serif"
-    fontSize: "clamp(2.5rem, 5vw, 3rem)"
-    fontWeight: 700
-    lineHeight: 1.1
-    letterSpacing: "normal"
-  headline:
-    fontFamily: "Poppins, sans-serif"
-    fontSize: "clamp(1.5rem, 3vw, 2.25rem)"
+  hero:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1.875rem"
     fontWeight: 700
     lineHeight: 1.2
+    letterSpacing: "-0.02em"
   title:
-    fontFamily: "Poppins, sans-serif"
-    fontSize: "1.25rem"
-    fontWeight: 700
-    lineHeight: 1.3
-  body:
-    fontFamily: "Poppins, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.5
-  label:
-    fontFamily: "Fira Code, monospace"
-    fontSize: "0.875rem"
-    fontWeight: 500
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 600
     lineHeight: 1.4
-    letterSpacing: "0.02em"
+  section:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 500
+    lineHeight: 1.5
+  body:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  meta:
+    fontFamily: "Geist Mono, ui-monospace, monospace"
+    fontSize: "0.8125rem"
+    fontWeight: 400
+    lineHeight: 1.4
 rounded:
-  sm: "0.25rem"
-  md: "0.4rem"
-  lg: "0.5rem"
+  sm: "6px"
+  md: "10px"
+  lg: "12px"
+  full: "9999px"
 spacing:
-  xs: "0.5rem"
-  sm: "1rem"
-  md: "1.5rem"
-  lg: "2rem"
-  xl: "4rem"
-  section: "4rem"
+  row: "14px"
+  block: "32px"
+  section: "64px"
+  page-x: "24px"
+  measure: "44rem"
 components:
-  button-primary:
-    backgroundColor: "{colors.aubergine-ink}"
-    textColor: "{colors.lavender-mist}"
+  mark:
+    backgroundColor: "{colors.lilac}"
+    textColor: "{colors.plum}"
+    rounded: "{rounded.full}"
+    size: "32px"
+  button-ghost:
+    backgroundColor: "{colors.plum}"
+    textColor: "{colors.muted}"
     rounded: "{rounded.md}"
-    padding: "1rem 1.5rem"
-  button-primary-hover:
-    backgroundColor: "{colors.aubergine-ink}"
-    textColor: "{colors.lavender-mist}"
+    padding: "4px 4px 4px 10px"
+  button-ghost-hover:
+    backgroundColor: "{colors.plum-2}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.md}"
-    padding: "1rem 1.5rem"
-  nav-tile:
-    backgroundColor: "{colors.bench-white}"
-    textColor: "{colors.aubergine-ink}"
+  kbd:
+    backgroundColor: "{colors.plum-3}"
+    textColor: "{colors.ink}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.sm}"
+    padding: "0 6px"
+  chip:
+    backgroundColor: "{colors.plum-2}"
+    textColor: "{colors.ink}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.sm}"
+    padding: "2px 8px"
+  palette:
+    backgroundColor: "{colors.plum-2}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.lg}"
+    width: "34rem"
+  palette-option-active:
+    backgroundColor: "{colors.plum-3}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: "8px 10px"
+  toast:
+    backgroundColor: "{colors.plum-2}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.md}"
-    padding: "1rem"
-  nav-tile-hover:
-    backgroundColor: "{colors.lavender-mist}"
-    textColor: "{colors.aubergine-ink}"
-    rounded: "{rounded.md}"
-    padding: "1rem"
+    padding: "8px 14px"
 ---
 
 # Design System: hylander.dev
 
 ## Overview
 
-**Creative North Star: "The Builder's Bench"**
+**North star: a precise index.** The site reads like a well-kept index of one engineer's work: a short positioning line, a list of case studies, a career list. It sits in the lane of rauno.me, paco.me and emilkowal.ski. Craft shows in the details (a pinging dot, a "+" that rotates to "×", a ⌘K palette), and every interactive piece enhances text that already reads on its own.
 
-A portfolio visual system that feels like a well-used workbench: warm craft, curious experiments, and tools laid out with intention. Surfaces are plum-dark and lavender-bright in deliberate contrast; structure comes from grids, borders, and stacked offset shadows rather than soft SaaS blur. The system rejects generic template polish and neon hacker clichés in favor of tactile, ownable neo-brutalism.
+The scene: a hiring manager opens the link from LinkedIn in the evening, on a laptop, and gives it two minutes. Dark plum is calm at that hour and makes the single lilac accent carry the eye to what matters.
 
-Density is moderate: long-form proof sections (experience, skills) use full-width alternating bands; signature chrome (navigation, section headers) carries the strongest shadow vocabulary. Motion is responsive, not choreographed: Framer Motion accents (e.g. about imagery) respect reduced motion.
+**Key characteristics:**
 
-**Key Characteristics:**
+- One column, max 44rem, left aligned. No cards, no grids of tiles.
+- Hairline-separated rows instead of containers.
+- Hierarchy from weight and color, not size jumps: section headings are 15px muted, the hero is the only large type.
+- Mono only for dates, metadata, keys and code.
+- Motion is short and purposeful, and none of it gates content.
 
-- Deep plum night backgrounds with lavender mist type and borders
-- Hard offset shadows (5px/10px stack) on navigation and key chrome
-- Poppins-forward hierarchy with Fira Code for technical labels
-- Alternating `background` / `secondary` rows for list-like proof sections
-- Technology brand colors reserved for stack icons and inline tech emphasis only
+**Layout rhythm.** Header 24px from the top. Hero 56px (mobile) to 80px (desktop) below it. Sections 64px apart. Rows 14px vertical padding. Footer 96px below the last section. Page gutter 20px mobile, 24px from `sm`.
+
+**Reserved slots.** `src/components/slots.tsx` holds empty components for layer 4: the integration graph (beside the hero on desktop), the activity heatmap (between the hero and Selected work), and a per-case-study artifact (in the expanded home row and above the case study prose).
 
 ## Colors
 
-The palette is committed purple-lavender: the surface is moody plum, the voice is bright mist, and aubergine ink anchors borders and shadow stacks.
+Restrained strategy: tinted plum neutrals and one accent. The accent covers well under 10% of any screen.
 
 ### Primary
 
-- **Plum Night** (oklch(0.182 0.046 286.89)): Page background (`--background`). Sets the nighttime bench mood; all sections inherit unless explicitly banded.
-- **Aubergine Ink** (#261a2a): Primary brand fill (`--primary`), shadow stack base, nav depth. Used for buttons, logo tile contrast, and the first layer of offset shadows.
-
-### Secondary
-
-- **Lavender Mist** (oklch(90.2% 0.063 306.7)): Foreground text, secondary fills, section header titles, alternating experience/skills bands. Carries most readable copy on dark ground.
-- **Lilac Accent** (oklch(0.8325 0.107 306.71)): Borders (`--border`), rings, hover accents. Structural lines and focus, not large fills.
+- **Plum** (`--plum`): page background.
+- **Lilac** (`--lilac`): the only accent. The SH mark, the "Now" dot, an open row's "×", the metric on a case study, focus outlines, link hover, text selection.
 
 ### Neutral
 
-- **Bench White** (#ffffff): Navigation shell background. A deliberate break from plum night so the nav reads as a physical object on the desk.
-- **Shadow Plum / Shadow Lilac** (#261a2a / #dab2ff): Second-layer offset shadow colors in navigation (`5px 5px` plum, `10px 10px` lilac). Never use as text colors.
+- **Plum 2** (`--plum-2`): raised surfaces: the palette, the toast, stack chips, ghost button hover.
+- **Plum 3** (`--plum-3`): pressed and track surfaces: the active palette option, `kbd`, inline code.
+- **Ink** (`--ink`): primary text. 15.5:1 on plum.
+- **Muted** (`--muted`): secondary text, section headings, metadata. 7.6:1 on plum, 6.1:1 on plum 3.
+- **Line** (`--line`): hairlines and borders only. Never text.
 
 ### Named Rules
 
-**The Two-Shadow Rule.** Signature offset depth uses exactly two hard layers (plum then lilac). Do not add a third drop shadow or soften into diffuse blur on nav-level chrome.
+**The One Accent Rule.** Lilac marks a single thing per view that deserves the eye. If two lilac elements compete, one of them becomes ink.
 
-**The Tech Color Rule.** Per-technology hues (`--color-typescript`, `--color-go`, etc.) appear only on devicons and inline tech emphasis, never as page-wide accents or gradient fills.
+**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities.
+
+**Print.** `@media print` remaps the tokens to white, black and grays, so `/cv` prints as a plain document.
 
 ## Typography
 
-**Display Font:** Poppins (sans-serif)
-**Body Font:** Poppins (sans-serif)
-**Label/Mono Font:** Fira Code (monospace)
-**Serif Accent:** Lora (available in tokens; use sparingly for editorial moments if introduced)
+**Sans:** Familjen Grotesk (400 to 700), body and headings. A grotesk with some ink-trap character: precise without being cold.
+**Mono:** Geist Mono (400, 500), only for dates, years, metadata, `kbd` and code.
 
-**Character:** Round, friendly sans with confident bold weights. Hierarchy is scale- and weight-driven (≥1.25 ratio between hero and body). Mono appears for stack labels and code-adjacent moments, not body copy.
+Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono`.
 
 ### Hierarchy
 
-- **Display** (700, clamp(2.5rem, 5vw, 3rem), 1.1): Hero name and primary identity (`about` h1, contact headline).
-- **Headline** (700, clamp(1.5rem, 3vw, 2.25rem), 1.2): Section headers via `SectionHeader`, job titles in experience rows.
-- **Title** (700, 1.25rem, 1.3): Project names, card titles, sub-section labels.
-- **Body** (400, ~17px / 1.0625rem, 1.5): Bio paragraphs, bullet points, contact supporting copy. Cap line length at 65–75ch in prose blocks.
-- **Label** (500, 0.875rem Fira Code, 0.02em tracking): Technology tags, metadata, period strings.
+- **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): the positioning line on `/`, page titles elsewhere.
+- **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
+- **Section** (500, 15px, muted, sentence case): "Selected work", "Writing", "Career", "Stack". Never uppercase, never tracked.
+- **Body** (400, 16px, 1.6; prose 1.7): paragraphs. Prose caps at 65ch.
+- **Meta** (Geist Mono 400, 13px, tabular numbers): years, dates, chips, `kbd`.
 
 ### Named Rules
 
-**The Bold Step Rule.** Every section title jumps at least one clear step above body (section headers at 2xl–4xl vs body at base/lg). Flat type scales are forbidden.
+**The No-Eyebrow Rule.** Sections do not get kicker labels above their headings. The heading is already quiet.
 
 ## Elevation
 
-Depth is **structural offset**, not ambient blur. The navigation uses stacked hard shadows; section headers and bordered grids use `shadow-md` from the token scale (3px 3px 0 lilac-tinted). Content rows rely on alternating plum/lavender bands before reaching for shadow.
-
-### Shadow Vocabulary
-
-- **Offset stack (nav)** (`5px 5px 0 #261a2a, 10px 10px 0 #dab2ff`): Primary chrome only. Makes the nav feel lifted off the bench.
-- **Token shadow-md** (`3px 3px 0` lilac-tinted): Section headers, experience/skills containers, contact buttons.
-- **Flat bands**: Experience and skills rows alternate `bg-background` / `bg-secondary` with 1px `border-secondary` seams instead of card float.
+Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three plum steps (plum, plum 2, plum 3) and 1px `line` borders. The palette's backdrop is plum at 75% opacity, with no blur.
 
 ### Named Rules
 
-**The Hard Edge Rule.** Shadows have zero or minimal blur (`--shadow-blur: 0px`). If a shadow looks like a 2014 soft drop, remove the blur and use offset stacks or tonal bands instead.
+**The Flat Rule.** If something needs to stand out, raise it one plum step or give it a hairline. Never a shadow.
 
 ## Components
 
-Tactile and bold: chunky borders, confident type, obvious hit targets.
-
 ### Buttons
 
-- **Shape:** Medium radius (0.4rem / `rounded-md`).
-- **Primary:** Aubergine ink fill, lavender mist text, `shadow-md`, generous vertical padding on contact CTAs (`py-4`).
-- **Outline:** Background fill with border; contact uses `bg-primary` override on outline variant for contrast on plum page.
-- **Hover / Focus:** `hover:bg-primary/90` or accent swap on outline; `focus-visible:ring-ring/50` with 3px ring. No bounce or elastic easing.
+- **Ghost** ("Jump to ⌘K"): muted text, no border, `rounded-md`. Hover fills plum 2 and turns the text ink.
+- **Small outline** ("Copy" in the footer): 1px line border, mono 13px, `rounded-sm`. Hover turns border and text lilac.
+- Controls that need JavaScript carry `data-requires-js` and are hidden by a `<noscript>` rule.
 
 ### Chips
 
-- **Style:** `bg-secondary/50`, small rounded-md, `border-border/30`, hover `border-primary/50` (skills technology tags).
-- **State:** Static list items, not filter toggles.
+- **Stack chip:** plum 2 fill, 1px line border, Geist Mono 13px, `rounded-sm`. Static list items.
 
 ### Cards / Containers
 
-- **Corner Style:** `rounded` / 0.4rem default; project cards full-bleed imagery inside bordered card shell.
-- **Background:** `bg-card` on shell; project title band uses `bg-secondary` with `text-primary` bold title.
-- **Shadow Strategy:** `shadow-sm` on card primitive; project grid relies more on image weight than float.
-- **Border:** `border-secondary` on section wrappers.
-- **Internal Padding:** Card content often `p-0` for image-forward project tiles.
+None. Lists are rows divided by hairlines. The palette and the toast are the only bounded surfaces (plum 2, line border, `rounded-lg` and `rounded-md`).
 
 ### Inputs / Fields
 
-- **Style:** Not heavily used on portfolio surface yet; inherit shadcn outline pattern when added (background fill, border, md radius).
-- **Focus:** Ring token at 3px, no glow bloom.
+- **Palette input:** transparent, no border, a hairline below, 16px, muted placeholder. The open dialog carries focus, so the input has no outline of its own.
 
 ### Navigation
 
-- **Style:** White bench shell, 1px secondary border, dual offset shadow stack, grid `logo | links`.
-- **Typography:** `text-xl` link labels; devicon social tiles at 2xl.
-- **Default / Hover:** Nav items `bg-background`; hover inverts to `bg-secondary` + `text-primary`.
-- **Mobile:** `max-w-[280px]` constraint; wrap link grid with 2px gaps.
+- **Top bar:** the SH mark (32px lilac circle, plum 11px bold text) links home on the left. "Jump to ⌘K" opens the palette on the right; the key hint hides below `sm` and reads "Ctrl K" off Apple platforms.
+- **Footer:** the email as a `mailto:` link with a Copy button (toast confirms), then GitHub, LinkedIn and X in muted.
+- **Focus:** every focusable element shows a 2px lilac outline, offset 2px.
 
-### Alternating proof rows (Experience / Skills)
+### Work row (signature)
 
-- **Character:** Full-width list, zero gap, shared outer border + `shadow-md`.
-- **Even rows:** `bg-background` with `text-secondary` headings.
-- **Odd rows:** `bg-secondary` with `text-background` headings.
-- **Padding:** `p-4` mobile, `p-16` desktop on job rows.
+A hairline row: title (ink 500), tagline (muted 14px), years (mono 13px), and a 12px "+" icon. The row's button has `aria-expanded`; the panel animates `grid-template-rows` from `0fr` to `1fr` in 320ms on the site ease, and the "+" rotates 45° to "×" in lilac. The panel holds the summary, "Read the case study →", and the artifact slot. Without JavaScript every panel is open.
+
+### Command palette (signature)
+
+A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Case studies, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
+
+### Case study meta row
+
+A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result value is the case study's one lilac element.
+
+### Motion
+
+- Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
+- Hero: one CSS-only rise (6px, 700ms, 70ms stagger over three lines).
+- "Now" dot: a soft ping every 2.4s.
+- Palette 200ms, toast 240ms, row 320ms.
+- `prefers-reduced-motion: reduce` collapses every animation and transition and removes the ping.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** use OKLCH tokens from `packages/ui/src/styles/globals.css` as the single source of truth for fills and borders.
-- **Do** stack exactly two offset shadows on signature chrome (plum base, lilac second layer).
-- **Do** alternate background/secondary bands for long proof lists before adding card grids.
-- **Do** keep Poppins hierarchy bold between section titles and body copy.
-- **Do** respect `prefers-reduced-motion` for Framer Motion and CSS transitions.
+- **Do** use the seven tokens through Tailwind (`bg-plum-2`, `text-muted`, `border-line`).
+- **Do** separate list items with 1px `line` hairlines.
+- **Do** keep mono to dates, metadata, keys and code.
+- **Do** make every interactive piece optional: the text must read without JavaScript.
+- **Do** give every case study a single lilac highlight: its metric.
 
 ### Don't:
 
-- **Don't** use generic SaaS portfolio patterns: hero metrics, identical icon-card grids, gradient text, or decorative glass cards.
-- **Don't** adopt dark-mode neon hacker aesthetics or meaningless purple gradient washes.
-- **Don't** ship obvious AI slop: glassmorphism as default, side-stripe accent borders, modal-first interactions, interchangeable template brutalism.
-- **Don't** paste corporate resume PDF layouts: stock icon rows, flat undifferentiated grids, no point of view.
-- **Don't** soften nav shadows into diffuse blur or add a third shadow layer.
-- **Don't** use `background-clip: text` gradient fills for emphasis; use weight and size.
-- **Don't** use pure `#000` or `#fff` except bench white on nav; tint neutrals toward plum hue.
+- **Don't** add drop shadows, gradients, gradient text, glass or blur.
+- **Don't** use side-stripe borders or cards.
+- **Don't** put uppercase eyebrow labels above sections.
+- **Don't** introduce a second accent color or Tailwind's default palette.
+- **Don't** animate content into visibility with JavaScript.
+- **Don't** use `#000` or `#fff` on screen. Print is the exception.
