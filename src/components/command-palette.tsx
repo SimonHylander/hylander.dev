@@ -78,6 +78,13 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
         return router.push(command.href);
       case "external":
         return window.location.assign(command.href);
+      case "focus": {
+        // The dialog's close handler restores focus, so point it at the target instead of the trigger.
+        const target = document.getElementById(command.target);
+        if (target) returnFocusRef.current = target;
+        else router.push(command.href);
+        return;
+      }
     }
   };
 

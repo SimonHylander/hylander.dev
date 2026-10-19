@@ -13,7 +13,38 @@ pnpm build      # production build, without drafts
 SHOW_DRAFTS=1 pnpm build  # production build with drafts, to check them before publishing
 pnpm lint       # ESLint
 pnpm typecheck  # route types + tsc
+pnpm test       # node --test on src/**/*.test.ts
 ```
+
+Copy `.env.example` to `.env.local` to set environment variables locally.
+
+## Ask about my work
+
+A section on the home page where a visitor asks a question and gets a 2 to 4 sentence answer, in the third person, from the site's own pages, with links to the pages it used.
+
+- **Sources.** `src/lib/ask-sources.ts` builds one source per page: `/` from `profile.ts`, `/cv` from `career.ts`, and `/work/<slug>` from each case study's metadata plus its raw MDX body (metadata export and `{/* */}` comments stripped). The source id is the page's URL path. The corpus is a few thousand tokens, so all of it goes into the system prompt. There is no retrieval step.
+- **Route.** `POST /api/ask` with `{ "question": "..." }` (3 to 300 characters after trimming). It checks BotID, then the rate limit, then streams plain text from Claude Sonnet 5.5 (`claude-sonnet-5-5`, effort `low`, at most 350 output tokens) through the AI SDK. The answer ends with `Sources: /work/x, /cv`, which the client turns into links. It drops any path that is not a real page.
+- **Errors.** JSON `{ "error": "..." }` with 400 (invalid question), 403 (bot), 429 (rate limited) or 503 (`ANTHROPIC_API_KEY` is not set).
+- **Prompt.** The system prompt limits answers to the sources and treats the question as a question only, so instructions inside it are ignored. It is the same on every request and is marked for prompt caching.
+
+### Environment variables
+
+| Name | Required | Effect |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | No | Turns the feature on. Without it, the home page section and the ⌘K "Ask about my work" command are not rendered, and the route returns 503. The home page is static, so set the key before the build. |
+
+`src/lib/env.ts` validates the server environment with zod.
+
+### Vercel setup
+
+1. **Rate limit rule.** In the project's Firewall, add a custom rule: **If** `@vercel/firewall` **Rate limit ID** equals `ask`, **then** Rate Limit, fixed window, 60 seconds, 10 requests, keyed on IP, action Deny. `checkRateLimit("ask")` in the route reads this rule. Without the rule the check logs `Rate-limit ID 'ask' not configured` and lets every request through.
+2. **BotID.** `withBotId` in `next.config.ts` and `initBotId` in `src/instrumentation-client.ts` protect `POST /api/ask`, and the route calls `checkBotId()`. This is BotID Basic, which is free on all plans. Deep Analysis is a paid option in the Firewall settings and needs no code change.
+
+Both checks run only on Vercel (`process.env.VERCEL`). `pnpm dev` and `pnpm start` skip them.
+
+### Cost
+
+Each question sends about 2,000 input tokens (the system prompt) and receives at most 350 output tokens. At Sonnet 5.5 prices ($2 per million input tokens, $10 per million output, $0.20 per million for cached input) that is at most about $0.008 per question, or about $0.004 when the system prompt is cached (5 minute TTL). With the rate limit above, one IP can spend at most about $2.40 to $4.50 an hour (600 questions). Set a monthly spend limit in the Anthropic Console as the backstop.
 
 ## Content
 
@@ -27,7 +58,7 @@ All content lives in `src/content/`. Pages only render it.
 - `systems.ts`: the nodes of the integration graph and the case studies each one relates to. Slugs are typed, so a typo fails typecheck.
 - `diagrams.ts`: the architecture diagrams that case studies build up with `<BuildDiagram>`.
 
-Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`) and Open Graph images all read from these modules.
+Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`), the Ask sources and Open Graph images all read from these modules.
 
 ## Design
 

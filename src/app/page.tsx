@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AskSection } from "@/components/ask-section";
 import { ActivityHeatmapSlot, IntegrationGraphSlot, WorkArtifactSlot } from "@/components/slots";
 import { WorkRow } from "@/components/work-row";
 import { career, currentJob } from "@/content/career";
@@ -81,6 +82,8 @@ export default function HomePage() {
           <p className="text-muted">Nothing published yet.</p>
         )}
       </section>
+
+      <AskSection />
 
       <section id="career" aria-labelledby="career-heading" className="mt-16 scroll-mt-8">
         <h2 id="career-heading" className="section-heading pb-2">

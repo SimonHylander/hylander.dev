@@ -227,7 +227,22 @@
   }
 }
 
+/* Block caret at the end of a streaming answer. */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {

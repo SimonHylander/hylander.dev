@@ -1,5 +1,6 @@
 import path from "node:path";
 import createMDX from "@next/mdx";
+import { withBotId } from "botid/next/config";
 import type { NextConfig } from "next";
 
 // Old routes from the previous site. /resume became /cv, the rest folded into the home page.
@@ -7,6 +8,8 @@ const retiredRoutes = ["/projects", "/contact", "/skills", "/bragdoc"];
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  // /api/ask reads the raw case study MDX at runtime (src/lib/ask-sources.ts).
+  outputFileTracingIncludes: { "/api/ask": ["./src/content/work/*.mdx"] },
   async redirects() {
     return [
       { source: "/resume", destination: "/cv", permanent: true },
@@ -20,4 +23,4 @@ const withMDX = createMDX({
   options: { rehypePlugins: [path.resolve("./src/lib/rehype-code.mjs")] },
 });
 
-export default withMDX(nextConfig);
+export default withBotId(withMDX(nextConfig));

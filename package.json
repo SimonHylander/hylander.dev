@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --test \"src/**/*.test.ts\"",
     "format": "prettier --write ."
   },
   "packageManager": "pnpm@10.34.7",
@@ -15,12 +16,16 @@
     "node": ">=24"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "4.0.82",
     "@mdx-js/loader": "3.1.1",
     "@mdx-js/react": "3.1.1",
     "@next/mdx": "16.4.2",
     "@shikijs/rehype": "4.5.0",
     "@shikijs/twoslash": "4.5.0",
     "@vercel/analytics": "2.0.1",
+    "@vercel/firewall": "1.2.6",
+    "ai": "7.0.143",
+    "botid": "1.5.11",
     "next": "16.4.2",
     "react": "19.3.1",
     "react-dom": "19.3.1",

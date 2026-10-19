@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
+import { env } from "@/lib/env";
 
 /** Static routes and hashes plus case study pages. Plain `Route` excludes dynamic segments. */
 type InternalHref = Route<`/work/${string}`>;
@@ -9,6 +10,8 @@ type InternalHref = Route<`/work/${string}`>;
 export type Command = { id: string; label: string; group: string } & (
   | { kind: "copy-email" }
   | { kind: "route"; href: InternalHref }
+  /** Focuses the element with `target` as its id, or goes to `href` when this page does not have it. */
+  | { kind: "focus"; target: string; href: InternalHref }
   | { kind: "external"; href: string }
 );
 
@@ -16,6 +19,7 @@ export type Command = { id: string; label: string; group: string } & (
 export function getCommands() {
   return [
     { id: "copy-email", label: "Copy email", group: "Actions", kind: "copy-email" },
+    ...(env.ANTHROPIC_API_KEY ? [{ id: "ask", label: "Ask about my work", group: "Actions", kind: "focus", target: "ask-input", href: "/#ask" } satisfies Command] : []),
     { id: "work", label: "Selected work", group: "Pages", kind: "route", href: "/#work" },
     { id: "writing", label: "Writing", group: "Pages", kind: "route", href: "/#writing" },
     { id: "cv", label: "CV", group: "Pages", kind: "route", href: "/cv" },
