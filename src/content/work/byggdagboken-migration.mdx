@@ -2,7 +2,7 @@ import { byggdagbokenDiagram } from "../diagrams";
 
 export const metadata = {
   title: "Byggdagboken strangler-fig migration",
-  summary: "Moving a live web platform from PHP and Angular.js to Next.js, one route at a time.",
+  summary: "I moved a live web platform from PHP and Angular.js to Next.js, one route at a time.",
   date: "2026-10-19",
   pillar: "architecture",
   tagline: "PHP and Angular.js to Next.js",
@@ -14,13 +14,13 @@ export const metadata = {
 
 ## Problem
 
-The Byggdagboken web platform was a monolithic legacy system built on PHP and Angular.js.
+The Byggdagboken web platform was a PHP and Angular.js monolith.
 
 {/* TODO(simon): What did the legacy system cost the team and the users? Why migrate now? */}
 
 ## My role
 
-I led client-side engineering at Byggdagboken, web and mobile, and a small team of app developers. I owned the delivery roadmap and backlog together with management, and I led this re-architecture.
+I led client engineering at Byggdagboken, for web and mobile, and a small team of app developers. I owned the delivery roadmap and backlog with management. I led this migration.
 
 {/* TODO(simon): Team size, timeline, and who else worked on the migration. */}
 
@@ -32,12 +32,12 @@ The product was live, so the migration could not stop it.
 
 ## Decisions
 
-The migration is a strangler fig: the new client takes over the legacy system route by route, while the old one keeps serving the rest.
+I used the strangler fig pattern. The new client took over one route at a time, and the monolith kept serving the rest.
 
 <BuildDiagram diagram={byggdagbokenDiagram}>
 <DiagramStep>
 
-**The monolith.** Web traffic went through CloudFront to the legacy monolith: PHP on the server, Angular.js in the browser.
+**The monolith.** Web traffic went through CloudFront to the monolith. It ran PHP on the server and Angular.js in the browser.
 
 </DiagramStep>
 <DiagramStep>
@@ -52,7 +52,7 @@ The migration is a strangler fig: the new client takes over the legacy system ro
 </DiagramStep>
 <DiagramStep>
 
-**One identity.** Sign-in moved to OAuth2 and OpenID Connect, using the Authorization Code flow with PKCE. Redis holds the short-lived tokens.
+**One sign-in.** I moved sign-in to OAuth2 and OpenID Connect with the Authorization Code flow and PKCE. Redis holds the short-lived tokens.
 
 </DiagramStep>
 </BuildDiagram>
@@ -64,5 +64,5 @@ The migration is a strangler fig: the new client takes over the legacy system ro
 ## Also at Byggdagboken
 
 - I introduced new workflows and release routines. The releases that followed had zero major incidents.
-- I fully automated the localization pipeline, and we launched 10 new languages.
-- I re-architected the apps and the web client into a local-first experience.
+- I automated the localization pipeline, and we launched 10 new languages.
+- I rebuilt the apps and the web client to work local-first.

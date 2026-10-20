@@ -12,19 +12,20 @@ type PillarCopy = {
 /** Home page section per pillar. The case studies listed in each come from their `pillar` field. */
 export const pillarCopy = {
   integrations: {
-    claim: "Ten years of connecting systems that were never designed to talk to each other.",
-    thesis: "Identity, payments and shipping. I put one typed API in front of them, so the product talks to one thing.",
+    claim: "I have built integrations since 2014.",
+    thesis:
+      "At Treddy the product called one API. Behind it were BankID, Finnish Trust Network, Stripe, Swish, Ping Payments, nShift and Schenker.",
     showcase: "treddy",
   },
   architecture: {
-    claim: "I migrate live products without stopping them.",
+    claim: "I replaced a PHP monolith one route at a time.",
     thesis:
-      "The Byggdagboken web client moved from PHP and Angular.js to Next.js one route at a time, behind canaries, while customers kept working.",
+      "At Byggdagboken a CloudFront Function sent a share of each route's traffic to the new Next.js client. The PHP and Angular.js monolith served the rest.",
     showcase: "byggdagboken-migration",
   },
   "ai-native": {
-    claim: "I use agents to raise the quality bar, not lower it.",
-    thesis: "Contributors iterate with an AI reviewer before a person looks. Seniors review what is left.",
+    claim: "I put AI review in front of human review.",
+    thesis: "At Byggdagboken, contributors fixed the AI reviewer's comments before a senior engineer looked at the change.",
     showcase: "ai-code-review",
   },
 } satisfies Record<Pillar, PillarCopy>;
@@ -53,7 +54,7 @@ export const results = [
     pillar: "architecture",
   },
   {
-    claim: ["", "6 partner integrations", " behind one API and webhook layer."],
+    claim: ["Built ", "6 partner integrations", " behind one API."],
     where: "Treddy",
     slug: "treddy",
     pillar: "integrations",

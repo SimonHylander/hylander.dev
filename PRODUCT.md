@@ -25,22 +25,22 @@ Most of Simon's work since 2024 is in private repositories. The site replaces co
 
 ## Positioning
 
-**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms and AI workflows on foundations that last.
+**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms and move legacy products to new stacks while customers use them.
 
 Every page supports at least one of three pillars. Each pillar is backed by the evidence listed in the Proof inventory below.
 
-1. **Integrations.** Ten years of connecting systems that were not designed to talk to each other:
+1. **Integrations.** I have connected products to outside systems since 2014:
    - Servus REST middleware over Oracle Forms
    - the Treddy partner platform
    - the Byggdagboken backend-for-frontend
    - Proposales PMS and CRM integrations
    - `ohm`
-2. **Architecture that survives change.** Migrating live products without stopping them:
+2. **Architecture.** I migrate products while customers use them:
    - strangler-fig migration with route-level canaries
    - a local-first rearchitecture
    - release routines that ended major incidents
    - Effect as the default for typed, testable services
-3. **AI-native engineering.** Using agents to raise the quality bar, not lower it:
+3. **AI.** I use AI to catch problems before a person reviews the work:
    - AI code review that cut senior review time by 80%
    - an AI context framework for a product team
    - the Uppgraderingspaket RAG pipeline

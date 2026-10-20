@@ -3,7 +3,7 @@ import { currentJob } from "./career";
 const role = "Senior TypeScript engineer";
 const location = "Stockholm";
 /** The home page hero. The accent part renders in lilac. */
-const headline = { lead: "I build integration platforms and AI workflows on", accent: "foundations that last." };
+const headline = { lead: "I build integration platforms and move legacy products to new stacks", accent: "while customers use them." };
 
 /** Site identity. Metadata, JSON-LD, the header, the contact footer and the OG images all read from here. */
 export const profile = {
@@ -15,7 +15,7 @@ export const profile = {
   currentJob,
   email: "hylandersimon@gmail.com",
   /** Heading of the contact footer on every page. */
-  contactPrompt: "Hiring for a hard integration or platform problem?",
+  contactPrompt: "Email me",
   url: "https://hylander.dev",
   socials: [
     { label: "GitHub", href: "https://github.com/SimonHylander" },

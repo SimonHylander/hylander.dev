@@ -24,7 +24,7 @@ export async function ActivityHeatmap() {
           {total.toLocaleString("en")} contributions in 12 months
         </p>
       </div>
-      <HeatmapGrid days={days} defaultNote="Most of it lands in private repos, so the work below is written up instead." />
+      <HeatmapGrid days={days} defaultNote="Most of my code is in private repositories. The case studies below describe it." />
     </section>
   );
 }

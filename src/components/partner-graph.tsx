@@ -16,7 +16,7 @@ const nodes = treddyPartners.map((partner, index) => {
 type Node = (typeof nodes)[number];
 
 const reducedMotion = "(prefers-reduced-motion: reduce)";
-const idleCaption = "Every partner sits behind the same API. Events come back as webhooks.";
+const idleCaption = "The product calls one API. Partners send events back as webhooks.";
 
 /** Sends one lilac dot between a partner and the API: a request out, or a webhook back in. */
 function pulse(layer: HTMLElement, node: Node, inbound = Math.random() > 0.5) {

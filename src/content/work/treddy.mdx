@@ -2,7 +2,7 @@ import { treddyDiagram } from "../diagrams";
 
 export const metadata = {
   title: "Treddy partner platform",
-  summary: "The integration platform behind a startup that reduces fraud in online marketplaces.",
+  summary: "I built the integration platform for Treddy, a startup that reduces fraud in online marketplaces.",
   date: "2026-10-19",
   pillar: "integrations",
   tagline: "6 partner integrations",
@@ -16,7 +16,7 @@ export const metadata = {
 
 ## Problem
 
-Treddy is a startup focused on reducing fraud in online marketplaces. The product depends on identity, payment and shipping providers, and on partners who build on top of it.
+Treddy is a startup that reduces fraud in online marketplaces. The product depends on identity, payment and shipping providers, and on partners who build on top of it.
 
 {/* TODO(simon): What did fraud look like before Treddy, and for whom? Is the platform still live? */}
 
@@ -30,12 +30,12 @@ I led the technical architecture and development, as a consultant through Skogli
 
 ## Decisions
 
-I built an integration platform: an API layer with a real-time webhook system, connected to every provider the product needs.
+I built one API layer with real-time webhooks and connected it to each provider.
 
 <BuildDiagram diagram={treddyDiagram}>
 <DiagramStep>
 
-**The core.** Treddy's own product, built to reduce fraud in online marketplaces. Every integration below connects to it.
+**The core.** Treddy's own product reduces fraud in online marketplaces. Every integration below connects to it.
 
 </DiagramStep>
 <DiagramStep>
@@ -45,7 +45,7 @@ I built an integration platform: an API layer with a real-time webhook system, c
 </DiagramStep>
 <DiagramStep>
 
-**Payments.** Stripe, Swish and Ping Payments move the money. The payment flows put security, accessibility and user trust first.
+**Payments.** Stripe, Swish and Ping Payments handle payments.
 
 </DiagramStep>
 <DiagramStep>
@@ -55,7 +55,7 @@ I built an integration platform: an API layer with a real-time webhook system, c
 </DiagramStep>
 <DiagramStep>
 
-**Partner API.** Partners connect through a REST API with OAuth and receive real-time webhook events. This is the Treddy Developer Platform.
+**Partner API.** Partners call a REST API with OAuth and receive webhook events in real time. This is the Treddy Developer Platform.
 
 </DiagramStep>
 </BuildDiagram>
@@ -64,6 +64,6 @@ I built an integration platform: an API layer with a real-time webhook system, c
 
 ## Result
 
-The integration platform facilitated 6 strategic partner integrations. I also helped improve the developer docs.
+Six partners integrated through the platform. I also worked on the developer docs.
 
 {/* TODO(simon): Numbers beyond the integration count, such as volume, partners or fraud reduction. */}

@@ -9,8 +9,8 @@ export type Pillar = (typeof pillars)[number];
 
 export const pillarLabels = {
   integrations: "Integrations",
-  architecture: "Architecture that survives change",
-  "ai-native": "AI-native engineering",
+  architecture: "Architecture",
+  "ai-native": "AI",
 } satisfies Record<Pillar, string>;
 
 const partialDate = z.custom<PartialDate>((value) => typeof value === "string" && /^\d{4}(-\d{2})?$/.test(value), {
