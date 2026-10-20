@@ -55,7 +55,7 @@ All content lives in `src/content/`. Pages only render it.
 - `work/`: case studies, rendered at `/work/[slug]`.
 - `writing/`: posts, rendered at `/writing/[slug]`.
 - `collection.ts`: the metadata schemas for case studies and posts.
-- `pillars.ts`: the home page copy per pillar and the Results beside the hero. Slugs and pillars are typed, so a typo fails typecheck.
+- `pillars.ts`: the home page copy per pillar. Slugs and pillars are typed, so a typo fails typecheck.
 - `partners.ts`: the systems behind the Treddy partner API, drawn by its partner graph.
 - `diagrams.ts`: the architecture diagrams that case studies build up with `<BuildDiagram>`.
 
@@ -78,7 +78,8 @@ Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/com
      summary: "One sentence.",
      date: "2026-10-19",          // publish date, ISO
      pillar: "integrations",      // "integrations" | "architecture" | "ai-native"
-     tagline: "6 partner integrations", // muted label beside the title on the home page
+     tagline: "A partner platform for a fraud-prevention startup", // what was built, listed beside the hero
+     company: "Treddy",           // shown with the years under the tagline
      role: "Architect",
      period: { start: "2019", end: "2021" }, // optional, "YYYY" or "YYYY-MM"
      stack: ["TypeScript"],       // rendered as the Stack section

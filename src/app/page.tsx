@@ -4,7 +4,7 @@ import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot, WorkArtifactSlot } from "@/components/slots";
 import { pillarLabels, pillars, type Pillar } from "@/content/collection";
-import { pillarCopy, results } from "@/content/pillars";
+import { pillarCopy } from "@/content/pillars";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
 import { writing } from "@/content/writing";
@@ -50,7 +50,7 @@ export default function HomePage() {
             </a>
           </p>
         </div>
-        <Results />
+        <Built />
       </section>
 
       <ActivityHeatmapSlot />
@@ -91,42 +91,43 @@ export default function HomePage() {
   );
 }
 
-/** Three proven results beside the hero. Each row jumps to the pillar section that backs it. */
-function Results() {
+/** Everything in `work`, one line each, beside the hero. Each row opens its case study. */
+function Built() {
   return (
-    <section aria-labelledby="results-heading">
-      <h2 id="results-heading" className="reveal section-heading pb-3.5 [--reveal-step:3]">
-        Results
+    <section aria-labelledby="built-heading">
+      <h2 id="built-heading" className="reveal section-heading pb-3.5 [--reveal-step:3]">
+        What I have built
       </h2>
       <ul className="reveal border-t border-line [--reveal-step:4]">
-        {results.map(({ claim: [before, emphasis, after], where, slug, pillar }) => {
-          const period = work.find(slug)?.period;
-          return (
-            <li key={slug + pillar} className="border-b border-line">
-              <a href={`#${pillar}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 py-[1.125rem]">
-                <span className="text-[1.0625rem]/snug">
-                  {before}
-                  <strong className="font-semibold">{emphasis}</strong>
-                  {after}
-                </span>
-                <span aria-hidden className="row-span-2 text-muted transition-[translate,color] duration-300 ease-out group-hover:translate-y-0.5 group-hover:text-lilac">
-                  ↓
-                </span>
-                <span className="mt-1 text-sm text-muted">
-                  {where}
-                  {period && `, ${formatYears(period)}`}
-                </span>
-              </a>
-            </li>
-          );
-        })}
+        {work.entries.map((entry) => (
+          <li key={entry.slug} className="border-b border-line">
+            <Link
+              href={`/work/${entry.slug}`}
+              className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 py-[1.125rem]"
+            >
+              <span className="text-[1.0625rem]/snug transition-colors duration-200 ease-out group-hover:text-lilac">
+                {entry.tagline}
+              </span>
+              <span
+                aria-hidden
+                className="row-span-2 text-muted transition-[translate,color] duration-300 ease-out group-hover:translate-x-0.5 group-hover:text-lilac"
+              >
+                →
+              </span>
+              <span className="mt-1 text-sm text-muted">
+                {entry.company}
+                {entry.period && `, ${formatYears(entry.period)}`}
+              </span>
+            </Link>
+          </li>
+        ))}
       </ul>
     </section>
   );
 }
 
 /**
- * One pillar: the label and claim as the heading, the thesis, its case studies as links, and the
+ * One pillar: the label and claim as the heading, the thesis, links to its case studies, and the
  * showcase artifact beside it. `flip` puts the artifact on the left from `md`.
  */
 function PillarSection({ pillar, flip }: { pillar: Pillar; flip: boolean }) {
@@ -147,17 +148,14 @@ function PillarSection({ pillar, flip }: { pillar: Pillar; flip: boolean }) {
                 <Link href={`/work/${entry.slug}`} className="group block py-4">
                   <span className="flex items-baseline justify-between gap-4">
                     <span className="font-medium transition-colors duration-200 ease-out group-hover:text-lilac">
-                      {entry.title}
+                      {entry.title}{" "}
+                      <span aria-hidden className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                        →
+                      </span>
                     </span>
                     {entry.period && (
                       <span className="shrink-0 font-mono text-meta text-muted tabular-nums">{formatYears(entry.period)}</span>
                     )}
-                  </span>
-                  <span className="mt-1 block text-[0.9375rem] text-muted">
-                    {entry.summary}{" "}
-                    <span aria-hidden className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
-                      →
-                    </span>
                   </span>
                 </Link>
               </li>

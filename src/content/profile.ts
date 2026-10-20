@@ -3,7 +3,7 @@ import { currentJob } from "./career";
 const role = "Senior TypeScript engineer";
 const location = "Stockholm";
 /** The home page hero. The accent part renders in lilac. */
-const headline = { lead: "I build integration platforms and move legacy products to new stacks", accent: "while customers use them." };
+const headline = { lead: "I build integration platforms, web apps and", accent: "AI tools." };
 
 /** Site identity. Metadata, JSON-LD, the header, the contact footer and the OG images all read from here. */
 export const profile = {

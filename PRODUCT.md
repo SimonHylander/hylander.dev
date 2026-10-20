@@ -25,7 +25,7 @@ Most of Simon's work since 2024 is in private repositories. The site replaces co
 
 ## Positioning
 
-**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms and move legacy products to new stacks while customers use them.
+**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms, web apps and AI tools.
 
 Every page supports at least one of three pillars. Each pillar is backed by the evidence listed in the Proof inventory below.
 
@@ -87,8 +87,8 @@ These are the candidates, ranked by how well each proves a pillar. Every case st
 ## Content map
 
 - **`/`**: everything a hiring manager needs, in one scroll.
-  1. The positioning line, what Simon does now, and three results from the proof inventory
-  2. One section per pillar, with its case studies (1 to 4) and a live artifact
+  1. The positioning line, what Simon does now, and a one-line list of what he has built
+  2. One section per pillar, with a high-level claim, its case studies (1 to 4) and a live artifact
   3. Writing, once a post is published
   4. A short career history
   5. Contact, which closes every page
@@ -104,6 +104,7 @@ The voice comes from Simon's X posts: short, plain, specific and opinionated.
 
 - Write in the first person.
 - Use numbers and named systems instead of adjectives. Write "cut senior review time by 80%", not "significantly improved".
+- Keep the home page at the level of what was built. Numbers and mechanisms go in the case studies.
 - Make one claim per sentence, and back each claim with something from the proof inventory.
 - Hold opinions and state them plainly, for example "Quality should be the foundation of your product".
 - Never use "passionate", "seasoned", "rockstar", "I build things" or a list of technologies as an identity.

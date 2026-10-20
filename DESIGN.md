@@ -108,7 +108,7 @@ components:
 
 ## Overview
 
-**North star: the proof is on the page.** A hiring manager sees the results before scrolling and the work running as they scroll: one section per positioning pillar, each with its claim, its case studies and a live artifact beside them. It keeps the precision of rauno.me, paco.me and emilkowal.ski, at a larger scale. Every interactive piece enhances text that already reads on its own.
+**North star: the proof is on the page.** A hiring manager sees what Simon has built before scrolling, and the work running as they scroll: one section per positioning pillar, each with its claim, its case studies and a live artifact beside them. It keeps the precision of rauno.me, paco.me and emilkowal.ski, at a larger scale. Every interactive piece enhances text that already reads on its own.
 
 The scene: a hiring manager opens the link from LinkedIn in the evening, on a laptop, and gives it two minutes. Dark plum is calm at that hour and makes the single lilac accent carry the eye to what matters.
 
@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero with the Results list, then one section per pillar (Integrations, Architecture, AI) with the artifact alternating sides, then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero with the "What I have built" list, then one section per pillar (Integrations, Architecture, AI) with the artifact alternating sides, then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (beside its pillar section on the home page and above the case study prose).
 
@@ -164,7 +164,7 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 - **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): pillar section headings, the career heading, Writing and Ask.
 - **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): page titles on articles.
 - **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
-- **Section** (500, 15px, muted, sentence case): "Results" and "Stack". Never uppercase, never tracked.
+- **Section** (500, 15px, muted, sentence case): "What I have built" and "Stack". Never uppercase, never tracked.
 - **Body** (400, 16px, 1.6; prose 1.7): paragraphs. Prose caps at 65ch.
 - **Meta** (Geist Mono 400, 13px, tabular numbers): years, dates, chips, `kbd`.
 
@@ -208,13 +208,13 @@ None. Lists are rows divided by hairlines. The bounded surfaces are the palette 
 - **Contact footer** (every page, `#contact`): the contact prompt in Display, the email as a `mailto:` link with a Copy button (toast confirms), then the location and GitHub, LinkedIn and X in muted.
 - **Focus:** every focusable element shows a 2px lilac outline, offset 2px.
 
-### Results list (signature)
+### Built list (signature)
 
-Beside the hero from `md`, below it on mobile. A "Results" section heading over three hairline rows from `results` in `src/content/pillars.ts`: the claim at 17px with its number in semibold ink, the company and years in muted 14px below, and a "↓" that drops 2px and turns lilac on hover. Each row jumps to the pillar section that backs it.
+Beside the hero from `md`, below it on mobile. A "What I have built" section heading over one hairline row per case study: its `tagline` at 17px (turns lilac on hover), the `company` and years in muted 14px below, and a "→" that shifts 2px. Each row opens its case study. The lines stay high level; numbers and mechanisms live in the case studies.
 
 ### Pillar section (signature)
 
-One per pillar, copy from `pillarCopy` in `src/content/pillars.ts`. Text column: the Claim heading, the thesis (muted 17px, 46ch), and the pillar's case studies as hairline rows (title in ink 500 that turns lilac on hover, years in mono, summary in muted with a "→" that shifts 2px). Artifact column: the showcase case study's artifact, sticky 96px from the top on desktop. The second section flips the columns.
+One per pillar, copy from `pillarCopy` in `src/content/pillars.ts`. Text column: the Claim heading, the thesis (muted 17px, 46ch), and the pillar's case studies as hairline rows (title in ink 500 with a "→", both turning lilac and shifting on hover, and years in mono). Artifact column: the showcase case study's artifact, sticky 96px from the top on desktop. The second section flips the columns.
 
 ### Command palette (signature)
 
@@ -243,7 +243,7 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 ### Motion
 
 - Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
-- Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, buttons and the Results heading, then the Results list).
+- Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, buttons and the list heading, then the list).
 - "Now" dot: a soft ping every 2.4s.
 - Partner graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 700ms. Canary split 450ms, review bars 700ms, pipeline chips 280ms apart.
 - Palette 200ms, toast 240ms, hover shifts 300ms.
