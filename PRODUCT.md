@@ -87,12 +87,11 @@ These are the candidates, ranked by how well each proves a pillar. Every case st
 ## Content map
 
 - **`/`**: everything a hiring manager needs, in one scroll.
-  1. The positioning line
-  2. What Simon does now
-  3. Selected work (case studies 1 to 4)
-  4. Writing
-  5. A short career history
-  6. Contact
+  1. The positioning line, what Simon does now, and three results from the proof inventory
+  2. One section per pillar, with its case studies (1 to 4) and a live artifact
+  3. Writing, once a post is published
+  4. A short career history
+  5. Contact, which closes every page
 - **`/work/[slug]`**: one case study.
 - **`/writing/[slug]`**: one post.
 - **`/cv`**: the full career history as a print-friendly page. It replaces a PDF.

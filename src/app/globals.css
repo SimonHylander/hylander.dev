@@ -37,6 +37,10 @@
   --text-hero--line-height: 1.2;
   --text-hero-lg: 1.875rem;
   --text-hero-lg--line-height: 1.2;
+  --text-claim: clamp(1.625rem, 1.15rem + 1.5vw, 2.375rem);
+  --text-claim--line-height: 1.12;
+  --text-display: clamp(2.25rem, 1.1rem + 3.2vw, 3.75rem);
+  --text-display--line-height: 1.04;
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -153,22 +157,9 @@
     }
   }
 
-  /* Expandable home-page row: the panel animates grid-template-rows between 0fr and 1fr. */
-  .disclosure-panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    visibility: hidden;
-    transition:
-      grid-template-rows 320ms var(--ease),
-      visibility 0s linear 320ms;
-
-    &[data-open="true"] {
-      grid-template-rows: 1fr;
-      visibility: visible;
-      transition:
-        grid-template-rows 320ms var(--ease),
-        visibility 0s;
-    }
+  /* Article column on the wide layout: case studies, posts, the CV and the 404 page. */
+  .reading {
+    @apply mx-auto w-full max-w-[44rem];
   }
 }
 

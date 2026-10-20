@@ -10,11 +10,18 @@ export function AskSection() {
   if (!env.ANTHROPIC_API_KEY) return null;
 
   return (
-    <section id="ask" aria-labelledby="ask-heading" data-requires-js className="mt-16 scroll-mt-8 print:hidden">
-      <h2 id="ask-heading" className="section-heading pb-2">
+    <section
+      id="ask"
+      aria-labelledby="ask-heading"
+      data-requires-js
+      className="scroll-mt-20 border-t border-line py-16 md:py-24 print:hidden"
+    >
+      <h2 id="ask-heading" className="text-claim font-semibold tracking-[-0.025em]">
         Ask about my work
       </h2>
-      <AskBox sources={askSourceIds} />
+      <div className="mt-8 max-w-[44rem]">
+        <AskBox sources={askSourceIds} />
+      </div>
     </section>
   );
 }

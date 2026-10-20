@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AskSection } from "@/components/ask-section";
-import { ActivityHeatmapSlot, IntegrationGraphSlot, WorkArtifactSlot } from "@/components/slots";
-import { WorkRow } from "@/components/work-row";
-import { career, currentJob } from "@/content/career";
+import { CareerTimeline } from "@/components/career-timeline";
+import { ActivityHeatmapSlot, WorkArtifactSlot } from "@/components/slots";
+import { pillarLabels, pillars, type Pillar } from "@/content/collection";
+import { pillarCopy, results } from "@/content/pillars";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
 import { writing } from "@/content/writing";
@@ -11,64 +12,66 @@ import { formatDate, formatYears } from "@/lib/format";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-// Section order follows the content map in PRODUCT.md. Contact lives in the footer.
+// Section order follows the content map in PRODUCT.md. Contact is the footer, on every page.
 export default function HomePage() {
+  const { currentJob } = profile;
+
   return (
     <>
-      <section aria-labelledby="intro" className="flex flex-col gap-10 pt-14 pb-4 sm:pt-20 md:flex-row md:items-center md:gap-8">
-        <div className="max-w-[36rem] space-y-5">
-          <p className="reveal font-medium text-muted">
-            {profile.name}
-          </p>
-          <h1
-            id="intro"
-            className="reveal text-hero font-bold tracking-[-0.02em] text-balance text-ink [--reveal-step:1] sm:text-hero-lg"
-          >
-            {profile.positioning}
+      <section
+        aria-labelledby="intro"
+        className="grid gap-14 pt-16 pb-16 sm:pt-24 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-end md:gap-16 md:pb-24 lg:gap-20"
+      >
+        <div>
+          <h1 id="intro" className="reveal text-display font-semibold tracking-[-0.03em] text-balance">
+            {profile.headline.lead} <span className="text-lilac">{profile.headline.accent}</span>
           </h1>
-          <p className="reveal flex items-center gap-3 text-muted [--reveal-step:2]">
+          <p className="reveal mt-7 text-lg text-muted [--reveal-step:1]">
+            <span className="font-medium text-ink">{profile.name}</span>. {profile.role} in {profile.location}.
+          </p>
+          <p className="reveal mt-2.5 flex items-center gap-3 text-lg text-muted [--reveal-step:2]">
             <span aria-hidden className="ping relative size-2 shrink-0 rounded-full bg-lilac" />
             <span>
-              <span className="text-ink">Now</span> {currentJob.team} at {currentJob.company}, {profile.location}
+              Now on {currentJob.team} at {currentJob.company}
             </span>
           </p>
+          <p className="reveal mt-9 flex flex-wrap gap-3 [--reveal-step:3]">
+            <a
+              href="#work"
+              className="rounded-md bg-lilac px-4 py-2.5 font-medium text-plum transition-[filter] duration-200 ease-out hover:brightness-110"
+            >
+              See the work
+            </a>
+            <a
+              href="#contact"
+              className="rounded-md border border-line px-4 py-2.5 font-medium transition-colors duration-200 ease-out hover:border-muted hover:bg-plum-2"
+            >
+              Get in touch
+            </a>
+          </p>
         </div>
-        <IntegrationGraphSlot />
+        <Results />
       </section>
 
       <ActivityHeatmapSlot />
 
-      <section id="work" aria-labelledby="work-heading" className="mt-16 scroll-mt-8">
-        <h2 id="work-heading" className="section-heading pb-2">
-          Selected work
-        </h2>
-        <ul className="border-t border-line">
-          {work.entries.map((entry) => (
-            <WorkRow
-              key={entry.slug}
-              slug={entry.slug}
-              title={entry.title}
-              tagline={entry.tagline}
-              summary={entry.summary}
-              years={entry.period && formatYears(entry.period)}
-            >
-              <WorkArtifactSlot slug={entry.slug} placement="row" />
-            </WorkRow>
-          ))}
-        </ul>
-      </section>
+      <div id="work" className="scroll-mt-16">
+        {pillars.map((pillar, index) => (
+          <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
+        ))}
+      </div>
 
-      <section id="writing" aria-labelledby="writing-heading" className="mt-16 scroll-mt-8">
-        <h2 id="writing-heading" className="section-heading pb-2">
-          Writing
-        </h2>
-        {writing.entries.length > 0 ? (
-          <ul className="border-t border-line">
+      {writing.entries.length > 0 && (
+        <section id="writing" aria-labelledby="writing-heading" className="scroll-mt-20 border-t border-line py-16 md:py-24">
+          <h2 id="writing-heading" className="text-claim font-semibold tracking-[-0.025em]">
+            Writing
+          </h2>
+          <ul className="mt-8 max-w-[44rem] border-t border-line">
             {writing.entries.map((entry) => (
               <li key={entry.slug} className="border-b border-line">
                 <Link
                   href={`/writing/${entry.slug}`}
-                  className="flex items-baseline justify-between gap-4 py-3.5 transition-colors duration-200 ease-out hover:text-lilac"
+                  className="flex items-baseline justify-between gap-4 py-4 transition-colors duration-200 ease-out hover:text-lilac"
                 >
                   <span className="font-medium">{entry.title}</span>
                   <time dateTime={entry.date} className="font-mono text-meta text-muted tabular-nums">
@@ -78,35 +81,93 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="text-muted">Nothing published yet.</p>
-        )}
-      </section>
+        </section>
+      )}
 
       <AskSection />
 
-      <section id="career" aria-labelledby="career-heading" className="mt-16 scroll-mt-8">
-        <h2 id="career-heading" className="section-heading pb-2">
-          Career
-        </h2>
-        <ul className="border-t border-line">
-          {career.map((job) => (
-            <li
-              key={`${job.company}-${job.start}`}
-              className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 border-b border-line py-3"
-            >
-              <span className="flex flex-wrap items-baseline gap-x-3">
-                <span className="font-medium">{job.company}</span>
-                <span className="text-sm text-muted">{job.role}</span>
-              </span>
-              <span className="font-mono text-meta text-muted tabular-nums">{formatYears(job)}</span>
-            </li>
-          ))}
-        </ul>
-        <Link href="/cv" className="link mt-4 inline-block text-sm">
-          Full CV <span aria-hidden>→</span>
-        </Link>
-      </section>
+      <CareerTimeline />
     </>
+  );
+}
+
+/** Three proven results beside the hero. Each row jumps to the pillar section that backs it. */
+function Results() {
+  return (
+    <section aria-labelledby="results-heading">
+      <h2 id="results-heading" className="reveal section-heading pb-3.5 [--reveal-step:3]">
+        Results
+      </h2>
+      <ul className="reveal border-t border-line [--reveal-step:4]">
+        {results.map(({ claim: [before, emphasis, after], where, slug, pillar }) => {
+          const period = work.find(slug)?.period;
+          return (
+            <li key={slug + pillar} className="border-b border-line">
+              <a href={`#${pillar}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 py-[1.125rem]">
+                <span className="text-[1.0625rem]/snug">
+                  {before}
+                  <strong className="font-semibold">{emphasis}</strong>
+                  {after}
+                </span>
+                <span aria-hidden className="row-span-2 text-muted transition-[translate,color] duration-300 ease-out group-hover:translate-y-0.5 group-hover:text-lilac">
+                  ↓
+                </span>
+                <span className="mt-1 text-sm text-muted">
+                  {where}
+                  {period && `, ${formatYears(period)}`}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+/**
+ * One pillar: the label and claim as the heading, the thesis, its case studies as links, and the
+ * showcase artifact beside it. `flip` puts the artifact on the left from `md`.
+ */
+function PillarSection({ pillar, flip }: { pillar: Pillar; flip: boolean }) {
+  const { claim, thesis, showcase } = pillarCopy[pillar];
+  const entries = work.entries.filter((entry) => entry.pillar === pillar);
+
+  return (
+    <section id={pillar} aria-labelledby={`${pillar}-heading`} className="scroll-mt-16 border-t border-line py-16 md:py-24">
+      <div className="grid items-start gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16 lg:gap-20">
+        <div className={flip ? "md:order-2" : ""}>
+          <h2 id={`${pillar}-heading`} className="text-claim font-semibold tracking-[-0.025em] text-balance">
+            {pillarLabels[pillar]}. <span className="text-muted">{claim}</span>
+          </h2>
+          <p className="mt-5 max-w-[46ch] text-[1.0625rem] text-muted">{thesis}</p>
+          <ul className="mt-9 border-t border-line">
+            {entries.map((entry) => (
+              <li key={entry.slug} className="border-b border-line">
+                <Link href={`/work/${entry.slug}`} className="group block py-4">
+                  <span className="flex items-baseline justify-between gap-4">
+                    <span className="font-medium transition-colors duration-200 ease-out group-hover:text-lilac">
+                      {entry.title}
+                    </span>
+                    {entry.period && (
+                      <span className="shrink-0 font-mono text-meta text-muted tabular-nums">{formatYears(entry.period)}</span>
+                    )}
+                  </span>
+                  <span className="mt-1 block text-[0.9375rem] text-muted">
+                    {entry.summary}{" "}
+                    <span aria-hidden className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="md:sticky md:top-24">
+          <WorkArtifactSlot slug={showcase} placement="home" />
+        </div>
+      </div>
+    </section>
   );
 }

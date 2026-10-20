@@ -46,9 +46,8 @@ const personJsonLd = {
   sameAs: profile.socials.map(({ href }) => href),
 };
 
-// Without JavaScript: hide controls that need it, and open every collapsible panel.
-const noScriptStyles =
-  "<style>[data-requires-js]{display:none!important}.disclosure-panel{grid-template-rows:1fr!important;visibility:visible!important}</style>";
+// Without JavaScript: hide controls that need it.
+const noScriptStyles = "<style>[data-requires-js]{display:none!important}</style>";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -61,7 +60,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
         />
-        <div className="mx-auto flex min-h-dvh w-full max-w-[44rem] flex-col px-5 sm:px-6">
+        {/* The home page uses the full width. Articles narrow themselves with the `reading` class. */}
+        <div className="mx-auto flex min-h-dvh w-full max-w-[72.5rem] flex-col px-5 sm:px-8 lg:px-12">
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />

@@ -50,12 +50,13 @@ Each question sends about 2,000 input tokens (the system prompt) and receives at
 
 All content lives in `src/content/`. Pages only render it.
 
-- `profile.ts`: name, positioning line, contact, socials, site URL.
+- `profile.ts`: name, role, headline and positioning line, contact prompt, socials, site URL.
 - `career.ts`: jobs, newest first. The job without `end` is the current one.
 - `work/`: case studies, rendered at `/work/[slug]`.
 - `writing/`: posts, rendered at `/writing/[slug]`.
 - `collection.ts`: the metadata schemas for case studies and posts.
-- `systems.ts`: the nodes of the integration graph and the case studies each one relates to. Slugs are typed, so a typo fails typecheck.
+- `pillars.ts`: the home page copy per pillar and the Results beside the hero. Slugs and pillars are typed, so a typo fails typecheck.
+- `partners.ts`: the systems behind the Treddy partner API, drawn by its partner graph.
 - `diagrams.ts`: the architecture diagrams that case studies build up with `<BuildDiagram>`.
 
 Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`), the Ask sources and Open Graph images all read from these modules.
@@ -64,8 +65,7 @@ Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`), the Ask sources a
 
 Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/components/slots.tsx` plugs the interactive pieces into the pages:
 
-- **Integration graph** (`integration-graph.tsx`): nodes from `systems.ts`. Hover state is shared with the work rows through `src/lib/graph-focus.ts`.
-- **Artifacts** (`artifacts/`): one small interactive piece per case study, registered by slug in `artifacts/index.tsx`.
+- **Artifacts** (`artifacts/`): one small interactive piece per case study, registered by slug in `artifacts/index.tsx`. The home page shows the one named by `showcase` in `pillars.ts` beside each pillar section. The Treddy artifact is the partner graph (`partner-graph.tsx`).
 - **Activity heatmap** (`activity-heatmap.tsx`): GitHub contributions for the last 12 months, refreshed daily. Set `GITHUB_TOKEN` (no scopes needed) to use the GraphQL API; without it the public calendar page is parsed. If both fail the section is hidden and the build logs a warning. `SHOW_HEATMAP` in `profile.ts` turns it off.
 
 ## Add a case study

@@ -40,8 +40,8 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
   ].filter((item) => !!item);
 
   return (
-    <article className="pt-10 sm:pt-14">
-      <BackLink href="/#work">Selected work</BackLink>
+    <article className="reading pt-10 pb-24 sm:pt-14">
+      <BackLink href="/#work">Work</BackLink>
 
       <header className="mt-8 space-y-3">
         <h1 className="text-hero font-bold tracking-[-0.02em] text-balance sm:text-hero-lg">{entry.title}</h1>

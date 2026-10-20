@@ -28,7 +28,7 @@ export default async function WritingPage({ params }: PageProps<"/writing/[slug]
   const { Content } = entry;
 
   return (
-    <article className="pt-10 sm:pt-14">
+    <article className="reading pt-10 pb-24 sm:pt-14">
       <BackLink href="/#writing">Writing</BackLink>
       <header className="mt-8 space-y-3">
         <time dateTime={entry.date} className="block font-mono text-meta text-muted">

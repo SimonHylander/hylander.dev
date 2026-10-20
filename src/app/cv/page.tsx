@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 // Full career history. It replaces a PDF: the print styles in globals.css drop the site chrome.
 export default function CvPage() {
   return (
-    <article className="pt-10 sm:pt-14 print:pt-0">
+    <article className="reading pt-10 pb-24 sm:pt-14 print:pt-0">
       <header className="space-y-2 border-b border-line pb-8 print:pb-5">
         <h1 className="text-hero font-bold tracking-[-0.02em] sm:text-hero-lg print:text-[20pt]">{profile.name}</h1>
         <p className="max-w-[60ch] text-balance">{profile.positioning}</p>

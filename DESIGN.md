@@ -1,6 +1,6 @@
 ---
 name: hylander.dev
-description: Quiet, precise dark index for a senior engineer. Plum and lavender, one lilac accent, craft in the details.
+description: Proof-first dark portfolio for a senior engineer. Plum and lavender, one lilac accent, the work shown working.
 colors:
   plum: "oklch(0.17 0.035 290)"
   plum-2: "oklch(0.21 0.04 292)"
@@ -10,6 +10,18 @@ colors:
   lilac: "oklch(0.83 0.107 306.71)"
   line: "oklch(0.34 0.05 298)"
 typography:
+  display:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(2.25rem, 1.1rem + 3.2vw, 3.75rem)"
+    fontWeight: 600
+    lineHeight: 1.04
+    letterSpacing: "-0.03em"
+  claim:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(1.625rem, 1.15rem + 1.5vw, 2.375rem)"
+    fontWeight: 600
+    lineHeight: 1.12
+    letterSpacing: "-0.025em"
   hero:
     fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.875rem"
@@ -44,8 +56,9 @@ rounded:
 spacing:
   row: "14px"
   block: "32px"
-  section: "64px"
-  page-x: "24px"
+  section: "96px"
+  page-x: "48px"
+  page: "72.5rem"
   measure: "44rem"
 components:
   mark:
@@ -95,21 +108,23 @@ components:
 
 ## Overview
 
-**North star: a precise index.** The site reads like a well-kept index of one engineer's work: a short positioning line, a list of case studies, a career list. It sits in the lane of rauno.me, paco.me and emilkowal.ski. Craft shows in the details (a pinging dot, a "+" that rotates to "×", a ⌘K palette), and every interactive piece enhances text that already reads on its own.
+**North star: the proof is on the page.** A hiring manager sees the results before scrolling and the work running as they scroll: one section per positioning pillar, each with its claim, its case studies and a live artifact beside them. It keeps the precision of rauno.me, paco.me and emilkowal.ski, at a larger scale. Every interactive piece enhances text that already reads on its own.
 
 The scene: a hiring manager opens the link from LinkedIn in the evening, on a laptop, and gives it two minutes. Dark plum is calm at that hour and makes the single lilac accent carry the eye to what matters.
 
 **Key characteristics:**
 
-- One column, max 44rem, left aligned. No cards, no grids of tiles.
-- Hairline-separated rows instead of containers.
-- Hierarchy from weight and color, not size jumps: section headings are 15px muted, the hero is the only large type.
+- The home page uses the full 72.5rem width in two columns from `md`. Articles (case studies, posts, `/cv`, 404) keep a centered 44rem column through the `reading` class.
+- Full-width hairlines separate sections. Rows inside a section are hairline-separated too. No cards, no grids of tiles.
+- Two large sizes carry the hierarchy: Display for the hero and the contact prompt, Claim for section headings. Everything else stays at body size.
 - Mono only for dates, metadata, keys and code.
 - Motion is short and purposeful, and none of it gates content.
 
-**Layout rhythm.** Header 24px from the top. Hero 56px (mobile) to 80px (desktop) below it. Sections 64px apart. Rows 14px vertical padding. Footer 96px below the last section. Page gutter 20px mobile, 24px from `sm`.
+**Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Slots.** `src/components/slots.tsx` places the interactive pieces: the integration graph (beside the hero from `md`, below it on mobile), the activity heatmap (between the hero and Selected work), and a per-case-study artifact (in the expanded home row and above the case study prose).
+**Home order.** Hero with the Results list, then one section per pillar (Integrations, Architecture that survives change, AI-native engineering) with the artifact alternating sides, then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
+
+**Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (beside its pillar section on the home page and above the case study prose).
 
 ## Colors
 
@@ -118,7 +133,7 @@ Restrained strategy: tinted plum neutrals and one accent. The accent covers well
 ### Primary
 
 - **Plum** (`--plum`): page background.
-- **Lilac** (`--lilac`): the only accent. The SH mark, the "Now" dot, an open row's "×", the metric on a case study, focus outlines, link hover, text selection.
+- **Lilac** (`--lilac`): the only accent. The SH mark, the hero's accent phrase and primary button, the "Now" dot, the Treddy API node, the current job on the timeline, artifact fills, the metric on a case study, focus outlines, link hover, text selection.
 
 ### Neutral
 
@@ -130,7 +145,7 @@ Restrained strategy: tinted plum neutrals and one accent. The accent covers well
 
 ### Named Rules
 
-**The One Accent Rule.** Lilac marks a single thing per view that deserves the eye. If two lilac elements compete, one of them becomes ink.
+**The One Accent Rule.** Lilac marks one idea per view. In the hero that idea is the accent phrase and the button that acts on it. If two lilac ideas compete, one of them becomes ink.
 
 **The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities.
 
@@ -145,15 +160,17 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 
 ### Hierarchy
 
-- **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): the positioning line on `/`, page titles elsewhere.
+- **Display** (600, 36px to 60px fluid, line-height 1.04, -0.03em, `text-wrap: balance`): the hero headline and the contact prompt.
+- **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): pillar section headings, the career heading, Writing and Ask.
+- **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): page titles on articles.
 - **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
-- **Section** (500, 15px, muted, sentence case): "Selected work", "Writing", "Career", "Stack". Never uppercase, never tracked.
+- **Section** (500, 15px, muted, sentence case): "Results" and "Stack". Never uppercase, never tracked.
 - **Body** (400, 16px, 1.6; prose 1.7): paragraphs. Prose caps at 65ch.
 - **Meta** (Geist Mono 400, 13px, tabular numbers): years, dates, chips, `kbd`.
 
 ### Named Rules
 
-**The No-Eyebrow Rule.** Sections do not get kicker labels above their headings. The heading is already quiet.
+**The No-Eyebrow Rule.** Sections do not get kicker labels above their headings. A pillar heading carries its label inline: the pillar name in ink, then the claim in muted, in one `h2`.
 
 ## Elevation
 
@@ -167,7 +184,9 @@ Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three p
 
 ### Buttons
 
-- **Ghost** ("Jump to ⌘K"): muted text, no border, `rounded-md`. Hover fills plum 2 and turns the text ink.
+- **Primary** ("See the work"): lilac fill, plum text, 500, `rounded-md`, 10px by 16px. Hover brightens. One per page.
+- **Outline** ("Get in touch", "Full CV"): 1px line border, ink 500, `rounded-md`. Hover fills plum 2 and the border turns muted.
+- **Ghost** (top bar links, "Jump to ⌘K"): muted text, no border, `rounded-md`. Hover fills plum 2 and turns the text ink.
 - **Small outline** ("Copy" in the footer): 1px line border, mono 13px, `rounded-sm`. Hover turns border and text lilac.
 - Controls that need JavaScript carry `data-requires-js` and are hidden by a `<noscript>` rule.
 
@@ -177,7 +196,7 @@ Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three p
 
 ### Cards / Containers
 
-None. Lists are rows divided by hairlines. The bounded surfaces are the palette and the toast (plum 2, line border, `rounded-lg` and `rounded-md`) and the artifact panels (plum 2, no border, `rounded-md`).
+None. Lists are rows divided by hairlines. The bounded surfaces are the palette and the toast (plum 2, line border, `rounded-lg` and `rounded-md`) and the artifact panels (plum 2, no border, `rounded-lg`, 20px to 24px padding).
 
 ### Inputs / Fields
 
@@ -185,29 +204,37 @@ None. Lists are rows divided by hairlines. The bounded surfaces are the palette 
 
 ### Navigation
 
-- **Top bar:** the SH mark (32px lilac circle, plum 11px bold text) links home on the left. "Jump to ⌘K" opens the palette on the right; the key hint hides below `sm` and reads "Ctrl K" off Apple platforms.
-- **Footer:** the email as a `mailto:` link with a Copy button (toast confirms), then GitHub, LinkedIn and X in muted.
+- **Top bar:** sticky, 64px, plum at 90% opacity. The SH mark (32px lilac circle, plum 11px bold text) links home on the left. On the right: Work, CV and Contact as ghost links, then "Jump to ⌘K", which opens the palette. Work and CV hide below `sm`; the key hint hides below `sm` and reads "Ctrl K" off Apple platforms.
+- **Contact footer** (every page, `#contact`): the contact prompt in Display, the email as a `mailto:` link with a Copy button (toast confirms), then the location and GitHub, LinkedIn and X in muted.
 - **Focus:** every focusable element shows a 2px lilac outline, offset 2px.
 
-### Work row (signature)
+### Results list (signature)
 
-A hairline row: title (ink 500), tagline (muted 14px), years (mono 13px), and a 12px "+" icon. The row's button has `aria-expanded`; the panel animates `grid-template-rows` from `0fr` to `1fr` in 320ms on the site ease, and the "+" rotates 45° to "×" in lilac. The panel holds the summary, "Read the case study →", and the artifact slot. Without JavaScript every panel is open.
+Beside the hero from `md`, below it on mobile. A "Results" section heading over three hairline rows from `results` in `src/content/pillars.ts`: the claim at 17px with its number in semibold ink, the company and years in muted 14px below, and a "↓" that drops 2px and turns lilac on hover. Each row jumps to the pillar section that backs it.
+
+### Pillar section (signature)
+
+One per pillar, copy from `pillarCopy` in `src/content/pillars.ts`. Text column: the Claim heading, the thesis (muted 17px, 46ch), and the pillar's case studies as hairline rows (title in ink 500 that turns lilac on hover, years in mono, summary in muted with a "→" that shifts 2px). Artifact column: the showcase case study's artifact, sticky 96px from the top on desktop. The second section flips the columns.
 
 ### Command palette (signature)
 
 A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Case studies, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
 
-### Integration graph (signature)
+### Partner graph (signature)
 
-An SVG beside the hero, max 300px wide: the lilac SH circle with seven nodes on an ellipse (plum 2 rounded rects, Geist Mono 10.5px muted labels) joined by 1px line edges. Hovering or focusing a node turns it and its edge lilac and lights the titles of related work rows. Hovering a row lights its nodes. While idle and on screen, a lilac dot travels a random edge every 650ms (`cubic-bezier(.45, 0, .2, 1)`, 1.1s), paused when the tab is hidden and absent under reduced motion. A visually hidden caption lists each system and its case studies.
+The Treddy artifact. A 16:10 box with the lilac "Treddy API" pill in the center and the partners from `src/content/partners.ts` on an ellipse around it (plum 3 rounded rects, Geist Mono 12px muted labels), joined by 1px line edges. Labels are HTML over an SVG of edges, so they keep their size at any width. Hovering or focusing a partner turns its border and edge lilac and names its role in the caption below. While on screen, a lilac dot travels a random edge every 700ms (`cubic-bezier(.45, 0, .2, 1)`, 1.1s), out as a request or back as a webhook, paused when the tab is hidden and absent under reduced motion. Each partner's role is also in visually hidden text.
+
+### Career timeline
+
+The home page's career section. A "12 years, 5 companies" Claim heading (computed from `career.ts`) with a "Full CV" outline button, then one grid column per year from the first job to two years past now. Each job spans its years with a 6px band on top (plum 3; lilac for the current job, which runs to the end of the axis), a 1px line on its left, then company (500), role (muted 14px) and years (mono). Below `md` it is a plain list with the years on the right.
 
 ### Artifacts
 
-A plum 2 `rounded-md` panel with a small header (title in ink, hint in mono muted), one per case study: the route-level canary split (range input), the review-time bar with an "AI pre-review" switch, the RAG pipeline chips with Replay, and the Treddy partner graph. Controls carry `data-requires-js`; the server-rendered state reads without them.
+A plum 2 `rounded-lg` panel with a small header (title in ink 500, hint in mono muted), one per case study: the Treddy partner graph, the route-level canary split (range input and a caption on what moves the traffic), before and after review-time bars with an "AI pre-review" switch, and the RAG pipeline chips with Replay. Controls carry `data-requires-js`; the server-rendered state reads without them.
 
 ### Activity heatmap
 
-"Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
+Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
 
 ### Case study meta row
 
@@ -216,10 +243,10 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 ### Motion
 
 - Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
-- Hero: one CSS-only rise (6px, 700ms, 70ms stagger over three lines).
+- Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, buttons and the Results heading, then the Results list).
 - "Now" dot: a soft ping every 2.4s.
-- Graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 650ms. Canary split 450ms, review bar 700ms, pipeline chips 280ms apart.
-- Palette 200ms, toast 240ms, row 320ms.
+- Partner graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 700ms. Canary split 450ms, review bars 700ms, pipeline chips 280ms apart.
+- Palette 200ms, toast 240ms, hover shifts 300ms.
 - `prefers-reduced-motion: reduce` collapses every animation and transition and removes the ping.
 
 ## Do's and Don'ts

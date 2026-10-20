@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
+import { writing } from "@/content/writing";
 import { env } from "@/lib/env";
 
 /** Static routes and hashes plus case study pages. Plain `Route` excludes dynamic segments. */
@@ -20,8 +21,9 @@ export function getCommands() {
   return [
     { id: "copy-email", label: "Copy email", group: "Actions", kind: "copy-email" },
     ...(env.ANTHROPIC_API_KEY ? [{ id: "ask", label: "Ask about my work", group: "Actions", kind: "focus", target: "ask-input", href: "/#ask" } satisfies Command] : []),
-    { id: "work", label: "Selected work", group: "Pages", kind: "route", href: "/#work" },
-    { id: "writing", label: "Writing", group: "Pages", kind: "route", href: "/#writing" },
+    { id: "work", label: "Work", group: "Pages", kind: "route", href: "/#work" },
+    // The home page only has a Writing section once a post is published.
+    ...(writing.entries.length > 0 ? [{ id: "writing", label: "Writing", group: "Pages", kind: "route", href: "/#writing" } satisfies Command] : []),
     { id: "cv", label: "CV", group: "Pages", kind: "route", href: "/cv" },
     ...work.entries.map(
       ({ slug, title }) =>

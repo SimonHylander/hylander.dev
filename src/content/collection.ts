@@ -2,8 +2,8 @@ import type { MDXContent } from "mdx/types";
 import { z } from "zod";
 import type { PartialDate } from "./career";
 
-/** The three positioning pillars from PRODUCT.md. Every entry supports one. */
-const pillars = ["integrations", "architecture", "ai-native"] as const;
+/** The three positioning pillars from PRODUCT.md, in home page order. Every entry supports one. */
+export const pillars = ["integrations", "architecture", "ai-native"] as const;
 
 export type Pillar = (typeof pillars)[number];
 
