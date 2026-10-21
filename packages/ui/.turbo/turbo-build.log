@@ -1,0 +1,7 @@
+
+> @hylanderdev/ui@1.0.0 build /home/simon/development/hylander.dev/hylander.dev/packages/ui
+> tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css
+
+≈ tailwindcss v4.1.15
+
+Done in 34ms

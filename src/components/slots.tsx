@@ -7,7 +7,7 @@ import type { CaseStudySlug } from "@/content/work";
  * without it, and renders nothing when it has nothing to show.
  */
 
-/** Activity heatmap, between the hero and the work. Off while `SHOW_HEATMAP` is false. */
+/** Activity heatmap, between the hero and the work. Hidden when `SHOW_HEATMAP` is false. */
 export function ActivityHeatmapSlot() {
   return <ActivityHeatmap />;
 }
