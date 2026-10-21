@@ -1,0 +1,69 @@
+import { byggdagbokenDiagram } from "../diagrams";
+
+export const metadata = {
+  title: "Byggdagboken strangler-fig migration",
+  summary: "I moved a live web platform from PHP and Angular.js to Next.js, one route at a time.",
+  date: "2026-10-19",
+  pillar: "architecture",
+  tagline: "A live web platform moved from PHP to Next.js",
+  company: "Byggdagboken",
+  role: "Senior Software Engineer, client engineering lead",
+  period: { start: "2024-05", end: "2026-02" },
+  // TODO(simon): confirm the stack used for the migration itself.
+  stack: ["Next.js", "CloudFront Functions", "Node.js", "Redis", "OAuth2", "OpenID Connect", "PHP", "Angular.js"],
+};
+
+## Problem
+
+The Byggdagboken web platform was a PHP and Angular.js monolith.
+
+{/* TODO(simon): What did the legacy system cost the team and the users? Why migrate now? */}
+
+## My role
+
+I led client engineering at Byggdagboken, for web and mobile, and a small team of app developers. I owned the delivery roadmap and backlog with management. I led this migration.
+
+{/* TODO(simon): Team size, timeline, and who else worked on the migration. */}
+
+## Constraints
+
+The product was live, so the migration could not stop it.
+
+{/* TODO(simon): Other constraints, such as shared sessions, SEO, or the native apps depending on the same backend. */}
+
+## Decisions
+
+I used the strangler fig pattern. The new client took over one route at a time, and the monolith kept serving the rest.
+
+<BuildDiagram diagram={byggdagbokenDiagram}>
+<DiagramStep>
+
+**The monolith.** Web traffic went through CloudFront to the monolith. It ran PHP on the server and Angular.js in the browser.
+
+</DiagramStep>
+<DiagramStep>
+
+**Route-level canaries.** A CloudFront Function sends a percentage of each migrated route's traffic to the new Next.js web client. The rest stays on the monolith.
+
+</DiagramStep>
+<DiagramStep>
+
+**A backend-for-frontend.** The native apps talk to a Node.js BFF, which aggregates their data across the microservices.
+
+</DiagramStep>
+<DiagramStep>
+
+**One sign-in.** I moved sign-in to OAuth2 and OpenID Connect with the Authorization Code flow and PKCE. Redis holds the short-lived tokens.
+
+</DiagramStep>
+</BuildDiagram>
+
+{/* TODO(simon): Why a strangler fig instead of a rewrite, and how a canary was promoted or rolled back. */}
+
+{/* TODO(simon): ## Result. How many routes moved, whether the legacy system is retired, and any numbers on speed or incidents. */}
+
+## Also at Byggdagboken
+
+- I introduced new workflows and release routines. The releases that followed had zero major incidents.
+- I automated the localization pipeline, and we launched 10 new languages.
+- I rebuilt the apps and the web client to work local-first.

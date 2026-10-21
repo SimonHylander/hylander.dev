@@ -25,22 +25,22 @@ Most of Simon's work since 2024 is in private repositories. The site replaces co
 
 ## Positioning
 
-**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms and AI workflows on foundations that last.
+**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms, web apps and AI tools.
 
 Every page supports at least one of three pillars. Each pillar is backed by the evidence listed in the Proof inventory below.
 
-1. **Integrations.** Ten years of connecting systems that were not designed to talk to each other:
+1. **Integrations.** I have connected products to outside systems since 2014:
    - Servus REST middleware over Oracle Forms
    - the Treddy partner platform
    - the Byggdagboken backend-for-frontend
    - Proposales PMS and CRM integrations
    - `ohm`
-2. **Architecture that survives change.** Migrating live products without stopping them:
+2. **Architecture.** I migrate products while customers use them:
    - strangler-fig migration with route-level canaries
    - a local-first rearchitecture
    - release routines that ended major incidents
    - Effect as the default for typed, testable services
-3. **AI-native engineering.** Using agents to raise the quality bar, not lower it:
+3. **AI.** I use AI to catch problems before a person reviews the work:
    - AI code review that cut senior review time by 80%
    - an AI context framework for a product team
    - the Uppgraderingspaket RAG pipeline
@@ -62,10 +62,16 @@ Claims the site may make, and their source. Only claims marked public can appear
 | Strangler-fig migration from PHP/Angular.js to Next.js with CloudFront Functions canaries | Byggdagboken | None yet | Yes | LinkedIn, current resume, bragdoc |
 | Local-first rearchitecture of the apps and web client | Byggdagboken | None yet | Yes | LinkedIn farewell post |
 | Backend-for-frontend for the native apps, plus OAuth2/OpenID with PKCE | Byggdagboken | None yet | Yes | LinkedIn, bragdoc |
-| Led client engineering and a small app team, and owned the delivery roadmap | Byggdagboken | None yet | Yes | LinkedIn |
-| Partner platform with an API layer and webhooks (BankID, Swish, Stripe, nShift, Schenker) | Treddy | 6 partner integrations | Yes | LinkedIn projects |
+| Node.js BFF aggregating data across microservices; Authorization Code + PKCE with Redis for short-lived tokens | Byggdagboken | None yet | Yes | LinkedIn projects |
+| Led client engineering (web and mobile) and a small app team, and owned the delivery roadmap and backlog with management | Byggdagboken | None yet | Yes | LinkedIn |
+| Context framework and practices for working with AI | Byggdagboken | None yet | Yes | LinkedIn projects |
+| Led the technical architecture and development of a fraud-reduction startup for online marketplaces, Sep 2021 to Apr 2024, via Skoglit | Treddy | None yet | Yes | LinkedIn projects |
+| Integration platform with an API layer and a real-time webhook system | Treddy | 6 strategic partner integrations | Yes | LinkedIn projects |
+| Integrations with BankID, Finnish Trust Network, Stripe, Swish, Ping Payments, nShift and Schenker | Treddy | None yet | Yes | LinkedIn projects |
+| Treddy Developer Platform: partner API with OAuth, REST and webhook events; partner onboarding and docs, Dec 2022 to Apr 2024 | Treddy | None yet | Yes | LinkedIn projects |
+| Secure payment flows with an emphasis on accessibility and user trust | Treddy | None yet | Yes | LinkedIn projects |
 | Lead developer across client projects, and mentored interns and juniors | Skoglit | None yet | Yes | LinkedIn |
-| Price matching for PC hardware with RAG chat, Inngest scraping and vector search | Uppgraderingspaket | Live site | Yes | LinkedIn projects |
+| AI price matching for PC hardware, Oct 2025 to present: RAG chat search; Inngest scraping into a vector database; embeddings as LLM context; Next.js on Vercel | Uppgraderingspaket | Live site | Yes | LinkedIn projects |
 | Integrations for hotels: OPERA Cloud, pricing and catering packages | Proposales | None yet | Ask Proposales | GitHub PR activity |
 
 ## Case studies
@@ -81,12 +87,11 @@ These are the candidates, ranked by how well each proves a pillar. Every case st
 ## Content map
 
 - **`/`**: everything a hiring manager needs, in one scroll.
-  1. The positioning line
-  2. What Simon does now
-  3. Selected work (case studies 1 to 4)
-  4. Writing
-  5. A short career history
-  6. Contact
+  1. The positioning line, what Simon does now, and a one-line list of what he has built
+  2. One section per pillar, with a high-level claim, its case studies (1 to 4) and a live artifact
+  3. Writing, once a post is published
+  4. A short career history
+  5. Contact, which closes every page
 - **`/work/[slug]`**: one case study.
 - **`/writing/[slug]`**: one post.
 - **`/cv`**: the full career history as a print-friendly page. It replaces a PDF.
@@ -99,6 +104,7 @@ The voice comes from Simon's X posts: short, plain, specific and opinionated.
 
 - Write in the first person.
 - Use numbers and named systems instead of adjectives. Write "cut senior review time by 80%", not "significantly improved".
+- Keep the home page at the level of what was built. Numbers and mechanisms go in the case studies.
 - Make one claim per sentence, and back each claim with something from the proof inventory.
 - Hold opinions and state them plainly, for example "Quality should be the foundation of your product".
 - Never use "passionate", "seasoned", "rockstar", "I build things" or a list of technologies as an identity.

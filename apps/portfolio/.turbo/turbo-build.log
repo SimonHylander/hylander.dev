@@ -1,0 +1,43 @@
+
+> @hylanderdev/portfolio@1.0.0 build /home/simon/development/hylander.dev/hylander.dev/apps/portfolio
+> next build
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   ▲ Next.js 15.5.9
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 3.8s
+   Linting and checking validity of types ...
+ ⨯ ESLint: Package subpath './library.js' is not defined by "exports" in /home/simon/development/hylander.dev/hylander.dev/node_modules/.pnpm/node_modules/@hylanderdev/eslint-config/package.json Referenced from: /home/simon/development/hylander.dev/hylander.dev/.eslintrc.js
+   Collecting page data ...
+   Generating static pages (0/10) ...
+   Generating static pages (2/10) 
+   Generating static pages (4/10) 
+   Generating static pages (7/10) 
+ ✓ Generating static pages (10/10)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                      522 B         106 kB
+├ ○ /_not-found                            997 B         103 kB
+├ ○ /bragdoc                               41 kB         154 kB
+├ ○ /contact                             3.26 kB         117 kB
+├ ○ /projects                            5.65 kB         111 kB
+├ ○ /resume                              2.45 kB         116 kB
+├ ○ /sitemap.xml                           125 B         102 kB
+└ ○ /skills                              1.68 kB         115 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/812-b217273e395c1ebf.js         46 kB
+  ├ chunks/c89e234c-e368ec71d5df2c40.js  54.2 kB
+  └ other shared chunks (total)          1.92 kB
+
+
+ƒ Middleware                             32.8 kB
+
+○  (Static)  prerendered as static content
+
