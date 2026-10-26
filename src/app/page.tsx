@@ -58,9 +58,12 @@ export default function HomePage() {
 
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
-        {pillars.map((pillar, index) => (
-          <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
-        ))}
+        {/* Integrations has no section of its own. Its case study stays in the deck and the built list. */}
+        {pillars
+          .filter((pillar) => pillar !== "integrations")
+          .map((pillar, index) => (
+            <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
+          ))}
       </div>
 
       {writing.entries.length > 0 && (
