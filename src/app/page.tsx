@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot } from "@/components/slots";
+import { ToolsSection } from "@/components/tools-section";
 import { WorkDeck } from "@/components/work-deck";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
@@ -56,6 +57,8 @@ export default function HomePage() {
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
       </div>
+
+      <ToolsSection />
 
       <AskSection />
 

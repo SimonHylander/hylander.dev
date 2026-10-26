@@ -89,8 +89,9 @@ These are the candidates, ranked by how well each proves a pillar. Every case st
 - **`/`**: everything a hiring manager needs, in one scroll.
   1. The positioning line, what Simon does now, and a one-line list of what he has built
   2. The case study deck: every case study as a card, each opening its live artifact
-  3. A short career history
-  4. Contact, which closes every page
+  3. Tools I build with
+  4. A short career history
+  5. Contact, which closes every page
 - **`/work/[slug]`**: one case study.
 - **`/writing/[slug]`**: one post.
 - **`/cv`**: the full career history as a print-friendly page. It replaces a PDF.

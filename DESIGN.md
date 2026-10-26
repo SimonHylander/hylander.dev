@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero with the "What I have built" list, then the case study deck, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero with the "What I have built" list, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (above the case study prose).
 
@@ -161,7 +161,7 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 ### Hierarchy
 
 - **Display** (600, 36px to 60px fluid, line-height 1.04, -0.03em, `text-wrap: balance`): the hero headline and the contact prompt.
-- **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): the case study deck heading, the career heading and Ask.
+- **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): the case study deck heading, Tools I build with, the career heading and Ask.
 - **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): page titles on articles.
 - **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
 - **Section** (500, 15px, muted, sentence case): "What I have built" and "Stack". Never uppercase, never tracked.
@@ -236,6 +236,10 @@ The first section under `#work`, from `src/components/work-deck.tsx`. A "Case st
 - **Below `md`: row.** A full-bleed scroll-snapped row. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges. A click opens the dialog.
 - **Dialog.** Each card links to its case study, so without JavaScript it navigates. With JavaScript a modal `<dialog>` opens and a view transition morphs the card into it (420ms, `--ease`). It shows the live artifact beside the position, title, summary, meta row, stack chips and a primary "Read the case study" button, with the other case studies below. Arrow keys and the ← → buttons move between them, and closing morphs back into the card.
 - **Reduced motion.** The helix jumps instead of easing, the row stays flat and the morph is skipped.
+
+### Tools I build with
+
+`src/components/tools-section.tsx`, data in `src/content/tools.ts`. The Claim heading beside a 3-column grid (from `md`; stacked below it). One tile per tool: plum 2, line border, `rounded-lg`, 5:4, the mark at 32px to 36px in ink over the name at 14px 500. Hovering a tile turns the mark lilac and the border muted. Marks are single-path SVGs in `currentColor`, so no brand colors enter the palette.
 
 ### Activity heatmap
 
