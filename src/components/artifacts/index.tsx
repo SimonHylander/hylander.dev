@@ -23,6 +23,22 @@ const artifacts: Partial<Record<CaseStudySlug, Artifact>> = {
   uppgraderingspaket: { title: "Price matching", hint: "RAG pipeline", Body: RagPipeline },
 };
 
+/**
+ * The artifact for `slug` shrunk to card size, without its panel. Laid out at 30rem and zoomed,
+ * so it keeps its desktop layout. Inert: it keeps animating but takes no input.
+ */
+export function WorkArtifactPreview({ slug }: { slug: CaseStudySlug }) {
+  const artifact = artifacts[slug];
+  if (!artifact) return null;
+  const { Body } = artifact;
+
+  return (
+    <div inert className="w-[30rem] [zoom:0.5] sm:[zoom:0.6]">
+      <Body />
+    </div>
+  );
+}
+
 /** The artifact for `slug` in a plum-2 panel with a title and a mono hint. */
 export function WorkArtifact({ slug, placement }: { slug: CaseStudySlug; placement: Placement }) {
   const artifact = artifacts[slug];

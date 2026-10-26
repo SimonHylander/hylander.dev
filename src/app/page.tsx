@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot, WorkArtifactSlot } from "@/components/slots";
+import { WorkDeck } from "@/components/work-deck";
 import { pillarLabels, pillars, type Pillar } from "@/content/collection";
 import { pillarCopy } from "@/content/pillars";
 import { profile } from "@/content/profile";
@@ -56,6 +57,7 @@ export default function HomePage() {
       <ActivityHeatmapSlot />
 
       <div id="work" className="scroll-mt-16">
+        <WorkDeck />
         {pillars.map((pillar, index) => (
           <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
         ))}

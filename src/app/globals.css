@@ -58,7 +58,9 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Clip, so the full-bleed case study track (100vw) never adds a page scrollbar. */
   body {
+    overflow-x: clip;
     @apply bg-plum font-sans text-base/[1.6] text-ink antialiased;
   }
 
@@ -218,6 +220,42 @@
   }
 }
 
+/* Case study track: cards turn toward the reader as they reach the middle. CSS only, flat without support. */
+@keyframes deck-turn {
+  from {
+    transform: perspective(1200px) translateZ(-120px) rotateY(32deg);
+    opacity: 0.55;
+  }
+  50% {
+    transform: none;
+    opacity: 1;
+  }
+  to {
+    transform: perspective(1200px) translateZ(-120px) rotateY(-32deg);
+    opacity: 0.55;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .deck-card {
+    animation: deck-turn linear both;
+    animation-timeline: view(inline);
+  }
+}
+
+/* A card morphs into the case study dialog and back. */
+::view-transition-group(work-card) {
+  animation-duration: 420ms;
+  animation-timing-function: var(--ease);
+}
+
+::view-transition-old(work-card),
+::view-transition-new(work-card) {
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
 /* Block caret at the end of a streaming answer. */
 @keyframes caret-blink {
   50% {
@@ -247,6 +285,10 @@
 
   .ping::after {
     display: none;
+  }
+
+  .deck-card {
+    animation: none;
   }
 }
 

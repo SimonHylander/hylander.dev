@@ -115,7 +115,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 **Key characteristics:**
 
 - The home page uses the full 72.5rem width in two columns from `md`. Articles (case studies, posts, `/cv`, 404) keep a centered 44rem column through the `reading` class.
-- Full-width hairlines separate sections. Rows inside a section are hairline-separated too. No cards, no grids of tiles.
+- Full-width hairlines separate sections. Rows inside a section are hairline-separated too. The case study deck is the one place that uses cards.
 - Two large sizes carry the hierarchy: Display for the hero and the contact prompt, Claim for section headings. Everything else stays at body size.
 - Mono only for dates, metadata, keys and code.
 - Motion is short and purposeful, and none of it gates content.
@@ -196,7 +196,7 @@ Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three p
 
 ### Cards / Containers
 
-None. Lists are rows divided by hairlines. The bounded surfaces are the palette and the toast (plum 2, line border, `rounded-lg` and `rounded-md`) and the artifact panels (plum 2, no border, `rounded-lg`, 20px to 24px padding).
+Lists are rows divided by hairlines. The only cards are in the case study deck. The other bounded surfaces are the palette and the toast (plum 2, line border, `rounded-lg` and `rounded-md`) and the artifact panels (plum 2, no border, `rounded-lg`, 20px to 24px padding).
 
 ### Inputs / Fields
 
@@ -232,6 +232,10 @@ The home page's career section. A "12 years, 5 companies" Claim heading (compute
 
 A plum 2 `rounded-lg` panel with a small header (title in ink 500, hint in mono muted), one per case study: the Treddy partner graph, the route-level canary split (range input and a caption on what moves the traffic), before and after review-time bars with an "AI pre-review" switch, and the RAG pipeline chips with Replay. Controls carry `data-requires-js`; the server-rendered state reads without them.
 
+### Case study deck (signature)
+
+The first section under `#work`, from `src/components/work-deck.tsx`. A "Case studies" Claim heading, then a full-bleed horizontal track of one card per case study, scroll-snapped to the center. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges of the track. Each card links to its case study. With JavaScript a plain click opens a modal `<dialog>` instead, and a view transition morphs the card into it (420ms, `--ease`). The dialog shows the live artifact beside the position, title, summary, meta row, stack chips and a primary "Read the case study" button, with the other case studies below. Arrow keys and the ← → buttons move between them, and closing morphs back into the card.
+
 ### Activity heatmap
 
 Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
@@ -262,7 +266,7 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 ### Don't:
 
 - **Don't** add drop shadows, gradients, gradient text, glass or blur.
-- **Don't** use side-stripe borders or cards.
+- **Don't** use side-stripe borders, or cards outside the case study deck.
 - **Don't** put uppercase eyebrow labels above sections.
 - **Don't** introduce a second accent color or Tailwind's default palette.
 - **Don't** animate content into visibility with JavaScript.
