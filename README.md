@@ -55,7 +55,6 @@ All content lives in `src/content/`. Pages only render it.
 - `work/`: case studies, rendered at `/work/[slug]`.
 - `writing/`: posts, rendered at `/writing/[slug]`.
 - `collection.ts`: the metadata schemas for case studies and posts.
-- `pillars.ts`: the home page copy per pillar. Slugs and pillars are typed, so a typo fails typecheck.
 - `partners.ts`: the systems behind the Treddy partner API, drawn by its partner graph.
 - `diagrams.ts`: the architecture diagrams that case studies build up with `<BuildDiagram>`.
 
@@ -65,7 +64,7 @@ Routes, the sitemap, the ⌘K palette (`src/lib/commands.ts`), the Ask sources a
 
 Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/components/slots.tsx` plugs the interactive pieces into the pages:
 
-- **Artifacts** (`artifacts/`): one small interactive piece per case study, registered by slug in `artifacts/index.tsx`. The home page shows the one named by `showcase` in `pillars.ts` beside each pillar section. The Treddy artifact is the partner graph (`partner-graph.tsx`).
+- **Artifacts** (`artifacts/`): one small interactive piece per case study, registered by slug in `artifacts/index.tsx`. The home page shows them in the case study deck and its dialog. The Treddy artifact is the partner graph (`partner-graph.tsx`).
 - **Activity heatmap** (`activity-heatmap.tsx`): GitHub contributions for the last 12 months, refreshed daily. Set `GITHUB_TOKEN` (no scopes needed) to use the GraphQL API; without it the public calendar page is parsed. If both fail the section is hidden and the build logs a warning. `SHOW_HEATMAP` in `profile.ts` turns it off.
 
 ## Add a case study

@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
-import { ActivityHeatmapSlot, WorkArtifactSlot } from "@/components/slots";
+import { ActivityHeatmapSlot } from "@/components/slots";
 import { WorkDeck } from "@/components/work-deck";
-import { pillarLabels, pillars, type Pillar } from "@/content/collection";
-import { pillarCopy } from "@/content/pillars";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
 import { writing } from "@/content/writing";
@@ -58,12 +56,6 @@ export default function HomePage() {
 
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
-        {/* Only AI keeps a section. The other case studies stay in the deck and the built list. */}
-        {pillars
-          .filter((pillar) => pillar === "ai-native")
-          .map((pillar, index) => (
-            <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
-          ))}
       </div>
 
       {writing.entries.length > 0 && (
@@ -127,50 +119,6 @@ function Built() {
           </li>
         ))}
       </ul>
-    </section>
-  );
-}
-
-/**
- * One pillar: the label and claim as the heading, the thesis, links to its case studies, and the
- * showcase artifact beside it. `flip` puts the artifact on the left from `md`.
- */
-function PillarSection({ pillar, flip }: { pillar: Pillar; flip: boolean }) {
-  const { claim, thesis, showcase } = pillarCopy[pillar];
-  const entries = work.entries.filter((entry) => entry.pillar === pillar);
-
-  return (
-    <section id={pillar} aria-labelledby={`${pillar}-heading`} className="scroll-mt-16 border-t border-line py-16 md:py-24">
-      <div className="grid items-start gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16 lg:gap-20">
-        <div className={flip ? "md:order-2" : ""}>
-          <h2 id={`${pillar}-heading`} className="text-claim font-semibold tracking-[-0.025em] text-balance">
-            {pillarLabels[pillar]}. <span className="text-muted">{claim}</span>
-          </h2>
-          <p className="mt-5 max-w-[46ch] text-[1.0625rem] text-muted">{thesis}</p>
-          <ul className="mt-9 border-t border-line">
-            {entries.map((entry) => (
-              <li key={entry.slug} className="border-b border-line">
-                <Link href={`/work/${entry.slug}`} className="group block py-4">
-                  <span className="flex items-baseline justify-between gap-4">
-                    <span className="font-medium transition-colors duration-200 ease-out group-hover:text-lilac">
-                      {entry.title}{" "}
-                      <span aria-hidden className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
-                        →
-                      </span>
-                    </span>
-                    {entry.period && (
-                      <span className="shrink-0 font-mono text-meta text-muted tabular-nums">{formatYears(entry.period)}</span>
-                    )}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="md:sticky md:top-24">
-          <WorkArtifactSlot slug={showcase} placement="home" />
-        </div>
-      </div>
     </section>
   );
 }

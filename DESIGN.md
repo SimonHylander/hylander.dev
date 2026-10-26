@@ -122,9 +122,9 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero with the "What I have built" list, then the case study deck, the AI pillar section (Integrations and Architecture have none), then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero with the "What I have built" list, then the case study deck, then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
 
-**Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (beside its pillar section on the home page and above the case study prose).
+**Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (above the case study prose).
 
 ## Colors
 
@@ -161,7 +161,7 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 ### Hierarchy
 
 - **Display** (600, 36px to 60px fluid, line-height 1.04, -0.03em, `text-wrap: balance`): the hero headline and the contact prompt.
-- **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): pillar section headings, the career heading, Writing and Ask.
+- **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): the case study deck heading, the career heading, Writing and Ask.
 - **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): page titles on articles.
 - **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
 - **Section** (500, 15px, muted, sentence case): "What I have built" and "Stack". Never uppercase, never tracked.
@@ -211,10 +211,6 @@ Lists are rows divided by hairlines. The only cards are in the case study deck. 
 ### Built list (signature)
 
 Beside the hero from `md`, below it on mobile. A "What I have built" section heading over one hairline row per case study: its `tagline` at 17px (turns lilac on hover), the `company` and years in muted 14px below, and a "→" that shifts 2px. Each row opens its case study. The lines stay high level; numbers and mechanisms live in the case studies.
-
-### Pillar section (signature)
-
-One per pillar, copy from `pillarCopy` in `src/content/pillars.ts`. Text column: the Claim heading, the thesis (muted 17px, 46ch), and the pillar's case studies as hairline rows (title in ink 500 with a "→", both turning lilac and shifting on hover, and years in mono). Artifact column: the showcase case study's artifact, sticky 96px from the top on desktop. The second section flips the columns.
 
 ### Command palette (signature)
 

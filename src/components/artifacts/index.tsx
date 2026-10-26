@@ -5,7 +5,7 @@ import { CanarySplit } from "./canary-split";
 import { RagPipeline } from "./rag-pipeline";
 import { ReviewToggle } from "./review-toggle";
 
-/** Where an artifact renders: beside a pillar section on the home page, or above the case study prose. */
+/** Where an artifact renders: in the home page's case study dialog, or above the case study prose. */
 export type Placement = "home" | "page";
 
 type Artifact = {
@@ -44,7 +44,7 @@ export function WorkArtifact({ slug, placement }: { slug: CaseStudySlug; placeme
   const artifact = artifacts[slug];
   if (!artifact) return null;
   const { title, hint, Body } = artifact;
-  // On the home page the panel sits under the section's h2. On the case study page it sits beside the prose h2s.
+  // In the home page dialog the panel sits under the case study h2. On the case study page it sits beside the prose h2s.
   const Heading = placement === "home" ? "h3" : "h2";
 
   return (

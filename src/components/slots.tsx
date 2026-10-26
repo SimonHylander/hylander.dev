@@ -12,7 +12,7 @@ export function ActivityHeatmapSlot() {
   return <ActivityHeatmap />;
 }
 
-/** Per-case-study artifact: beside its pillar section on the home page and above the case study prose. */
+/** Per-case-study artifact, above the case study prose. */
 export function WorkArtifactSlot({ slug, placement }: { slug: CaseStudySlug; placement: Placement }) {
   return <WorkArtifact slug={slug} placement={placement} />;
 }
