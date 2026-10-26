@@ -128,7 +128,7 @@ export function AskBox({ sources }: { sources: SourceId[] }) {
 
       <div aria-live="polite" aria-busy={streaming} className="mt-5 min-h-32">
         {state.status === "idle" && (
-          <p className="text-sm text-muted">Answers come only from the case studies and CV on this site.</p>
+          <p className="text-sm text-muted">Answers come only from the projects and CV on this site.</p>
         )}
         {state.status === "error" && <p className="text-sm text-muted">{state.reason}</p>}
         {(state.status === "streaming" || state.status === "done") && (

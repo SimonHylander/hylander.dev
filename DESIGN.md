@@ -210,7 +210,7 @@ Lists are rows divided by hairlines. The only cards are in the case study deck. 
 
 ### Command palette (signature)
 
-A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Case studies, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
+A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Projects, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
 
 ### Partner graph (signature)
 
@@ -226,7 +226,7 @@ A plum 2 `rounded-lg` panel with a small header (title in ink 500, hint in mono 
 
 ### Case study deck (signature)
 
-The first section under `#work`, from `src/components/work-deck.tsx`. A "Case studies" Claim heading with ← → buttons, then one card per case study. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years.
+The first section under `#work`, from `src/components/work-deck.tsx`. A "Projects" Claim heading with ← → buttons, then one card per case study. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years.
 
 - **From `md`: helix.** The cards sit on a spiral (`.helix-card` in `globals.css`): 34° apart around a vertical axis 32rem behind the front card, 4rem lower per step, fading with distance. One `--progress` value picks the front card. The wheel (over the deck), a drag, the arrow buttons and keyboard focus move it, eased per frame and snapped to a whole card. At the first and last card the wheel scrolls the page again. Clicking a card brings it forward and never opens the dialog. The helix is centered at 40% of the width. On the right, a side panel (plum 2, line border, `rounded-lg`, 19rem) summarises the front card: position and years, pillar and company in mono, title, tagline, the metric in lilac, and a lilac "Open" button, the only way to open the dialog from the helix.
 - **Below `md`: row.** A full-bleed scroll-snapped row. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges. A click opens the dialog.

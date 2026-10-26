@@ -18,7 +18,7 @@ export function WorkDeck() {
       <WorkDeckViewer
         heading={
           <h2 id="deck-heading" className="text-claim font-semibold tracking-[-0.025em] text-balance">
-            Case studies. <span className="text-muted">Open one to see it working.</span>
+            Projects. <span className="text-muted">Open one to see it working.</span>
           </h2>
         }
         items={work.entries.map((entry, index) => ({

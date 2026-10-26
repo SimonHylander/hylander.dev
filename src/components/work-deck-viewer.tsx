@@ -290,7 +290,7 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
 
             {current.detail}
 
-            <nav aria-label="Case studies" className="mt-8 border-t border-line pt-5">
+            <nav aria-label="Projects" className="mt-8 border-t border-line pt-5">
               <ul className="grid grid-cols-2 gap-2 lg:grid-cols-4">
                 {items.map((item, index) => (
                   <li key={item.slug} className="flex">

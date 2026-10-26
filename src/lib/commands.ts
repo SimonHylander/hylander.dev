@@ -27,7 +27,7 @@ export function getCommands() {
     { id: "cv", label: "CV", group: "Pages", kind: "route", href: "/cv" },
     ...work.entries.map(
       ({ slug, title }) =>
-        ({ id: `work-${slug}`, label: title, group: "Case studies", kind: "route", href: `/work/${slug}` }) satisfies Command,
+        ({ id: `work-${slug}`, label: title, group: "Projects", kind: "route", href: `/work/${slug}` }) satisfies Command,
     ),
     ...profile.socials.map(
       ({ label, href }) => ({ id: label, label, group: "Elsewhere", kind: "external", href }) satisfies Command,

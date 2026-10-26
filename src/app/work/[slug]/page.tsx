@@ -91,7 +91,7 @@ function CaseStudyPager({ previous, next }: { previous?: CaseStudy; next?: CaseS
   ].filter((link) => !!link);
 
   return (
-    <nav aria-label="Case studies" className="mt-16 grid gap-4 border-t border-line pt-6 sm:grid-cols-2">
+    <nav aria-label="Projects" className="mt-16 grid gap-4 border-t border-line pt-6 sm:grid-cols-2">
       {links.map(({ entry, label, align }) => (
         <Link key={label} href={`/work/${entry.slug}`} className={`group space-y-0.5 ${align}`}>
           <span className="block text-meta text-muted">{label}</span>
