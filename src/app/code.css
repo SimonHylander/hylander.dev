@@ -1,0 +1,149 @@
+/*
+ * Code blocks from src/lib/rehype-code.mjs: Shiki tokens and Twoslash type popups.
+ * Everything is rendered at build time; the popups are CSS only.
+ */
+
+/* Syntax colors from the design tokens. Literals take the accent, keywords stay quiet. */
+:root {
+  --shiki-foreground: var(--ink);
+  --shiki-background: var(--plum-2);
+  --shiki-token-keyword: var(--muted);
+  --shiki-token-punctuation: color-mix(in oklch, var(--muted) 70%, var(--plum-2));
+  --shiki-token-comment: color-mix(in oklch, var(--muted) 65%, var(--plum-2));
+  --shiki-token-string: color-mix(in oklch, var(--lilac) 60%, var(--ink));
+  --shiki-token-string-expression: color-mix(in oklch, var(--lilac) 60%, var(--ink));
+  --shiki-token-constant: var(--lilac);
+  --shiki-token-function: var(--ink);
+  --shiki-token-parameter: var(--ink);
+  --shiki-token-link: var(--lilac);
+}
+
+@layer components {
+  .prose {
+    & pre.shiki {
+      @apply overflow-x-auto rounded-md border border-line px-[18px] py-4 font-mono text-[0.84375rem]/[1.7];
+      tab-size: 2;
+    }
+
+    /* A block with `title="file.ts"` in its meta gets a caption bar above it. */
+    & .code-figure > pre.shiki {
+      @apply mt-0 rounded-t-none border-t-0;
+    }
+    & .code-title {
+      @apply rounded-t-md border border-line bg-plum-2 px-[18px] py-2 font-mono text-meta text-muted;
+    }
+  }
+
+  /* Hover targets: a dotted underline appears while the pointer is over the block. */
+  .twoslash .twoslash-hover {
+    position: relative;
+    border-bottom: 1px dotted transparent;
+    transition: border-color 200ms var(--ease);
+  }
+  .twoslash:hover .twoslash-hover {
+    border-color: color-mix(in oklch, var(--muted) 60%, transparent);
+  }
+
+  /* Type popup. Hidden until its token is hovered or focused from the keyboard. */
+  .twoslash .twoslash-popup-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    width: max-content;
+    max-width: min(36rem, calc(100vw - 2rem));
+    /* Long JSDoc scrolls inside the popup instead of running off the screen. */
+    max-height: min(20rem, 50vh);
+    overflow-y: auto;
+    margin-top: 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--plum-2);
+    color: var(--ink);
+    text-align: left;
+    white-space: pre-wrap;
+    opacity: 1;
+    transition: opacity 150ms var(--ease);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+  .twoslash .twoslash-hover:is(:hover, :focus-visible) > .twoslash-popup-container {
+    display: inline-flex;
+  }
+
+  /*
+   * The <pre> scrolls horizontally, which would clip an absolute popup. Where anchor positioning
+   * exists, the open popup is fixed to the viewport and tethered to its token instead.
+   */
+  @supports (anchor-name: --a) {
+    .twoslash .twoslash-hover:is(:hover, :focus-visible) {
+      anchor-name: --twoslash-token;
+    }
+    .twoslash .twoslash-hover:is(:hover, :focus-visible) > .twoslash-popup-container {
+      position: fixed;
+      position-anchor: --twoslash-token;
+      top: anchor(bottom);
+      left: anchor(left);
+      position-try-fallbacks: flip-block, flip-inline;
+    }
+  }
+
+  .twoslash .twoslash-popup-arrow {
+    display: none;
+  }
+
+  .twoslash .twoslash-popup-code {
+    padding: 6px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.78125rem;
+    line-height: 1.6;
+  }
+
+  .twoslash .twoslash-popup-docs,
+  .twoslash .twoslash-popup-error {
+    padding: 6px 10px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+    white-space: normal;
+  }
+
+  .twoslash .twoslash-popup-docs-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .twoslash .twoslash-popup-docs-tag-name {
+    margin-right: 0.5em;
+    font-family: var(--font-mono);
+    color: var(--ink);
+  }
+
+  /* `// ^?` query: the type sits in its own line under the queried token, in the normal flow. */
+  .twoslash .twoslash-query-line {
+    display: block;
+    margin: 2px 0 6px;
+
+    /* Leading spaces in the line align the box under the token. */
+    & .twoslash-popup-container {
+      position: static;
+      display: inline-flex;
+      max-width: none;
+      margin: 0;
+      vertical-align: top;
+      background: var(--plum-3);
+    }
+  }
+
+  /* Highlighted ranges from `// ^^^` markers. */
+  .twoslash .twoslash-highlighted {
+    border-radius: 4px;
+    background: var(--plum-3);
+  }
+}

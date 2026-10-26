@@ -1,0 +1,70 @@
+import { treddyDiagram } from "../diagrams";
+
+export const metadata = {
+  title: "Treddy partner platform",
+  summary: "I built the integration platform for Treddy, a startup that reduces fraud in online marketplaces.",
+  date: "2026-10-19",
+  pillar: "integrations",
+  tagline: "A partner platform for a fraud-prevention startup",
+  company: "Treddy",
+  role: "Technical architecture and development lead",
+  period: { start: "2021-09", end: "2024-04" },
+  stack: ["BankID", "Finnish Trust Network", "Stripe", "Swish", "Ping Payments", "nShift", "Schenker", "OAuth", "REST", "Webhooks"],
+  metric: "6 partner integrations",
+};
+
+{/* The page renders the title, summary, role, period, metric and the Stack section from `metadata`. */}
+
+## Problem
+
+Treddy is a startup that reduces fraud in online marketplaces. The product depends on identity, payment and shipping providers, and on partners who build on top of it.
+
+{/* TODO(simon): What did fraud look like before Treddy, and for whom? Is the platform still live? */}
+
+## My role
+
+I led the technical architecture and development, as a consultant through Skoglit. From December 2022 I also built the Treddy Developer Platform and helped onboard partners onto it.
+
+{/* TODO(simon): Team size, and what you owned beyond the architecture. */}
+
+{/* TODO(simon): ## Constraints. Technical, regulatory or business constraints (payments, identity, shipping). */}
+
+## Decisions
+
+I built one API layer with real-time webhooks and connected it to each provider.
+
+<BuildDiagram diagram={treddyDiagram}>
+<DiagramStep>
+
+**The core.** Treddy's own product reduces fraud in online marketplaces. Every integration below connects to it.
+
+</DiagramStep>
+<DiagramStep>
+
+**Identity.** Users identify with BankID or the Finnish Trust Network.
+
+</DiagramStep>
+<DiagramStep>
+
+**Payments.** Stripe, Swish and Ping Payments handle payments.
+
+</DiagramStep>
+<DiagramStep>
+
+**Shipping.** nShift and Schenker handle delivery.
+
+</DiagramStep>
+<DiagramStep>
+
+**Partner API.** Partners call a REST API with OAuth and receive webhook events in real time. This is the Treddy Developer Platform.
+
+</DiagramStep>
+</BuildDiagram>
+
+{/* TODO(simon): Why an API layer and webhooks, and which alternatives you rejected. */}
+
+## Result
+
+Six partners integrated through the platform. I also worked on the developer docs.
+
+{/* TODO(simon): Numbers beyond the integration count, such as volume, partners or fraud reduction. */}

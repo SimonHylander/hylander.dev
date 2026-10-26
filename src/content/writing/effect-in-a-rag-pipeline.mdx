@@ -1,0 +1,44 @@
+export const metadata = {
+  title: "Effect in a RAG pipeline",
+  summary: "Typed errors and retries for scraping, embedding and retrieval in Uppgraderingspaket.",
+  date: "2026-10-19",
+  pillar: "ai-native",
+  draft: true,
+};
+
+## The pipeline
+
+{/* TODO(simon): Scrape in Inngest, embed into the vector database, retrieve, then answer with the LLM. */}
+
+## Errors as values
+
+{/* TODO(simon): Why each step names its failures in the type, and what the caller does with them. */}
+
+```ts twoslash title="retrieve.ts"
+import { Data, Effect } from "effect";
+
+class RetrievalError extends Data.TaggedError("RetrievalError")<{
+  readonly query: string;
+}> {}
+
+type Chunk = { readonly text: string; readonly score: number };
+
+declare const searchVectors: (
+  query: string,
+) => Effect.Effect<ReadonlyArray<Chunk>, RetrievalError>;
+
+const retrieve = (query: string) =>
+  //  ^?
+  Effect.gen(function* () {
+    const chunks = yield* searchVectors(query);
+    return chunks.filter((chunk) => chunk.score > 0.75);
+  });
+```
+
+## Retries and timeouts
+
+{/* TODO(simon): Which steps retry, with what schedule, and where a timeout beats a retry. */}
+
+## What I would do again
+
+{/* TODO(simon): The opinion. */}
