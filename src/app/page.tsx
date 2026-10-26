@@ -6,8 +6,7 @@ import { ActivityHeatmapSlot } from "@/components/slots";
 import { WorkDeck } from "@/components/work-deck";
 import { profile } from "@/content/profile";
 import { work } from "@/content/work";
-import { writing } from "@/content/writing";
-import { formatDate, formatYears } from "@/lib/format";
+import { formatYears } from "@/lib/format";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -57,29 +56,6 @@ export default function HomePage() {
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
       </div>
-
-      {writing.entries.length > 0 && (
-        <section id="writing" aria-labelledby="writing-heading" className="scroll-mt-20 border-t border-line py-16 md:py-24">
-          <h2 id="writing-heading" className="text-claim font-semibold tracking-[-0.025em]">
-            Writing
-          </h2>
-          <ul className="mt-8 max-w-[44rem] border-t border-line">
-            {writing.entries.map((entry) => (
-              <li key={entry.slug} className="border-b border-line">
-                <Link
-                  href={`/writing/${entry.slug}`}
-                  className="flex items-baseline justify-between gap-4 py-4 transition-colors duration-200 ease-out hover:text-lilac"
-                >
-                  <span className="font-medium">{entry.title}</span>
-                  <time dateTime={entry.date} className="font-mono text-meta text-muted tabular-nums">
-                    {formatDate(entry.date)}
-                  </time>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       <AskSection />
 
