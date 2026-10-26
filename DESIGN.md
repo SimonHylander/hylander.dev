@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero with the "What I have built" list, then the case study deck, one section per pillar except Integrations (Architecture, AI) with the artifact alternating sides, then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero with the "What I have built" list, then the case study deck, the AI pillar section (Integrations and Architecture have none), then Writing once a post is published, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (beside its pillar section on the home page and above the case study prose).
 

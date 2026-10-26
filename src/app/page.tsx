@@ -58,9 +58,9 @@ export default function HomePage() {
 
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
-        {/* Integrations has no section of its own. Its case study stays in the deck and the built list. */}
+        {/* Only AI keeps a section. The other case studies stay in the deck and the built list. */}
         {pillars
-          .filter((pillar) => pillar !== "integrations")
+          .filter((pillar) => pillar === "ai-native")
           .map((pillar, index) => (
             <PillarSection key={pillar} pillar={pillar} flip={index % 2 === 1} />
           ))}
