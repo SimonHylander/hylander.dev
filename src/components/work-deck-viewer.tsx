@@ -51,10 +51,9 @@ const button =
  *
  * From `md` the cards sit on a helix (`.helix-card` in globals.css). One number, `--progress`,
  * says which card is in front. The wheel, a drag, the arrow buttons and focus set a target, and
- * each frame eases `--progress` toward it. Clicking a card behind brings it to the front, and
- * clicking the front card opens the dialog. A side panel summarises the front card, and its Open
- * button opens the dialog too. Below `md` the cards are a scroll-snapped row and a
- * click opens the dialog directly.
+ * each frame eases `--progress` toward it. Clicking a card brings it to the front. A side panel
+ * summarises the front card, and only its Open button opens the dialog. Below `md` the cards are
+ * a scroll-snapped row with no panel, so a click opens the dialog directly.
  *
  * The dialog morphs out of the card. Arrow keys and the list at the bottom move between case
  * studies, and closing morphs back into the card for the case study that was open last.
@@ -149,7 +148,7 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     if (dragged.current) dragged.current = false;
-    else if (matchMedia(helixQuery).matches && index !== front) turnTo(index);
+    else if (matchMedia(helixQuery).matches) turnTo(index);
     else show(index);
   };
 
