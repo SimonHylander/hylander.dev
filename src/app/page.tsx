@@ -25,7 +25,7 @@ export default function HomePage() {
           <p className="reveal mt-2.5 flex items-center gap-3 text-lg text-muted [--reveal-step:2]">
             <span aria-hidden className="ping relative size-2 shrink-0 rounded-full bg-lilac" />
             <span>
-              Now on {currentJob.team} at {currentJob.company}
+              Working on growth and integrations at {currentJob.company}
             </span>
           </p>
           <p className="reveal mt-9 flex flex-wrap gap-3 [--reveal-step:3]">
