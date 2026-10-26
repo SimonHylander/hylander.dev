@@ -87,7 +87,7 @@ These are the candidates, ranked by how well each proves a pillar. Every case st
 ## Content map
 
 - **`/`**: everything a hiring manager needs, in one scroll.
-  1. The positioning line, what Simon does now, and a one-line list of what he has built
+  1. The headline, who Simon is and what he does now
   2. The case study deck: every case study as a card, each opening its live artifact
   3. Tools I build with
   4. A short career history

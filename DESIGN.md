@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero with the "What I have built" list, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (above the case study prose).
 
@@ -164,7 +164,7 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 - **Claim** (600, 26px to 38px fluid, line-height 1.12, -0.025em): the case study deck heading, Tools I build with, the career heading and Ask.
 - **Hero** (700, 26px mobile, 30px from `sm`, line-height 1.2, -0.02em, `text-wrap: balance`): page titles on articles.
 - **Title** (600, 18px): `h2` inside case study prose, job headings on `/cv`.
-- **Section** (500, 15px, muted, sentence case): "What I have built" and "Stack". Never uppercase, never tracked.
+- **Section** (500, 15px, muted, sentence case): "Stack". Never uppercase, never tracked.
 - **Body** (400, 16px, 1.6; prose 1.7): paragraphs. Prose caps at 65ch.
 - **Meta** (Geist Mono 400, 13px, tabular numbers): years, dates, chips, `kbd`.
 
@@ -208,10 +208,6 @@ Lists are rows divided by hairlines. The only cards are in the case study deck. 
 - **Contact footer** (every page, `#contact`): the contact prompt in Display, the email as a `mailto:` link with a Copy button (toast confirms), then the location and GitHub, LinkedIn and X in muted.
 - **Focus:** every focusable element shows a 2px lilac outline, offset 2px.
 
-### Built list (signature)
-
-Beside the hero from `md`, below it on mobile. A "What I have built" section heading over one hairline row per case study: its `tagline` at 17px (turns lilac on hover), the `company` and years in muted 14px below, and a "→" that shifts 2px. Each row opens its case study. The lines stay high level; numbers and mechanisms live in the case studies.
-
 ### Command palette (signature)
 
 A native modal `<dialog>` (focus trap, Escape, focus restore). A combobox input over a grouped listbox: Actions, Pages, Case studies, Elsewhere. Arrow keys move, Enter runs, a click outside closes. Commands come from `src/lib/commands.ts`, which reads the content modules.
@@ -252,7 +248,7 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 ### Motion
 
 - Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
-- Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, buttons and the list heading, then the list).
+- Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, then buttons).
 - "Now" dot: a soft ping every 2.4s.
 - Partner graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 700ms. Canary split 450ms, review bars 700ms, pipeline chips 280ms apart.
 - Palette 200ms, toast 240ms, hover shifts 300ms.

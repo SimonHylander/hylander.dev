@@ -77,7 +77,7 @@ Tokens live in `src/app/globals.css` and are documented in `DESIGN.md`. `src/com
      summary: "One sentence.",
      date: "2026-10-19",          // publish date, ISO
      pillar: "integrations",      // "integrations" | "architecture" | "ai-native"
-     tagline: "A partner platform for a fraud-prevention startup", // what was built, listed beside the hero
+     tagline: "A partner platform for a fraud-prevention startup", // what was built, one short line
      company: "Treddy",           // shown with the years under the tagline
      role: "Architect",
      period: { start: "2019", end: "2021" }, // optional, "YYYY" or "YYYY-MM"

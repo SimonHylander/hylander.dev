@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot } from "@/components/slots";
 import { ToolsSection } from "@/components/tools-section";
 import { WorkDeck } from "@/components/work-deck";
 import { profile } from "@/content/profile";
-import { work } from "@/content/work";
-import { formatYears } from "@/lib/format";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -17,10 +14,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section
-        aria-labelledby="intro"
-        className="grid gap-14 pt-16 pb-16 sm:pt-24 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-end md:gap-16 md:pb-24 lg:gap-20"
-      >
+      <section aria-labelledby="intro" className="pt-16 pb-16 sm:pt-24 md:pb-24">
         <div>
           <h1 id="intro" className="reveal text-display font-semibold tracking-[-0.03em] text-balance">
             {profile.headline.lead} <span className="text-lilac">{profile.headline.accent}</span>
@@ -49,7 +43,6 @@ export default function HomePage() {
             </a>
           </p>
         </div>
-        <Built />
       </section>
 
       <ActivityHeatmapSlot />
@@ -64,40 +57,5 @@ export default function HomePage() {
 
       <CareerTimeline />
     </>
-  );
-}
-
-/** Everything in `work`, one line each, beside the hero. Each row opens its case study. */
-function Built() {
-  return (
-    <section aria-labelledby="built-heading">
-      <h2 id="built-heading" className="reveal section-heading pb-3.5 [--reveal-step:3]">
-        What I have built
-      </h2>
-      <ul className="reveal border-t border-line [--reveal-step:4]">
-        {work.entries.map((entry) => (
-          <li key={entry.slug} className="border-b border-line">
-            <Link
-              href={`/work/${entry.slug}`}
-              className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 py-[1.125rem]"
-            >
-              <span className="text-[1.0625rem]/snug transition-colors duration-200 ease-out group-hover:text-lilac">
-                {entry.tagline}
-              </span>
-              <span
-                aria-hidden
-                className="row-span-2 text-muted transition-[translate,color] duration-300 ease-out group-hover:translate-x-0.5 group-hover:text-lilac"
-              >
-                →
-              </span>
-              <span className="mt-1 text-sm text-muted">
-                {entry.company}
-                {entry.period && `, ${formatYears(entry.period)}`}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
   );
 }

@@ -3,14 +3,16 @@ import { currentJob } from "./career";
 const role = "Senior Software Engineer";
 const location = "Stockholm";
 /** The home page hero. The accent part renders in lilac. */
-const headline = { lead: "I build integration platforms, web apps and", accent: "AI tools." };
+const headline = { lead: "Just let me", accent: "cook." };
+/** What Simon builds, in one line. Metadata, the OG image, the CV and Ask use it through `positioning`. */
+const pitch = "I build integration platforms, web apps and AI tools.";
 
 /** Site identity. Metadata, JSON-LD, the header, the contact footer and the OG images all read from here. */
 export const profile = {
   name: "Simon Hylander",
   role,
   headline,
-  positioning: `${role} in ${location}. ${headline.lead} ${headline.accent}`,
+  positioning: `${role} in ${location}. ${pitch}`,
   location,
   currentJob,
   email: "hylandersimon@gmail.com",

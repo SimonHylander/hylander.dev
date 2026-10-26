@@ -31,7 +31,7 @@ const showDrafts = process.env.NODE_ENV === "development" || process.env.SHOW_DR
 
 /** Shape of `export const metadata` in every case study. */
 export const caseStudySchema = postSchema.extend({
-  /** What was built, in one short line. The home page lists it beside the hero. */
+  /** What was built, in one short line. The case study cards and side panel show it. */
   tagline: z.string().min(1),
   /** The company or product the work was for, shown with the years under the tagline. */
   company: z.string().min(1),
