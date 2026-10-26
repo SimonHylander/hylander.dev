@@ -256,7 +256,7 @@
     --a: calc(var(--d) * 34deg);
     position: absolute;
     top: calc(50% - 11.5rem);
-    left: calc(50% - 10.5rem);
+    left: calc(40% - 10.5rem);
     transform: translate3d(calc(sin(var(--a)) * 32rem), calc(var(--d) * 4rem), calc((cos(var(--a)) - 1) * 32rem)) rotateY(var(--a));
     opacity: clamp(0, 1.2 - abs(var(--d)) * 0.3, 1);
     z-index: calc(10 - round(abs(var(--d))));

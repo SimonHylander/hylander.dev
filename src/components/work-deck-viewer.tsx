@@ -1,11 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useEffectEvent, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 import { flushSync } from "react-dom";
 import type { CaseStudySlug } from "@/content/work";
 
-type Item = { slug: CaseStudySlug; title: string; card: ReactNode; detail: ReactNode };
+type Item = {
+  slug: CaseStudySlug;
+  title: string;
+  card: ReactNode;
+  /** Side panel text while the card is in front of the helix. */
+  summary: ReactNode;
+  detail: ReactNode;
+};
 
 /** Shared by the clicked card and the dialog, so the browser morphs one into the other. */
 const morph = "work-card";
@@ -37,7 +52,8 @@ const button =
  * From `md` the cards sit on a helix (`.helix-card` in globals.css). One number, `--progress`,
  * says which card is in front. The wheel, a drag, the arrow buttons and focus set a target, and
  * each frame eases `--progress` toward it. Clicking a card behind brings it to the front, and
- * clicking the front card opens the dialog. Below `md` the cards are a scroll-snapped row and a
+ * clicking the front card opens the dialog. A side panel summarises the front card, and its Open
+ * button opens the dialog too. Below `md` the cards are a scroll-snapped row and a
  * click opens the dialog directly.
  *
  * The dialog morphs out of the card. Arrow keys and the list at the bottom move between case
@@ -64,7 +80,8 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
   const tick = () => {
     const state = helix.current;
     const gap = state.target - state.progress;
-    state.progress = matchMedia(reducedMotion).matches || Math.abs(gap) < 0.001 ? state.target : state.progress + gap * 0.14;
+    state.progress =
+      matchMedia(reducedMotion).matches || Math.abs(gap) < 0.001 ? state.target : state.progress + gap * 0.14;
     render(state.progress);
     state.frame = state.progress === state.target ? 0 : requestAnimationFrame(tick);
   };
@@ -146,7 +163,11 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
   const step = (direction: 1 | -1) => {
     if (matchMedia(helixQuery).matches) return turnTo(Math.round(helix.current.target) + direction);
     const card = cardRefs.current[0];
-    if (card) trackRef.current?.scrollBy({ left: direction * card.offsetWidth, behavior: "smooth" });
+    if (card)
+      trackRef.current?.scrollBy({
+        left: direction * card.offsetWidth,
+        behavior: "smooth",
+      });
   };
 
   const endDrag = () => {
@@ -169,47 +190,73 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
         </div>
       </div>
 
-      <ul
-        ref={trackRef}
-        onPointerDown={(event) => {
-          if (event.button !== 0 || !matchMedia(helixQuery).matches) return;
-          drag.current = { x: event.clientX, from: helix.current.target, moved: false };
-        }}
-        onPointerMove={(event) => {
-          const state = drag.current;
-          if (!state) return;
-          const dx = event.clientX - state.x;
-          if (!state.moved && Math.abs(dx) > 6) {
-            state.moved = true;
-            // Capture only once it is a drag, so a plain click still lands on the card.
-            event.currentTarget.setPointerCapture(event.pointerId);
-          }
-          if (state.moved) turnTo(state.from - dx / dragPerCard);
-        }}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        className="mx-[calc(50%-50vw)] mt-8 [scrollbar-width:none] max-md:flex max-md:snap-x max-md:snap-mandatory max-md:gap-5 max-md:overflow-x-auto max-md:px-[calc(50%-min(10.5rem,39vw))] max-md:py-6 md:relative md:mt-6 md:[perspective:1800px] md:h-[40rem] md:cursor-grab md:overflow-hidden md:select-none md:active:cursor-grabbing"
-      >
-        {items.map((item, index) => (
-          <li key={item.slug} style={{ "--i": index }} className="deck-card helix-card flex shrink-0 snap-center">
-            <Link
-              ref={(element) => {
-                cardRefs.current[index] = element;
-              }}
-              href={`/work/${item.slug}`}
-              draggable={false}
-              onClick={(event) => onCardClick(event, index)}
-              onFocus={(event) => {
-                // Keyboard focus brings the card forward. A click decides that itself in onCardClick.
-                if (matchMedia(helixQuery).matches && event.currentTarget.matches(":focus-visible")) turnTo(index);
-              }}
-              className="group flex w-[min(21rem,78vw)] flex-col rounded-lg border border-line bg-plum-2 p-3 transition-colors duration-200 ease-out hover:border-muted"
+      <div className="relative">
+        <ul
+          ref={trackRef}
+          onPointerDown={(event) => {
+            if (event.button !== 0 || !matchMedia(helixQuery).matches) return;
+            drag.current = {
+              x: event.clientX,
+              from: helix.current.target,
+              moved: false,
+            };
+          }}
+          onPointerMove={(event) => {
+            const state = drag.current;
+            if (!state) return;
+            const dx = event.clientX - state.x;
+            if (!state.moved && Math.abs(dx) > 6) {
+              state.moved = true;
+              // Capture only once it is a drag, so a plain click still lands on the card.
+              event.currentTarget.setPointerCapture(event.pointerId);
+            }
+            if (state.moved) turnTo(state.from - dx / dragPerCard);
+          }}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          className="mx-[calc(50%-50vw)] mt-8 [scrollbar-width:none] max-md:flex max-md:snap-x max-md:snap-mandatory max-md:gap-5 max-md:overflow-x-auto max-md:px-[calc(50%-min(10.5rem,39vw))] max-md:py-6 md:relative md:mt-6 md:[perspective:1800px] md:h-[40rem] md:cursor-grab md:overflow-hidden md:select-none md:active:cursor-grabbing"
+        >
+          {items.map((item, index) => (
+            <li key={item.slug} style={{ "--i": index }} className="deck-card helix-card flex shrink-0 snap-center">
+              <Link
+                ref={(element) => {
+                  cardRefs.current[index] = element;
+                }}
+                href={`/work/${item.slug}`}
+                draggable={false}
+                onClick={(event) => onCardClick(event, index)}
+                onFocus={(event) => {
+                  // Keyboard focus brings the card forward. A click decides that itself in onCardClick.
+                  if (matchMedia(helixQuery).matches && event.currentTarget.matches(":focus-visible")) turnTo(index);
+                }}
+                className="group flex w-[min(21rem,78vw)] flex-col rounded-lg border border-line bg-plum-2 p-3 transition-colors duration-200 ease-out hover:border-muted"
+              >
+                {item.card}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <aside
+          aria-label="Case study in front"
+          className="absolute top-1/2 right-0 z-20 w-[19rem] -translate-y-1/2 rounded-lg border border-line bg-plum-2 p-5 max-md:hidden"
+        >
+          <div key={items[front]?.slug} className="[animation:fade-in_240ms_var(--ease)]">
+            {items[front]?.summary}
+          </div>
+          <div className="mt-6 flex items-center justify-between gap-4">
+            <span className="text-sm text-muted">Live demo inside.</span>
+            <button
+              type="button"
+              data-requires-js
+              onClick={() => show(front)}
+              className="rounded-md bg-lilac px-3.5 py-2 text-sm font-medium text-plum transition-[filter] duration-200 ease-out hover:brightness-110"
             >
-              {item.card}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              Open ↗
+            </button>
+          </div>
+        </aside>
+      </div>
 
       <dialog
         ref={dialogRef}

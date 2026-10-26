@@ -25,6 +25,7 @@ export function WorkDeck() {
           slug: entry.slug,
           title: entry.title,
           card: <Card entry={entry} index={index} />,
+          summary: <Summary entry={entry} index={index} />,
           detail: <Detail entry={entry} index={index} />,
         }))}
       />
@@ -65,12 +66,38 @@ function Card({ entry, index }: { entry: CaseStudy; index: number }) {
   );
 }
 
+/** Side panel text for the front card on the helix. The viewer adds the Open button below it. */
+function Summary({ entry, index }: { entry: CaseStudy; index: number }) {
+  return (
+    <>
+      <p className="flex justify-between font-mono text-meta text-muted tabular-nums">
+        <span>{position(index)}</span>
+        {entry.period && <span>{formatYears(entry.period)}</span>}
+      </p>
+      <p className="mt-4 font-mono text-meta text-muted">
+        {pillarLabels[entry.pillar]} · {entry.company}
+      </p>
+      <h3 className="mt-2 text-[1.75rem]/tight font-semibold tracking-[-0.02em] text-pretty">{entry.title}</h3>
+      <p className="mt-2 text-muted">{entry.tagline}</p>
+      {entry.metric && <p className="mt-5 border-t border-line pt-4 text-sm font-medium text-lilac">{entry.metric}</p>}
+    </>
+  );
+}
+
 /** The larger view: the live artifact beside the summary, the meta, the stack and a link to the full case study. */
 function Detail({ entry, index }: { entry: CaseStudy; index: number }) {
   const meta = [
     { label: "Role", value: entry.role, className: "text-ink" },
-    entry.period && { label: "Years", value: formatYears(entry.period), className: "font-mono text-ink tabular-nums" },
-    entry.metric && { label: "Result", value: entry.metric, className: "font-medium text-lilac" },
+    entry.period && {
+      label: "Years",
+      value: formatYears(entry.period),
+      className: "font-mono text-ink tabular-nums",
+    },
+    entry.metric && {
+      label: "Result",
+      value: entry.metric,
+      className: "font-medium text-lilac",
+    },
   ].filter((item) => !!item);
 
   return (
@@ -94,7 +121,10 @@ function Detail({ entry, index }: { entry: CaseStudy; index: number }) {
         {entry.stack.length > 0 && (
           <ul aria-label="Stack" className="mt-5 flex flex-wrap gap-2">
             {entry.stack.map((item) => (
-              <li key={item} className="rounded-sm border border-line bg-plum-2 px-2 py-0.5 font-mono text-meta text-ink">
+              <li
+                key={item}
+                className="rounded-sm border border-line bg-plum-2 px-2 py-0.5 font-mono text-meta text-ink"
+              >
                 {item}
               </li>
             ))}
