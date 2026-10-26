@@ -25,7 +25,7 @@ Most of Simon's work since 2024 is in private repositories. The site replaces co
 
 ## Positioning
 
-**Line (draft):** Senior TypeScript engineer in Stockholm. I build integration platforms, web apps and AI tools.
+**Line (draft):** Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.
 
 Every page supports at least one of three pillars. Each pillar is backed by the evidence listed in the Proof inventory below.
 

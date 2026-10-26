@@ -1,6 +1,6 @@
 import { currentJob } from "./career";
 
-const role = "Senior TypeScript engineer";
+const role = "Senior Software Engineer";
 const location = "Stockholm";
 /** The home page hero. The accent part renders in lilac. */
 const headline = { lead: "I build integration platforms, web apps and", accent: "AI tools." };
