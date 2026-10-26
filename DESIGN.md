@@ -234,7 +234,12 @@ A plum 2 `rounded-lg` panel with a small header (title in ink 500, hint in mono 
 
 ### Case study deck (signature)
 
-The first section under `#work`, from `src/components/work-deck.tsx`. A "Case studies" Claim heading, then a full-bleed horizontal track of one card per case study, scroll-snapped to the center. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges of the track. Each card links to its case study. With JavaScript a plain click opens a modal `<dialog>` instead, and a view transition morphs the card into it (420ms, `--ease`). The dialog shows the live artifact beside the position, title, summary, meta row, stack chips and a primary "Read the case study" button, with the other case studies below. Arrow keys and the ← → buttons move between them, and closing morphs back into the card.
+The first section under `#work`, from `src/components/work-deck.tsx`. A "Case studies" Claim heading with ← → buttons, then one card per case study. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years.
+
+- **From `md`: helix.** The cards sit on a spiral (`.helix-card` in `globals.css`): 34° apart around a vertical axis 32rem behind the front card, 4rem lower per step, fading with distance. One `--progress` value picks the front card. The wheel (over the deck), a drag, the arrow buttons and keyboard focus move it, eased per frame and snapped to a whole card. At the first and last card the wheel scrolls the page again. Clicking a card behind brings it forward, and clicking the front card opens the dialog.
+- **Below `md`: row.** A full-bleed scroll-snapped row. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges. A click opens the dialog.
+- **Dialog.** Each card links to its case study, so without JavaScript it navigates. With JavaScript a modal `<dialog>` opens and a view transition morphs the card into it (420ms, `--ease`). It shows the live artifact beside the position, title, summary, meta row, stack chips and a primary "Read the case study" button, with the other case studies below. Arrow keys and the ← → buttons move between them, and closing morphs back into the card.
+- **Reduced motion.** The helix jumps instead of easing, the row stays flat and the morph is skipped.
 
 ### Activity heatmap
 

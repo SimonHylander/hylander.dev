@@ -220,7 +220,7 @@
   }
 }
 
-/* Case study track: cards turn toward the reader as they reach the middle. CSS only, flat without support. */
+/* Case study row below `md`: cards turn toward the reader as they reach the middle. Flat without support. */
 @keyframes deck-turn {
   from {
     transform: perspective(1200px) translateZ(-120px) rotateY(32deg);
@@ -236,10 +236,30 @@
   }
 }
 
-@supports (animation-timeline: view()) {
-  .deck-card {
-    animation: deck-turn linear both;
-    animation-timeline: view(inline);
+@media (width < 48rem) {
+  @supports (animation-timeline: view()) {
+    .deck-card {
+      animation: deck-turn linear both;
+      animation-timeline: view(inline);
+    }
+  }
+}
+
+/*
+ * Case study helix from `md`. Each card sits at `--d` steps from the front card: turned by 34° per
+ * step around a vertical axis 32rem behind the front, and 4rem lower per step. The track sets
+ * `--progress`, the card sets `--i`.
+ */
+@media (width >= 48rem) {
+  .helix-card {
+    --d: calc(var(--i) - var(--progress, 0));
+    --a: calc(var(--d) * 34deg);
+    position: absolute;
+    top: calc(50% - 11.5rem);
+    left: calc(50% - 10.5rem);
+    transform: translate3d(calc(sin(var(--a)) * 32rem), calc(var(--d) * 4rem), calc((cos(var(--a)) - 1) * 32rem)) rotateY(var(--a));
+    opacity: clamp(0, 1.2 - abs(var(--d)) * 0.3, 1);
+    z-index: calc(10 - round(abs(var(--d))));
   }
 }
 
