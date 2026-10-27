@@ -2,81 +2,120 @@ import { byggdagbokenDiagram } from "../diagrams";
 
 export const metadata = {
   title: "Next.js Migration",
-  summary: "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
+  summary:
+    "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
   date: "2024-10-01",
   pillar: "architecture",
   tagline: "Next.js migration",
   company: "Byggdagboken",
   role: "Senior Software Engineer, client engineering lead",
   period: { start: "2024-05", end: "2026-02" },
-  stack: ["Next.js", "React", "Tailwind", "SST", "AWS Lambda", "AWS SQS", "CloudFront Functions"],
+  stack: [
+    "Next.js",
+    "React",
+    "Tailwind",
+    "SST",
+    "AWS Lambda",
+    "AWS SQS",
+    "CloudFront Functions",
+  ],
 };
+
+## Context
+
+Byggdagboken hired me to lead client engineering: the web
+client, the mobile apps, and the team building them. My first
+task was to replace the ageing web platform.
 
 ## Problem
 
-Byggdagboken's client side had been neglected for years. A new CTO made the clients a priority and hired me to lead client engineering: the web client, the mobile apps, and the team that built them. My first job was to move the web platform to a modern stack.
+The web platform ran PHP on the server and Angular.js in the
+browser, backed by a set of Java microservices. It had become
+hard to scale, hard to release, and hard to change.
 
-The web platform ran PHP on the server and Angular.js in the browser. Behind it sat about 20 Java microservices, and most requests called one to three of them. Six problems made the platform slow to run and slow to change.
+**It could only scale by buying a bigger machine.** PHP handled
+each request synchronously, holding a worker while it waited on
+backend services. Because every customer ran their own copy of
+the code on one server, adding machines was not an option.
 
-**The platform could only grow by buying a bigger machine.** PHP handles each request synchronously. A request holds a server worker until it finishes, including the time it spends waiting on the Java services. The company's answer to the load was a bigger machine. More machines behind a load balancer were not an option, because each customer had their own copy of the codebase on that one server.
+**One customer could slow down everyone else.** All customers
+shared that server, so a heavy PDF export or bulk import from
+one customer degraded the platform for the rest.
 
-**One customer could slow down everyone.** All customers shared that server. When one customer ran a heavy job, such as a PDF export or a bulk import or export, the platform slowed down for every other customer.
+**Every release meant updating every customer.** Each copy of
+the codebase had to be updated separately, which made releases
+slow and error-prone.
 
-**Every release meant updating every customer.** Each customer's copy of the codebase had to be updated separately.
-
-**Every change took too long.** Angular.js had been out of support since January 2022. The build had no hot module replacement, so developers reloaded the whole page to see each edit.
-
-**Business rules lived in the clients.** Logic that belonged on the server ran in the browser and in the apps.
-
-**An earlier fix had stalled.** A previous team started one backend-for-frontend for both web and mobile. It was meant to collect data from the microservices and give each client what a screen needs in one response. The work stalled before it got there.
+**Development had stalled.** Angular.js was no longer supported,
+there was no hot reloading, and business logic that belonged on
+the server had ended up in the browser. A previous attempt to
+fix the data layer with a shared backend-for-frontend had been
+abandoned halfway.
 
 ## Decisions
 
-### Move one module at a time
+### Migrate one module at a time
 
-The product was live, so the migration could not stop it. I used the strangler fig pattern: the new web client took over the platform one module at a time, and the monolith kept serving the rest. Each module moved end to end before the next one started.
+The product was live, so a big-bang rewrite was out. I used the
+strangler fig pattern: the new client took over one module at a
+time while the monolith kept serving everything else.
 
 <BuildDiagram diagram={byggdagbokenDiagram}>
 <DiagramStep>
 
-**The monolith.** Web traffic went through CloudFront to the monolith. It ran PHP on the server and Angular.js in the browser.
+**The monolith.** All web traffic went to the PHP and
+Angular.js application.
 
 </DiagramStep>
 <DiagramStep>
 
-**Route-level canaries.** A CloudFront Function sends a percentage of each migrated route's traffic to the new Next.js web client. The rest stays on the monolith.
+**Gradual rollout.** CloudFront sent a share of each migrated
+route's traffic to the new Next.js client, with the rest staying
+on the monolith.
 
 </DiagramStep>
 <DiagramStep>
 
-**A backend-for-frontend.** The native apps talk to a Node.js BFF, which aggregates their data across the microservices.
+**Mobile backend-for-frontend.** The native apps got their own
+Node.js service that gathers the data a screen needs into one
+response.
 
 </DiagramStep>
 <DiagramStep>
 
-**One sign-in.** I moved sign-in to OAuth2 and OpenID Connect with the Authorization Code flow and PKCE. Redis holds the short-lived tokens.
+**Standard sign-in.** Sign-in moved to OAuth2 and OpenID
+Connect, with sessions held on the server.
 
 </DiagramStep>
 </BuildDiagram>
 
-### Run one codebase on serverless
+### Run one codebase for all customers
 
-The new web client runs one codebase for every customer on AWS Lambda, with CloudFront as the CDN. A release updates every customer at once. Lambda adds instances as traffic grows, so capacity no longer depends on the size of one machine.
+The new client runs a single codebase on AWS Lambda, served
+through CloudFront. One release now updates every customer at
+once, and Lambda adds capacity as traffic grows instead of
+depending on the size of one machine.
 
-### Move heavy jobs to a queue
+### Move heavy work out of requests
 
-PDF exports and bulk imports and exports go onto an AWS SQS queue instead of running inside the request. One customer's heavy job no longer slows down the platform for everyone else.
+PDF exports and bulk imports and exports now run through an AWS
+SQS queue in the background. A heavy job from one customer no
+longer slows the platform down for everyone else.
 
-### Make the Next.js server the web BFF
+### Let the Next.js server act as the web BFF
 
-I did not build a separate BFF for the web. The Next.js server became the web BFF. It calls the microservices, combines their responses, and runs the business rules before anything reaches the browser.
+Rather than build a separate backend-for-frontend for the web,
+the Next.js server does the job itself. It calls the backend
+services, combines their responses, and applies business rules
+before anything reaches the browser. That moved logic out of
+the client and avoided another service to deploy and operate.
 
-That one choice fixed two problems. The business rules moved out of the browser, and the web gained no extra service to deploy and run. The native apps use their own Node.js BFF.
+{/* TODO: Add the final status — modules migrated, whether the
+monolith is retired, and measured impact on speed or incidents. */}
 
-{/* TODO(simon): ## Result. How many modules moved, whether the monolith is retired, and any numbers on speed or incidents. */}
+## Other work at Byggdagboken
 
-## Also at Byggdagboken
-
-- I introduced new workflows and release routines. The releases that followed had zero major incidents.
-- I automated the localization pipeline, and we launched 10 new languages.
-- I rebuilt the apps and the web client to work local-first.
+- I introduced new release routines; the releases that followed
+  had zero major incidents.
+- I automated the localization pipeline, which let us launch in
+  10 new languages.
