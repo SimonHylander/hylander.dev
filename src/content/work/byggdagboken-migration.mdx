@@ -1,39 +1,40 @@
 import { byggdagbokenDiagram } from "../diagrams";
 
 export const metadata = {
-  title: "Byggdagboken strangler-fig migration",
-  summary: "I moved a live web platform from PHP and Angular.js to Next.js, one route at a time.",
-  date: "2026-10-19",
+  title: "Next.js Migration",
+  summary: "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
+  date: "2024-10-01",
   pillar: "architecture",
-  tagline: "A live web platform moved from PHP to Next.js",
+  tagline: "Next.js migration",
   company: "Byggdagboken",
   role: "Senior Software Engineer, client engineering lead",
   period: { start: "2024-05", end: "2026-02" },
-  // TODO(simon): confirm the stack used for the migration itself.
-  stack: ["Next.js", "CloudFront Functions", "Node.js", "Redis", "OAuth2", "OpenID Connect", "PHP", "Angular.js"],
+  stack: ["Next.js", "React", "Tailwind", "SST", "AWS Lambda", "AWS SQS", "CloudFront Functions"],
 };
 
 ## Problem
 
-The Byggdagboken web platform was a PHP and Angular.js monolith.
+Byggdagboken's client side had been neglected for years. A new CTO made the clients a priority and hired me to lead client engineering: the web client, the mobile apps, and the team that built them. My first job was to move the web platform to a modern stack.
 
-{/* TODO(simon): What did the legacy system cost the team and the users? Why migrate now? */}
+The web platform ran PHP on the server and Angular.js in the browser. Behind it sat about 20 Java microservices, and most requests called one to three of them. Six problems made the platform slow to run and slow to change.
 
-## My role
+**The platform could only grow by buying a bigger machine.** PHP handles each request synchronously. A request holds a server worker until it finishes, including the time it spends waiting on the Java services. The company's answer to the load was a bigger machine. More machines behind a load balancer were not an option, because each customer had their own copy of the codebase on that one server.
 
-I led client engineering at Byggdagboken, for web and mobile, and a small team of app developers. I owned the delivery roadmap and backlog with management. I led this migration.
+**One customer could slow down everyone.** All customers shared that server. When one customer ran a heavy job, such as a PDF export or a bulk import or export, the platform slowed down for every other customer.
 
-{/* TODO(simon): Team size, timeline, and who else worked on the migration. */}
+**Every release meant updating every customer.** Each customer's copy of the codebase had to be updated separately.
 
-## Constraints
+**Every change took too long.** Angular.js had been out of support since January 2022. The build had no hot module replacement, so developers reloaded the whole page to see each edit.
 
-The product was live, so the migration could not stop it.
+**Business rules lived in the clients.** Logic that belonged on the server ran in the browser and in the apps.
 
-{/* TODO(simon): Other constraints, such as shared sessions, SEO, or the native apps depending on the same backend. */}
+**An earlier fix had stalled.** A previous team started one backend-for-frontend for both web and mobile. It was meant to collect data from the microservices and give each client what a screen needs in one response. The work stalled before it got there.
 
 ## Decisions
 
-I used the strangler fig pattern. The new client took over one route at a time, and the monolith kept serving the rest.
+### Move one module at a time
+
+The product was live, so the migration could not stop it. I used the strangler fig pattern: the new web client took over the platform one module at a time, and the monolith kept serving the rest. Each module moved end to end before the next one started.
 
 <BuildDiagram diagram={byggdagbokenDiagram}>
 <DiagramStep>
@@ -58,9 +59,21 @@ I used the strangler fig pattern. The new client took over one route at a time, 
 </DiagramStep>
 </BuildDiagram>
 
-{/* TODO(simon): Why a strangler fig instead of a rewrite, and how a canary was promoted or rolled back. */}
+### Run one codebase on serverless
 
-{/* TODO(simon): ## Result. How many routes moved, whether the legacy system is retired, and any numbers on speed or incidents. */}
+The new web client runs one codebase for every customer on AWS Lambda, with CloudFront as the CDN. A release updates every customer at once. Lambda adds instances as traffic grows, so capacity no longer depends on the size of one machine.
+
+### Move heavy jobs to a queue
+
+PDF exports and bulk imports and exports go onto an AWS SQS queue instead of running inside the request. One customer's heavy job no longer slows down the platform for everyone else.
+
+### Make the Next.js server the web BFF
+
+I did not build a separate BFF for the web. The Next.js server became the web BFF. It calls the microservices, combines their responses, and runs the business rules before anything reaches the browser.
+
+That one choice fixed two problems. The business rules moved out of the browser, and the web gained no extra service to deploy and run. The native apps use their own Node.js BFF.
+
+{/* TODO(simon): ## Result. How many modules moved, whether the monolith is retired, and any numbers on speed or incidents. */}
 
 ## Also at Byggdagboken
 
