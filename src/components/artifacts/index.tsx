@@ -17,7 +17,7 @@ type Artifact = {
 
 /** One small interactive piece per case study. A case study without an entry renders none. */
 const artifacts: Partial<Record<CaseStudySlug, Artifact>> = {
-  treddy: { title: "Behind the Treddy API", hint: "hover a partner", Body: PartnerGraph },
+  "treddy-se": { title: "Behind the Treddy API", hint: "hover a partner", Body: PartnerGraph },
   "byggdagboken-migration": { title: "Route-level canary", hint: "/projects", Body: CanarySplit },
   "ai-code-review": { title: "Senior review time", hint: "per change", Body: ReviewToggle },
   uppgraderingspaket: { title: "Price matching", hint: "RAG pipeline", Body: RagPipeline },

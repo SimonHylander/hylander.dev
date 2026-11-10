@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/resume", destination: "/cv", permanent: true },
+      { source: "/work/treddy", destination: "/work/treddy-se", permanent: true },
       ...retiredRoutes.map((source) => ({ source, destination: "/", permanent: true })),
     ];
   },
