@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { askInputSchema, parseAnswer, type SourceId } from "./ask.ts";
 
-const known: SourceId[] = ["/", "/cv", "/work/treddy", "/work/ai-code-review"];
+const known: SourceId[] = ["/", "/cv", "/work/treddy-se", "/work/ai-code-review"];
 
 test("parseAnswer splits the prose from the cited pages, in site order", () => {
   const answer = parseAnswer("Simon cut review time by 80%.\nSources: /cv, /work/ai-code-review", known);

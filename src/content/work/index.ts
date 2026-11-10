@@ -1,7 +1,7 @@
 import { caseStudySchema, defineCollection } from "../collection";
 import * as aiCodeReview from "./ai-code-review.mdx";
 import * as byggdagbokenMigration from "./byggdagboken-migration.mdx";
-import * as treddy from "./treddy.mdx";
+import * as treddySe from "./treddy-se.mdx";
 import * as uppgraderingspaket from "./uppgraderingspaket.mdx";
 
 /**
@@ -9,7 +9,7 @@ import * as uppgraderingspaket from "./uppgraderingspaket.mdx";
  * Registration order is the order on the home page and in the prev/next links.
  */
 export const work = defineCollection(caseStudySchema, {
-  treddy,
+  "treddy-se": treddySe,
   "byggdagboken-migration": byggdagbokenMigration,
   "ai-code-review": aiCodeReview,
   uppgraderingspaket,
