@@ -21,33 +21,33 @@ export const metadata = {
 
 ## Problem
 
-Buying second-hand from a stranger online means one side has to trust the other. The buyer pays first and hopes the item arrives, or the seller ships first and hopes to get paid. In 2020, 449,000 Swedes were exposed to sales fraud, according to the Swedish National Council for Crime Prevention (BRÅ).
+Buying second-hand from a stranger online means one side has to trust the other. The buyer pays first and hopes the item arrives, or the seller ships first and hopes to get paid. The Swedish National Council for Crime Prevention (BRÅ) counted 449,000 Swedes exposed to sales fraud in 2020.
 
-Treddy's CEO started the company after paying for a used camera that never arrived. The goal was a service that sits between buyer and seller on any ad site, such as Facebook Marketplace, and removes the need for trust.
+Treddy's CEO started the company after paying for a used camera that never arrived. The goal was a service between buyer and seller on any ad site, such as Facebook Marketplace, so that neither side has to trust the other.
 
 ## My role
 
-I led the technical architecture and development from September 2021 to April 2024, as a consultant through Skoglit. I built the consumer product that launched on treddy.se in early 2022, and from December 2022 the Treddy Developer Platform that let marketplaces build Treddy into their own sites.
+I led the technical architecture and development from September 2021 to April 2024, as a consultant through Skoglit. I built the consumer product that launched on treddy.se in early 2022. From December 2022 I also built the Treddy Developer Platform, which let marketplaces build Treddy into their own sites.
 
 {/* TODO(simon): Team size, and what you owned beyond the architecture. */}
 
-## The product
+## How a trade works
 
-Treddy is not a marketplace. The seller lists the item wherever they like, and Treddy handles the deal: identity, payment, shipping and support.
+Treddy has no listings of its own. The seller lists the item wherever they like, and Treddy handles the deal: identity, payment, shipping and support.
 
-<Figure src={home} alt="The treddy.se home page: 'Buy, sell and ship second-hand. On Facebook and every other marketplace', with buttons to create or request a payment link." caption="The treddy.se home page in November 2022. Sellers create a payment link, buyers can request one." />
+<Figure src={home} alt="The treddy.se home page: 'Buy, sell and ship second-hand. On Facebook and every other marketplace', with buttons to create or request a payment link." caption="The treddy.se home page in November 2022. Sellers create a payment link. Buyers can request one." />
 
 A trade runs in five steps:
 
 1. **The seller creates a payment link.** They describe the item, choose shipping and get a link to share in the ad or with the buyer.
 2. **The buyer pays.** Treddy holds the money until the buyer has the item.
-3. **The seller ships.** Shipping is booked with DB Schenker automatically, and the seller gets the label by email.
+3. **The seller ships.** Treddy books shipping with DB Schenker and emails the label to the seller.
 4. **The buyer collects and inspects.** The buyer picks up the parcel at a Schenker agent and has 24 hours to inspect and approve it.
-5. **The seller gets paid.** Treddy pays out once the buyer approves, or automatically after the 24 hours.
+5. **The seller gets paid.** Treddy pays out when the buyer approves, or after 24 hours if the buyer does nothing.
 
 <Figure src={steps} alt="The five steps of a Treddy trade on a vertical timeline, from creating a payment link to the seller getting paid." caption="The five steps, as the home page explained them." />
 
-Users sign in with BankID, so both sides of a trade are verified. Selling is free. The buyer pays shipping plus 2.5% of the price. The site was built to WCAG 2.1 AA.
+Users sign in with BankID, which verifies both sides of every trade. Selling is free. The buyer pays shipping plus 2.5% of the price. The site met WCAG 2.1 AA.
 
 <Figure src={mockup} alt="The treddy.se home page on a laptop and a phone." caption="An earlier version of the home page, on desktop and mobile." />
 
@@ -55,27 +55,33 @@ Users sign in with BankID, so both sides of a trade are verified. Selling is fre
 
 ### A payment link instead of a marketplace
 
-A link works on every ad site without any integration on their side, so Treddy could launch without convincing a marketplace first. The seller creates it once, and anyone with the link can buy, the same way as in a web shop.
+A payment link works on any ad site without the site doing anything, so Treddy could launch before a single marketplace signed on. The seller creates the link once, and anyone with it can buy, as in a web shop.
 
 ### Hold the money until the buyer approves
 
-The buyer's money is locked when they pay and released only when the item is approved. The deal has a deadline at each step: the seller ships within 7 days, the buyer collects within 14 days and inspects within 24 hours. If the seller misses a deadline the buyer is refunded, an uncollected parcel goes back to the seller, and a buyer who does nothing approves the item. No deal stays open.
+Treddy locks the buyer's money at payment and releases it only when the buyer approves the item. Each step has a deadline, and each deadline has an outcome:
+
+- If the seller does not ship within 7 days, Treddy refunds the buyer.
+- If the buyer does not collect the parcel within 14 days, it goes back to the seller.
+- If the buyer does not respond within 24 hours of collecting, the item counts as approved.
+
+No deal stays open forever.
 
 {/* TODO(simon): How the payment hold and payouts were built (Stripe, Ping Payments, PSD2), and why. */}
 
-### Build every provider into one platform
+### Connect every provider behind one API
 
-Each part of a trade depends on an outside provider. I connected them behind one API layer that the consumer product and partners both use.
+Each part of a trade depends on an outside provider. I connected them all behind one API layer, which both the consumer product and the partners use.
 
 <BuildDiagram diagram={treddyDiagram}>
 <DiagramStep>
 
-**The core.** Treddy's trade flow: payment links, the payment hold, deadlines and payouts. Every integration below connects to it.
+**The core.** The core runs the trade flow: payment links, the payment hold, deadlines and payouts. Every integration below connects to it.
 
 </DiagramStep>
 <DiagramStep>
 
-**Identity.** Users identify with BankID or the Finnish Trust Network. BankID also signs the digital purchase contract.
+**Identity.** Users verify their identity with BankID or the Finnish Trust Network. Buyer and seller also sign the digital purchase contract with BankID.
 
 </DiagramStep>
 <DiagramStep>
@@ -97,7 +103,9 @@ Each part of a trade depends on an outside provider. I connected them behind one
 
 ### Open the platform to marketplaces
 
-The payment link brought Treddy to users. The Developer Platform brought it to marketplaces and rental sites, which could offer safe payment and shipping on their own listings. Partners got BankID verification and signing, locked payments, Schenker shipping labels and delivery tracking through one API, while Treddy handled customer support for the deal. I worked on the developer docs, covering authorization, the API reference, webhook events and webhook signatures, and helped onboard partners.
+The payment link brought Treddy to users. The Developer Platform brought it to marketplaces and rental sites, so they could offer safe payment and shipping on their own listings. Through one API, partners got BankID verification and signing, locked payments, Schenker shipping labels and delivery tracking. Treddy handled customer support for each deal.
+
+I worked on the developer docs, which cover authorization, the API reference, webhook events and webhook signatures. I also helped onboard partners.
 
 {/* TODO(simon): Why an API layer and webhooks, and which alternatives you rejected. */}
 
