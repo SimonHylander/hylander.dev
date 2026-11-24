@@ -120,7 +120,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 - Mono only for dates, metadata, keys and code.
 - Motion is short and purposeful, and none of it gates content.
 
-**Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, and 96px above the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
+**Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, then 64px to the Shipping heatmap, and 64px (mobile) to 96px (desktop) from the heatmap to the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
 **Home order.** Hero, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
 
@@ -204,7 +204,7 @@ Lists are rows divided by hairlines. The only cards are in the case study deck. 
 
 ### Navigation
 
-- **Top bar:** sticky, 64px, plum at 90% opacity. The SH mark (32px lilac circle, plum 11px bold text) links home on the left. On the right: Work, CV and Contact as ghost links, then "Jump to ⌘K", which opens the palette. Work and CV hide below `sm`; the key hint hides below `sm` and reads "Ctrl K" off Apple platforms.
+- **Top bar:** sticky, 64px, solid plum. The SH mark (32px lilac circle, plum 11px semibold text, brightens on hover) links home on the left. On the right: Work, CV and Contact as ghost links, then "Jump to ⌘K", which opens the palette. Work and CV hide below `sm`; the key hint hides below `sm` and reads "Ctrl K" off Apple platforms.
 - **Contact footer** (every page, `#contact`): the contact prompt in Display, the email as a `mailto:` link with a Copy button (toast confirms), then the location and GitHub, LinkedIn and X in muted.
 - **Focus:** every focusable element shows a 2px lilac outline, offset 2px.
 
@@ -218,7 +218,7 @@ The Treddy artifact. A 16:10 box with the lilac "Treddy API" pill in the center 
 
 ### Career timeline
 
-The home page's career section. A "12 years, 5 companies" Claim heading (computed from `career.ts`) with a "Full CV" outline button, then one grid column per year from the first job to two years past now. Each job spans its years with a 6px band on top (plum 3; lilac for the current job, which runs to the end of the axis), a 1px line on its left, then company (500), role (muted 14px) and years (mono). Below `md` it is a plain list with the years on the right.
+The home page's career section. A "12 years, 5 companies" Claim heading (computed from `career.ts`) with a "Full CV" outline button, then one grid column per year from the first job to two years past now. Each job spans its years with a 6px band on top (plum 3; lilac for the current job, which runs to the end of the axis), a 1px line on its left, then years (mono, first so they share one line across columns), company (500) and role (muted 14px). Below `md` it is a plain list with the years on the right.
 
 ### Artifacts
 
@@ -228,14 +228,14 @@ A plum 2 `rounded-lg` panel with a small header (title in ink 500, hint in mono 
 
 The first section under `#work`, from `src/components/work-deck.tsx`. A "Projects" Claim heading with ← → buttons, then one card per case study. A card is plum 2 with a line border and `rounded-lg`: position ("01 / 04") and pillar in mono, a zoomed, inert preview of the artifact on plum, then title, tagline, company and years.
 
-- **From `md`: helix.** The cards sit on a spiral (`.helix-card` in `globals.css`): 34° apart around a vertical axis 32rem behind the front card, 4rem lower per step, fading with distance. One `--progress` value picks the front card. The wheel (over the deck), a drag, the arrow buttons and keyboard focus move it, eased per frame and snapped to a whole card. At the first and last card the wheel scrolls the page again. Clicking a card brings it forward and never opens the dialog. The helix is centered at 40% of the width. On the right, a side panel (plum 2, line border, `rounded-lg`, 19rem) summarises the front card: position and years, pillar and company in mono, title, tagline, the metric in lilac, and a lilac "Open" button, the only way to open the dialog from the helix.
+- **From `md`: helix.** The cards sit on a spiral (`.helix-card` in `globals.css`): 34° apart around a vertical axis 32rem behind the front card, 4rem lower per step, fading with distance. One `--progress` value picks the front card. The wheel (over the deck), a drag, the arrow buttons and keyboard focus move it, eased per frame and snapped to a whole card. At the first and last card the wheel scrolls the page again. Clicking a card brings it forward and never opens the dialog. The helix is centered at 40% of the width, with the front card 4rem below the top of a 36rem track whose top 4rem fades out. On the right, a side panel (plum 2, line border, `rounded-lg`, 19rem) summarises the front card: position and years, pillar and company in mono, title, tagline, the metric in ink, and an outline "Open" button, the only way to open the dialog from the helix.
 - **Below `md`: row.** A full-bleed scroll-snapped row. Where scroll-driven animations exist, cards turn up to 32° and fade toward the edges. A click opens the dialog.
 - **Dialog.** Each card links to its case study, so without JavaScript it navigates. With JavaScript a modal `<dialog>` opens and a view transition morphs the card into it (420ms, `--ease`). It shows the live artifact beside the position, title, summary, meta row, stack chips and a primary "Read the case study" button, with the other case studies below. Arrow keys and the ← → buttons move between them, and closing morphs back into the card.
 - **Reduced motion.** The helix jumps instead of easing, the row stays flat and the morph is skipped.
 
 ### Tools I build with
 
-`src/components/tools-section.tsx`, data in `src/content/tools.ts`. The Claim heading beside a 3-column grid (from `md`; stacked below it). One tile per tool: plum 2, line border, `rounded-lg`, 5:4, the mark at 32px to 36px in ink over the name at 14px 500. Hovering a tile turns the mark lilac and the border muted. Marks are single-path SVGs in `currentColor`, so no brand colors enter the palette.
+`src/components/tools-section.tsx`, data in `src/content/tools.ts`. The Claim heading beside a list in 3 columns (2 below `sm`). One 56px hairline row per tool: the mark at 20px in muted, then the name at 16px 500. The rows are static, with no hover state. Marks are single-path SVGs in `currentColor`, so no brand colors enter the palette.
 
 ### Activity heatmap
 
@@ -249,10 +249,9 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 
 - Ease: `cubic-bezier(.22, 1, .36, 1)` everywhere (`--ease`, Tailwind `ease-out`).
 - Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, then buttons).
-- "Now" dot: a soft ping every 2.4s.
 - Partner graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 700ms. Canary split 450ms, review bars 700ms, pipeline chips 280ms apart.
 - Palette 200ms, toast 240ms, hover shifts 300ms.
-- `prefers-reduced-motion: reduce` collapses every animation and transition and removes the ping.
+- `prefers-reduced-motion: reduce` collapses every animation and transition.
 
 ## Do's and Don'ts
 

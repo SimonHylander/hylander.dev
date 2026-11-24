@@ -91,7 +91,7 @@ export function HeatmapGrid({ days, defaultNote }: { days: readonly Contribution
           </tbody>
         </table>
       </div>
-      <p className="mt-2.5 min-h-[2lh] text-sm text-muted sm:min-h-[1lh]">
+      <p className="mt-3 min-h-[2lh] text-sm text-muted sm:min-h-[1lh]">
         {note ?? defaultNote}
       </p>
     </>

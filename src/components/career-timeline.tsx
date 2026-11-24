@@ -44,11 +44,12 @@ export function CareerTimeline() {
                 aria-hidden
                 className={`col-span-2 mb-3 block h-1.5 rounded-full ${job.end ? "bg-plum-3" : "bg-lilac"}`}
               />
-              <span className="block font-medium">{job.company}</span>
-              <span className="col-start-1 block text-sm text-muted">{job.role}</span>
-              <span className="col-start-2 row-start-2 block font-mono text-meta text-muted tabular-nums md:mt-1.5">
+              {/* Years come first from `md`, so they share one line across columns however the names wrap. */}
+              <span className="col-start-2 row-start-2 block font-mono text-meta text-muted tabular-nums md:mb-1">
                 {formatYears(job)}
               </span>
+              <span className="block font-medium">{job.company}</span>
+              <span className="col-start-1 block text-sm text-muted">{job.role}</span>
             </li>
           );
         })}
