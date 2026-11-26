@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, then 64px to the Shipping heatmap, and 64px (mobile) to 96px (desktop) from the heatmap to the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero, then the case study deck, How I work with AI, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (above the case study prose).
 
@@ -147,7 +147,7 @@ Restrained strategy: tinted plum neutrals and one accent. The accent covers well
 
 **The One Accent Rule.** Lilac marks one idea per view. In the hero that idea is the accent phrase and the button that acts on it. If two lilac ideas compete, one of them becomes ink.
 
-**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities.
+**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities. The Grok bot avatars (`--bot-*`) and the heatmap ramp are the only off-token colors.
 
 **Print.** `@media print` remaps the tokens to white, black and grays, so `/cv` prints as a plain document.
 
@@ -237,9 +237,13 @@ The first section under `#work`, from `src/components/work-deck.tsx`. A "Project
 
 `src/components/tools-section.tsx`, data in `src/content/tools.ts`. The Claim heading beside a list in 3 columns (2 below `sm`). One 56px hairline row per tool: the mark at 20px in muted, then the name at 16px 500. The rows are static, with no hover state. Marks are single-path SVGs in `currentColor`, so no brand colors enter the palette.
 
+### How I work with AI
+
+`src/components/ai-workflow-section.tsx`, script in `src/content/ai-workflow.ts`. The Claim heading and one paragraph beside a plum 2 panel with two panes: Simon's Grok bots on the left, T3 Code threads on the right. A loop of about 17 seconds: Simon's request appears, then each bot wakes, works and finishes in turn, and the T3 bot sends a lilac dot to each new thread. Threads move from Working (lilac, dashed spinner) to Pull request. The bots are blob avatars after Simon's Grok app, 40px, in `--bot-*` colors matched to the plum lightness. T3 uses lilac, since the handoff to T3 Code is the section's one accent idea. Idle bots sleep with their eyes shut, a working bot bobs and an awake bot blinks. The loop runs only on screen, with the tab in front and motion allowed, and a "Pause the loop" button sits below the panel. The server, no-JS and reduced-motion state is the finished loop.
+
 ### Activity heatmap
 
-Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
+Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
 
 ### Case study meta row
 

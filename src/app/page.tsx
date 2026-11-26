@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AiWorkflowSection } from "@/components/ai-workflow-section";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot } from "@/components/slots";
@@ -52,6 +53,8 @@ export default function HomePage() {
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
       </div>
+
+      <AiWorkflowSection />
 
       <ToolsSection />
 
