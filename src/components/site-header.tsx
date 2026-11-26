@@ -12,11 +12,11 @@ const linkClass =
  */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-10 -mx-5 flex h-16 items-center justify-between bg-plum/90 px-5 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 print:hidden">
+    <header className="sticky top-0 z-10 -mx-5 flex h-16 items-center justify-between bg-plum px-5 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 print:hidden">
       <Link
         href="/"
         aria-label={`${profile.name}, home`}
-        className="grid size-8 place-items-center rounded-full bg-lilac text-[0.6875rem] font-bold tracking-[0.02em] text-plum transition-transform duration-300 ease-out hover:scale-105"
+        className="grid size-8 place-items-center rounded-full bg-lilac text-[0.6875rem] font-semibold tracking-[0.02em] text-plum transition-[filter] duration-200 ease-out hover:brightness-110"
       >
         SH
       </Link>

@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section aria-labelledby="intro" className="pt-16 pb-16 sm:pt-24 md:pb-24">
+      <section aria-labelledby="intro" className="pt-16 pb-16 sm:pt-24">
         <div>
           <h1 id="intro" className="reveal text-display font-semibold tracking-[-0.03em] text-balance">
             {profile.headline.lead} <span className="text-lilac">{profile.headline.accent}</span>
@@ -22,8 +22,10 @@ export default function HomePage() {
           <p className="reveal mt-7 text-lg text-muted [--reveal-step:1]">
             <span className="font-medium text-ink">{profile.name}</span>. {profile.role} in {profile.location}.
           </p>
-          <p className="reveal mt-2.5 flex items-center gap-3 text-lg text-muted [--reveal-step:2]">
-            <span aria-hidden className="ping relative size-2 shrink-0 rounded-full bg-lilac" />
+          <p className="reveal mt-3 flex items-start gap-3 text-lg text-muted [--reveal-step:2]">
+            <span aria-hidden className="flex h-lh shrink-0 items-center">
+              <span className="size-2 rounded-full bg-lilac" />
+            </span>
             <span>
               Working on growth and integrations at {currentJob.company}
             </span>

@@ -79,7 +79,7 @@ function Summary({ entry, index }: { entry: CaseStudy; index: number }) {
       </p>
       <h3 className="mt-2 text-[1.75rem]/tight font-semibold tracking-[-0.02em] text-pretty">{entry.title}</h3>
       <p className="mt-2 text-muted">{entry.tagline}</p>
-      {entry.metric && <p className="mt-5 border-t border-line pt-4 text-sm font-medium text-lilac">{entry.metric}</p>}
+      {entry.metric && <p className="mt-5 border-t border-line pt-4 text-sm font-medium text-ink">{entry.metric}</p>}
     </>
   );
 }

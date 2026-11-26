@@ -15,7 +15,7 @@ export async function ActivityHeatmap() {
   const total = days.reduce((sum, { count }) => sum + count, 0);
 
   return (
-    <section aria-labelledby="shipping-heading" className="mt-16">
+    <section aria-labelledby="shipping-heading" className="pb-16 md:pb-24">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 pb-3">
         <h2 id="shipping-heading" className="section-heading">
           Shipping

@@ -213,7 +213,7 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
           }}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
-          className="mx-[calc(50%-50vw)] mt-8 [scrollbar-width:none] max-md:flex max-md:snap-x max-md:snap-mandatory max-md:gap-5 max-md:overflow-x-auto max-md:px-[calc(50%-min(10.5rem,39vw))] max-md:py-6 md:relative md:mt-6 md:[perspective:1800px] md:h-[40rem] md:cursor-grab md:overflow-hidden md:select-none md:active:cursor-grabbing"
+          className="mx-[calc(50%-50vw)] mt-8 [scrollbar-width:none] max-md:flex max-md:snap-x max-md:snap-mandatory max-md:gap-5 max-md:overflow-x-auto max-md:px-[calc(50%-min(10.5rem,39vw))] max-md:py-6 md:relative md:mt-6 md:[perspective:1800px] md:h-[36rem] md:[mask-image:linear-gradient(to_bottom,transparent,black_4rem)] md:cursor-grab md:overflow-hidden md:select-none md:active:cursor-grabbing"
         >
           {items.map((item, index) => (
             <li key={item.slug} style={{ "--i": index }} className="deck-card helix-card flex shrink-0 snap-center">
@@ -238,18 +238,18 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
 
         <aside
           aria-label="Case study in front"
-          className="absolute top-1/2 right-0 z-20 w-[19rem] -translate-y-1/2 rounded-lg border border-line bg-plum-2 p-5 max-md:hidden"
+          className="absolute top-[15.5rem] right-0 z-20 w-[19rem] -translate-y-1/2 rounded-lg border border-line bg-plum-2 p-5 max-md:hidden"
         >
           <div key={items[front]?.slug} className="[animation:fade-in_240ms_var(--ease)]">
             {items[front]?.summary}
           </div>
           <div className="mt-6 flex items-center justify-between gap-4">
-            <span className="text-sm text-muted">Live demo inside.</span>
+            <span className="text-sm text-muted">Live demo inside</span>
             <button
               type="button"
               data-requires-js
               onClick={() => show(front)}
-              className="rounded-md bg-lilac px-3.5 py-2 text-sm font-medium text-plum transition-[filter] duration-200 ease-out hover:brightness-110"
+              className="rounded-md border border-line px-3.5 py-2 text-sm font-medium transition-colors duration-200 ease-out hover:border-muted hover:bg-plum-3"
             >
               Open ↗
             </button>
