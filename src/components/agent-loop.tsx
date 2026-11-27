@@ -8,11 +8,11 @@ import {
   hold,
   request,
   settledThread,
+  stepMs,
   steps,
   thread,
   type Bot,
   type BotStatus,
-  type Stop,
   type ThreadStatus,
 } from "@/content/ai-workflow";
 import { tools } from "@/content/tools";
@@ -70,17 +70,18 @@ function BotAvatar({ bot, status }: { bot: Bot; status: BotStatus }) {
 
 const engineerBadge = still(engineer, "done", 16);
 
-const pullRequest = (
-  <>
-    <circle cx="18" cy="18" r="3" />
-    <circle cx="6" cy="6" r="3" />
-    <path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12" />
-  </>
-);
-
 const labels = {
-  review: { label: "In review", tone: "text-ink", icon: pullRequest },
-  changes: { label: "Changes requested", tone: "text-ink", icon: pullRequest },
+  changes: {
+    label: "Changes requested",
+    tone: "text-ink",
+    icon: (
+      <>
+        <circle cx="18" cy="18" r="3" />
+        <circle cx="6" cy="6" r="3" />
+        <path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12" />
+      </>
+    ),
+  },
   passed: { label: "Merge gate passed", tone: "text-ink", icon: <path d="M5 12.5l4.5 4.5L19 7.5" /> },
   merged: {
     label: "Merged",
@@ -118,51 +119,21 @@ function Status({ status }: { status: Exclude<ThreadStatus, "hidden"> }) {
 }
 
 /**
- * Sends a lilac dot from one stop to another, timed to land as the next frame shows. The arc bends 28px
- * up or to the left of travel, so it clears the bot names and goes over the gap between the panes.
- */
-function pulse(layer: HTMLElement, from: Element, to: Element) {
-  const origin = layer.getBoundingClientRect();
-  const a = from.getBoundingClientRect();
-  const b = to.getBoundingClientRect();
-  const start = { x: a.left + a.width / 2 - origin.left, y: a.top + a.height / 2 - origin.top };
-  const end = { x: b.left + b.width / 2 - origin.left, y: b.top + b.height / 2 - origin.top };
-  const length = Math.hypot(end.x - start.x, end.y - start.y) || 1;
-  const normal = { x: (end.y - start.y) / length, y: (start.x - end.x) / length };
-  const side = normal.x + normal.y > 0 ? -28 : 28;
-  const bend = { x: normal.x * side, y: normal.y * side };
-  const at = (x: number, y: number, scale = 1) => `translate(${x}px, ${y}px) scale(${scale})`;
-  const dot = document.createElement("span");
-  dot.className = "absolute -top-1.5 -left-1.5 size-3 rounded-full bg-lilac";
-  layer.append(dot);
-  const animation = dot.animate(
-    [
-      { transform: at(start.x, start.y, 0.4), opacity: 0 },
-      { opacity: 1, offset: 0.12 },
-      { transform: at((start.x + end.x) / 2 + bend.x, (start.y + end.y) / 2 + bend.y), offset: 0.5 },
-      { transform: at(end.x, end.y, 0.6), opacity: 0 },
-    ],
-    { duration: 800, easing: "cubic-bezier(.45, 0, .2, 1)" },
-  );
-  animation.onfinish = animation.oncancel = () => dot.remove();
-}
-
-/**
- * Simon's Grok product team taking a change from spec to merge, with the engineer building it in T3 Code.
- * Loops while on screen, the tab is in front, motion is allowed and the visitor has not paused it. Renders
- * the finished state on the server, without JavaScript and under reduced motion.
+ * Simon's Grok product team taking a change from spec to merge, with the engineer building it in T3 Code,
+ * one captioned step at a time with the bot at work highlighted. Loops while on screen, the tab is in front,
+ * motion is allowed and the visitor has not paused it. Renders the finished state on the server, without
+ * JavaScript and under reduced motion.
  */
 export function AgentLoop() {
   const [step, setStep] = useState(lastStep);
   const [paused, setPaused] = useState(false);
   const stepRef = useRef(step);
-  const layerRef = useRef<HTMLDivElement>(null);
-  const stops = useRef<Partial<Record<Stop, HTMLElement | null>>>({});
-  const snapshot = steps[step]?.snapshot ?? steps[lastStep]!.snapshot;
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { caption, snapshot } = steps[step] ?? steps[lastStep]!;
 
   useEffect(() => {
-    const layer = layerRef.current;
-    if (!layer) return;
+    const panel = panelRef.current;
+    if (!panel) return;
     const motion = matchMedia(reducedMotion);
     let onScreen = false;
     let timer: number | undefined;
@@ -181,12 +152,8 @@ export function AgentLoop() {
         timer = window.setTimeout(() => {
           timer = undefined;
           go(next);
-          const send = steps[next]?.send;
-          const from = send && stops.current[send[0]];
-          const to = send && stops.current[send[1]];
-          if (from && to) pulse(layer, from, to);
           sync();
-        }, next === 0 ? (started ? hold : 1200) : steps[next]!.ms);
+        }, next === 0 ? (started ? hold : 1200) : stepMs);
         started = true;
       } else if (!run && timer !== undefined) {
         window.clearTimeout(timer);
@@ -199,7 +166,7 @@ export function AgentLoop() {
       onScreen = entry?.isIntersecting ?? false;
       sync();
     });
-    observer.observe(layer);
+    observer.observe(panel);
     document.addEventListener("visibilitychange", sync);
     motion.addEventListener("change", sync);
 
@@ -213,15 +180,20 @@ export function AgentLoop() {
 
   return (
     <figure className="self-start">
-      <div className="relative rounded-lg bg-plum-2 p-5 sm:p-6">
-        <div ref={layerRef} aria-hidden className="pointer-events-none absolute inset-0 z-10" />
+      <div ref={panelRef} className="rounded-lg bg-plum-2 p-5 sm:p-6">
+        <div aria-hidden className="mb-5 border-b border-line pb-4">
+          <p className="text-meta text-muted tabular-nums">
+            Step {step + 1} of {steps.length}
+          </p>
+          <p key={step} className="mt-1 min-h-[2lh] text-sm text-ink motion-safe:animate-[fade-in_400ms_var(--ease)] sm:min-h-lh">
+            {caption}
+          </p>
+        </div>
         <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] sm:gap-0">
           <div className="sm:pr-6">
             <p className="flex h-7 items-center text-sm text-muted">Grok</p>
             <div aria-hidden>
-              <div
-                className={`mt-3 border-b border-line pb-3 transition-[opacity,translate] duration-500 ease-out ${snapshot.request ? "" : "-translate-y-1 opacity-0"}`}
-              >
+              <div className="mt-3 border-b border-line pb-3">
                 <p className="text-meta text-muted">Simon</p>
                 <p className="mt-0.5 text-sm text-ink">{request}</p>
               </div>
@@ -229,15 +201,11 @@ export function AgentLoop() {
                 {bots.map((bot) => {
                   const { status, note } = snapshot.bots[bot.id];
                   return (
-                    <li key={bot.id} className="flex items-center gap-3 py-2">
-                      <span
-                        ref={(node) => {
-                          stops.current[bot.id] = node;
-                        }}
-                        className="shrink-0"
-                      >
-                        <BotAvatar bot={bot} status={status} />
-                      </span>
+                    <li
+                      key={bot.id}
+                      className={`-mx-2 flex items-center gap-3 rounded-md px-2 py-2 transition-colors duration-500 ease-out ${status === "busy" ? "bg-plum-3" : ""}`}
+                    >
+                      <BotAvatar bot={bot} status={status} />
                       <div className="min-w-0">
                         <p className={`truncate text-sm font-medium transition-colors duration-500 ease-out ${status === "idle" ? "text-muted" : "text-ink"}`}>
                           {bot.name}
@@ -268,9 +236,6 @@ export function AgentLoop() {
                 className={`flex gap-3 border-b border-line py-3 transition-[opacity,translate] duration-500 ease-out ${snapshot.thread === "hidden" ? "-translate-y-1.5 opacity-0" : ""}`}
               >
                 <span
-                  ref={(node) => {
-                    stops.current.thread = node;
-                  }}
                   className="flex h-lh items-center text-sm [&>svg]:size-4"
                   dangerouslySetInnerHTML={{ __html: engineerBadge }}
                 />
@@ -308,7 +273,8 @@ export function AgentLoop() {
         {request} Simon sends the request to his product team of Grok bots. The product manager and the designer
         write the spec together and send it to the engineering manager, who delegates it to the engineer. The engineer
         builds it in T3 Code and opens a pull request. The code reviewer asks for changes, the engineer fixes them,
-        and the merge gate passes. The QA engineer tests the change, and it merges.
+        and the merge gate passes. The QA engineer tests the change, and it merges. Each step has a caption, and the
+        bot at work is highlighted.
       </figcaption>
     </figure>
   );

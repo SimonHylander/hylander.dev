@@ -65,30 +65,23 @@ export const thread = { title: "Add the AI section", branch: "ai-section" };
 export const settledThread = { title: "Tighten the Treddy.se case study prose", branch: "treddy-se" };
 
 export type BotStatus = "idle" | "busy" | "waiting" | "done";
-export type ThreadStatus = "hidden" | "working" | "review" | "changes" | "passed" | "merged";
-/** Where a handoff dot starts or lands: a bot, or the thread in T3 Code. */
-export type Stop = BotId | "thread";
+export type ThreadStatus = "hidden" | "working" | "changes" | "passed" | "merged";
 
 type BotState = { status: BotStatus; note: string };
 
 export type Snapshot = {
-  request: boolean;
   bots: Record<BotId, BotState>;
   thread: ThreadStatus;
 };
 
 type Frame = {
-  /** Time since the previous frame. */
-  ms: number;
-  request?: boolean;
+  /** What happens in this step, shown above the panes. */
+  caption: string;
   bots?: Partial<Record<BotId, BotState>>;
   thread?: ThreadStatus;
-  /** A handoff dot sent in this frame. */
-  send?: readonly [Stop, Stop];
 };
 
 const start: Snapshot = {
-  request: false,
   bots: {
     pm: { status: "idle", note: "Ready" },
     designer: { status: "idle", note: "Ready" },
@@ -101,63 +94,62 @@ const start: Snapshot = {
 };
 
 const frames: readonly Frame[] = [
-  { ms: 0 },
-  { ms: 700, request: true },
+  { caption: "Simon asks his Grok team for a change." },
   {
-    ms: 1100,
+    caption: "The product manager and designer write the spec together.",
     bots: { pm: { status: "busy", note: "Writing the spec" }, designer: { status: "busy", note: "Sketching the layout" } },
   },
   {
-    ms: 1600,
-    send: ["designer", "pm"],
-    bots: { designer: { status: "done", note: "Layout added to the spec" }, pm: { status: "busy", note: "Finishing the spec" } },
+    caption: "The engineering manager plans the work and delegates it to the engineer.",
+    bots: {
+      pm: { status: "done", note: "Spec sent to engineering" },
+      designer: { status: "done", note: "Layout added to the spec" },
+      em: { status: "busy", note: "Planning the work" },
+    },
   },
-  { ms: 1300, send: ["pm", "em"], bots: { pm: { status: "done", note: "Spec sent to engineering" } } },
-  { ms: 700, bots: { em: { status: "busy", note: "Planning the work" } } },
-  { ms: 1300, send: ["em", "engineer"], bots: { em: { status: "done", note: "Delegated to Engineer" } } },
-  { ms: 700, send: ["engineer", "thread"], bots: { engineer: { status: "busy", note: "Building in T3 Code" } } },
-  { ms: 700, thread: "working" },
   {
-    ms: 1800,
-    send: ["engineer", "reviewer"],
-    thread: "review",
-    bots: { engineer: { status: "waiting", note: "Waiting for review" } },
+    caption: "The engineer builds it in a T3 Code thread.",
+    thread: "working",
+    bots: { em: { status: "done", note: "Delegated to Engineer" }, engineer: { status: "busy", note: "Building in T3 Code" } },
   },
-  { ms: 700, bots: { reviewer: { status: "busy", note: "Reviewing the pull request" } } },
   {
-    ms: 1500,
-    send: ["reviewer", "engineer"],
+    caption: "The code reviewer reviews the pull request and asks for changes.",
     thread: "changes",
-    bots: { reviewer: { status: "waiting", note: "Asked for changes" } },
+    bots: { engineer: { status: "waiting", note: "Waiting for review" }, reviewer: { status: "busy", note: "Reviewing the pull request" } },
   },
-  { ms: 700, thread: "working", bots: { engineer: { status: "busy", note: "Fixing the review comments" } } },
   {
-    ms: 1500,
-    send: ["engineer", "reviewer"],
-    thread: "review",
-    bots: { engineer: { status: "waiting", note: "Pushed the fixes" } },
+    caption: "The engineer fixes the review comments and pushes again.",
+    thread: "working",
+    bots: { reviewer: { status: "waiting", note: "Asked for changes" }, engineer: { status: "busy", note: "Fixing the review comments" } },
   },
-  { ms: 700, bots: { reviewer: { status: "busy", note: "Reviewing again" } } },
   {
-    ms: 1300,
-    send: ["reviewer", "qa"],
+    caption: "The code reviewer approves, and the merge gate passes.",
     thread: "passed",
-    bots: { reviewer: { status: "done", note: "Merge gate passed" }, engineer: { status: "done", note: "Review passed" } },
+    bots: { engineer: { status: "waiting", note: "Pushed the fixes" }, reviewer: { status: "busy", note: "Reviewing again" } },
   },
-  { ms: 700, bots: { qa: { status: "busy", note: "Testing on mobile and desktop" } } },
-  { ms: 1800, thread: "merged", bots: { qa: { status: "done", note: "Tests pass, merged" } } },
+  {
+    caption: "The QA engineer tests the change on mobile and desktop.",
+    bots: {
+      reviewer: { status: "done", note: "Merge gate passed" },
+      engineer: { status: "done", note: "Review passed" },
+      qa: { status: "busy", note: "Testing on mobile and desktop" },
+    },
+  },
+  {
+    caption: "The tests pass, and the change merges.",
+    thread: "merged",
+    bots: { qa: { status: "done", note: "Tests pass" } },
+  },
 ];
 
-/** How long the last frame holds before the loop starts over. */
-export const hold = 3200;
+/** How long each step shows. */
+export const stepMs = 2800;
+/** How long the last step holds before the loop starts over. */
+export const hold = 4000;
 
-/** Each frame as the full state it leaves on screen, plus its delay and any handoff it sends. */
-export const steps = frames.reduce<{ ms: number; send?: readonly [Stop, Stop]; snapshot: Snapshot }[]>((acc, frame) => {
+/** Each frame as the full state it leaves on screen, with its caption. */
+export const steps = frames.reduce<{ caption: string; snapshot: Snapshot }[]>((acc, frame) => {
   const previous = acc.at(-1)?.snapshot ?? start;
-  const snapshot: Snapshot = {
-    request: frame.request ?? previous.request,
-    bots: { ...previous.bots, ...frame.bots },
-    thread: frame.thread ?? previous.thread,
-  };
-  return [...acc, { ms: frame.ms, send: frame.send, snapshot }];
+  const snapshot: Snapshot = { bots: { ...previous.bots, ...frame.bots }, thread: frame.thread ?? previous.thread };
+  return [...acc, { caption: frame.caption, snapshot }];
 }, []);
