@@ -41,6 +41,9 @@ importers:
       next:
         specifier: 16.4.2
         version: 16.4.2(@babel/core@7.29.7)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      open-bot-avatar:
+        specifier: 0.5.2
+        version: 0.5.2
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -2119,6 +2122,9 @@ packages:
 
   oniguruma-to-es@4.3.6:
     resolution: {integrity: sha512-csuQ9x3Yr0cEIs/Zgx/OEt9iBw9vqIunAPQkx19R/fiMq2oGVTgcMqO/V3Ybqefr1TBvosI6jU539ksaBULJyA==}
+
+  open-bot-avatar@0.5.2:
+    resolution: {integrity: sha512-JjSYD9Bd5M6dSKOTr+eD7T3v4Ef9ErxYmTE3UCmSPSLLqsqq4yss3SvYEk8STTq4qEHfJGJYsjg3Dalct6Vphw==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -4961,6 +4967,8 @@ snapshots:
       oniguruma-parser: 0.12.2
       regex: 6.1.0
       regex-recursion: 6.0.2
+
+  open-bot-avatar@0.5.2: {}
 
   optionator@0.9.4:
     dependencies:

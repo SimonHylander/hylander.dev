@@ -5,16 +5,50 @@
 
 export const request = "Add a section on how I work with AI.";
 
+/**
+ * Each bot's open-bot-avatar body: overlapping circles in a 100 by 100 box, after the avatars in Simon's
+ * Grok app. Colors are matched in lightness to sit on plum. T3 takes lilac, the site's one accent.
+ */
 export const bots = [
-  { id: "pm", name: "Product Manager", shape: "cloud" },
-  { id: "designer", name: "Designer", shape: "clover" },
-  { id: "engineer", name: "Engineer", shape: "pebble" },
-  { id: "qa", name: "QA Engineer", shape: "potato" },
-  { id: "t3", name: "T3", shape: "blob" },
+  {
+    id: "pm",
+    name: "Product Manager",
+    color: "#ea6a6a",
+    body: "M20 40A20 20 0 1 1 60 40A20 20 0 1 1 20 40ZM42 38A20 20 0 1 1 82 38A20 20 0 1 1 42 38ZM48 60A20 20 0 1 1 88 60A20 20 0 1 1 48 60ZM25 66A19 19 0 1 1 63 66A19 19 0 1 1 25 66ZM16 54A16 16 0 1 1 48 54A16 16 0 1 1 16 54Z",
+    eyes: { x: 50, y: 42, spacing: 15, scale: 1.1 },
+  },
+  {
+    id: "designer",
+    name: "Designer",
+    color: "#51bd85",
+    body: "M17 36A19 19 0 1 1 55 36A19 19 0 1 1 17 36ZM45 34A19 19 0 1 1 83 34A19 19 0 1 1 45 34ZM47 64A19 19 0 1 1 85 64A19 19 0 1 1 47 64ZM17 66A19 19 0 1 1 55 66A19 19 0 1 1 17 66ZM30 50A20 20 0 1 1 70 50A20 20 0 1 1 30 50Z",
+    eyes: { x: 48, y: 48, spacing: 15, scale: 1.1 },
+  },
+  {
+    id: "engineer",
+    name: "Engineer",
+    color: "#4fbcb3",
+    body: "M19.5 72.1A30 23 -28 1 1 72.5 43.9A30 23 -28 1 1 19.5 72.1ZM44 38A18 18 0 1 1 80 38A18 18 0 1 1 44 38Z",
+    eyes: { x: 52, y: 44, spacing: 15, scale: 1.1 },
+  },
+  {
+    id: "qa",
+    name: "QA Engineer",
+    color: "#b47f51",
+    body: "M14.5 58.3A36 26 -10 1 1 85.5 45.7A36 26 -10 1 1 14.5 58.3Z",
+    eyes: { x: 46, y: 46, spacing: 15, scale: 1.1 },
+  },
+  {
+    id: "t3",
+    name: "T3",
+    color: "#d9b5fe",
+    body: "M18 44A22 22 0 1 1 62 44A22 22 0 1 1 18 44ZM42 38A20 20 0 1 1 82 38A20 20 0 1 1 42 38ZM48 58A20 20 0 1 1 88 58A20 20 0 1 1 48 58ZM23 64A19 19 0 1 1 61 64A19 19 0 1 1 23 64ZM32 54A22 22 0 1 1 76 54A22 22 0 1 1 32 54Z",
+    eyes: { x: 50, y: 42, spacing: 15, scale: 1.1 },
+  },
 ] as const;
 
-export type BotId = (typeof bots)[number]["id"];
-export type BotShape = (typeof bots)[number]["shape"];
+export type Bot = (typeof bots)[number];
+export type BotId = Bot["id"];
 
 /** Threads the T3 bot starts, top first. */
 export const threads = [
@@ -28,11 +62,11 @@ export const settledThread = { title: "Tighten the Treddy.se case study prose", 
 export type BotStatus = "idle" | "busy" | "done";
 export type ThreadStatus = "hidden" | "working" | "review";
 
-type Bot = { status: BotStatus; note: string };
+type BotState = { status: BotStatus; note: string };
 
 export type Snapshot = {
   request: boolean;
-  bots: Record<BotId, Bot>;
+  bots: Record<BotId, BotState>;
   threads: Record<number, ThreadStatus>;
 };
 
@@ -40,7 +74,7 @@ type Frame = {
   /** Time since the previous frame. */
   ms: number;
   request?: boolean;
-  bots?: Partial<Record<BotId, Bot>>;
+  bots?: Partial<Record<BotId, BotState>>;
   threads?: Record<number, ThreadStatus>;
   /** Index of the thread the T3 bot sends work to in this frame. */
   send?: number;

@@ -1,88 +1,62 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  bots,
-  hold,
-  request,
-  settledThread,
-  steps,
-  threads,
-  type BotId,
-  type BotShape,
-  type BotStatus,
-  type ThreadStatus,
-} from "@/content/ai-workflow";
+import { renderAvatarSvg, type AvatarDefinition } from "open-bot-avatar";
+import { mountAvatar, type AvatarOptions, type MountedAvatar } from "open-bot-avatar/dom";
+import { useEffect, useRef, useState } from "react";
+import { bots, hold, request, settledThread, steps, threads, type Bot, type BotStatus, type ThreadStatus } from "@/content/ai-workflow";
 import { tools } from "@/content/tools";
 
 const reducedMotion = "(prefers-reduced-motion: reduce)";
 const lastStep = steps.length - 1;
 const t3Mark = tools.find(({ name }) => name === "T3 Code");
+const t3 = bots.find(({ id }) => id === "t3")!;
+/** Plum, the eye color in Simon's Grok avatars. */
+const eyeColor = "#0f0c1d";
 
-// Each bot is a union of circles and ellipses in a 40 by 40 box, after the avatars in Simon's Grok app.
-const bodies: Record<BotShape, ReactNode> = {
-  cloud: (
-    <>
-      <circle cx="15" cy="15" r="10" />
-      <circle cx="26" cy="14" r="10" />
-      <circle cx="29" cy="25" r="10" />
-      <circle cx="17" cy="28" r="9.5" />
-      <circle cx="11" cy="22" r="8" />
-    </>
-  ),
-  clover: (
-    <>
-      <circle cx="13" cy="13" r="9.5" />
-      <circle cx="27" cy="12" r="9.5" />
-      <circle cx="28" cy="27" r="9.5" />
-      <circle cx="13" cy="28" r="9.5" />
-      <circle cx="20" cy="20" r="10" />
-    </>
-  ),
-  pebble: (
-    <>
-      <ellipse cx="18" cy="24" rx="15" ry="11.5" transform="rotate(-28 18 24)" />
-      <circle cx="26" cy="14" r="9" />
-    </>
-  ),
-  potato: <ellipse cx="20" cy="21" rx="18" ry="13" transform="rotate(-10 20 21)" />,
-  blob: (
-    <>
-      <circle cx="15" cy="17" r="11" />
-      <circle cx="26" cy="14" r="10" />
-      <circle cx="29" cy="24" r="10" />
-      <circle cx="16" cy="27" r="9.5" />
-      <circle cx="22" cy="22" r="11" />
-    </>
-  ),
-};
+const looks = {
+  idle: { state: "idle", mood: "neutral" },
+  busy: { state: "working", mood: "neutral" },
+  done: { state: "idle", mood: "happy" },
+} as const satisfies Record<BotStatus, Pick<AvatarOptions, "state" | "mood">>;
 
-const eyes: Record<BotShape, { x: number; y: number }> = {
-  cloud: { x: 18, y: 12 },
-  clover: { x: 16, y: 16 },
-  pebble: { x: 19, y: 13 },
-  potato: { x: 16, y: 14 },
-  blob: { x: 18, y: 12 },
-};
+const definition = ({ id, name, body, eyes }: Bot): AvatarDefinition => ({ version: 1, id, name, body: { path: body }, eyes });
 
-function BotAvatar({ id, shape, status, className = "size-10" }: { id: BotId; shape: BotShape; status: BotStatus; className?: string }) {
-  const { x, y } = eyes[shape];
+/** A flat still of the bot, about 1 KB, for the server, no-JS and the thread badges. */
+const still = (bot: Bot, status: BotStatus, size: number) =>
+  renderAvatarSvg(definition(bot), { ...looks[status], color: bot.color, eyeColor, size, depth: 0, reducedMotion: true });
+
+/**
+ * One live open-bot-avatar. The server renders the finished state as a flat still, which the live avatar
+ * replaces on mount. The still never changes, so React never writes over the live avatar.
+ */
+function BotAvatar({ bot, status }: { bot: Bot; status: BotStatus }) {
+  const host = useRef<HTMLDivElement>(null);
+  const avatar = useRef<MountedAvatar | null>(null);
+  const [fallback] = useState(() => still(bot, steps[lastStep]!.snapshot.bots[bot.id].status, 40));
+
+  useEffect(() => {
+    if (!host.current) return;
+    const mounted = mountAvatar(host.current, { definition: definition(bot), color: bot.color, eyeColor, label: "" });
+    avatar.current = mounted;
+    return () => {
+      mounted.destroy();
+      avatar.current = null;
+    };
+  }, [bot]);
+
+  useEffect(() => avatar.current?.update(looks[status]), [status]);
+
   return (
-    <svg
+    <div
+      ref={host}
       aria-hidden
-      viewBox="0 0 40 40"
-      style={{ color: `var(--bot-${id})`, "--i": bots.findIndex((bot) => bot.id === id) }}
-      className={`${className} shrink-0 overflow-visible transition-opacity duration-500 ease-out ${status === "idle" ? "bot-asleep opacity-60" : ""} ${status === "busy" ? "bot-busy" : ""}`}
-    >
-      <g className="fill-current">{bodies[shape]}</g>
-      <g className="bot-eyes fill-plum">
-        {[x, x + 6].map((left) => (
-          <rect key={left} x={left} y={y} width="3.4" height="8.5" rx="1.7" transform={`rotate(-16 ${left + 1.7} ${y + 4.25})`} />
-        ))}
-      </g>
-    </svg>
+      className={`size-10 shrink-0 transition-opacity duration-500 ease-out ${status === "idle" ? "opacity-60" : ""}`}
+      dangerouslySetInnerHTML={{ __html: fallback }}
+    />
   );
 }
+
+const t3Badge = still(t3, "done", 16);
 
 function Status({ status }: { status: ThreadStatus }) {
   if (status === "review") {
@@ -214,11 +188,12 @@ export function AgentLoop() {
                 <p className="mt-0.5 text-sm text-ink">{request}</p>
               </div>
               <ul className="mt-2">
-                {bots.map(({ id, name, shape }) => {
+                {bots.map((bot) => {
+                  const { id, name } = bot;
                   const { status, note } = snapshot.bots[id];
                   return (
                     <li key={id} ref={id === "t3" ? t3Ref : undefined} className="flex items-center gap-3 py-2">
-                      <BotAvatar id={id} shape={shape} status={status} />
+                      <BotAvatar bot={bot} status={status} />
                       <div className="min-w-0">
                         <p className={`truncate text-sm font-medium transition-colors duration-500 ease-out ${status === "idle" ? "text-muted" : "text-ink"}`}>
                           {name}
@@ -256,10 +231,9 @@ export function AgentLoop() {
                       ref={(node) => {
                         threadRefs.current[index] = node;
                       }}
-                      className="flex h-lh items-center text-sm"
-                    >
-                      <BotAvatar id="t3" shape="blob" status="done" className="size-4" />
-                    </span>
+                      className="flex h-lh items-center text-sm [&>svg]:size-4"
+                      dangerouslySetInnerHTML={{ __html: t3Badge }}
+                    />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-ink">{title}</p>
                       <div className="mt-1 flex items-center justify-between gap-3">

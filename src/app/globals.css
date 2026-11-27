@@ -15,13 +15,6 @@
   --lilac: oklch(0.83 0.107 306.71);
   --line: oklch(0.34 0.05 298);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* Grok bot avatars in the AI section. Off-palette by design, matched in lightness to sit on plum. */
-  --bot-pm: oklch(0.68 0.16 22);
-  --bot-designer: oklch(0.72 0.13 158);
-  --bot-engineer: oklch(0.73 0.1 188);
-  --bot-qa: oklch(0.64 0.09 62);
-  --bot-t3: var(--lilac);
 }
 
 /* Only the tokens above exist as Tailwind colors, so off-palette utilities fail to generate. */
@@ -263,42 +256,6 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-}
-
-/* Grok bots in the AI section: a working bot bobs, and an awake bot blinks on its own beat. */
-@keyframes bot-bob {
-  to {
-    transform: translateY(-2px);
-  }
-}
-
-@keyframes bot-blink {
-  0%,
-  92%,
-  100% {
-    transform: none;
-  }
-  95% {
-    transform: scaleY(0.15);
-  }
-}
-
-.bot-busy {
-  animation: bot-bob 450ms var(--ease) infinite alternate;
-}
-
-.bot-eyes {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 300ms var(--ease);
-  animation: bot-blink 4s linear infinite;
-  animation-delay: calc(var(--i, 0) * -0.9s);
-}
-
-/* An idle bot sleeps with its eyes shut. */
-.bot-asleep .bot-eyes {
-  transform: scaleY(0.2);
-  animation: none;
 }
 
 /* Block caret at the end of a streaming answer. */

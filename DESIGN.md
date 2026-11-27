@@ -147,7 +147,7 @@ Restrained strategy: tinted plum neutrals and one accent. The accent covers well
 
 **The One Accent Rule.** Lilac marks one idea per view. In the hero that idea is the accent phrase and the button that acts on it. If two lilac ideas compete, one of them becomes ink.
 
-**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities. The Grok bot avatars (`--bot-*`) and the heatmap ramp are the only off-token colors.
+**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities. The Grok bot colors in `src/content/ai-workflow.ts` and the heatmap ramp are the only off-token colors.
 
 **Print.** `@media print` remaps the tokens to white, black and grays, so `/cv` prints as a plain document.
 
@@ -239,7 +239,7 @@ The first section under `#work`, from `src/components/work-deck.tsx`. A "Project
 
 ### How I work with AI
 
-`src/components/ai-workflow-section.tsx`, script in `src/content/ai-workflow.ts`. The Claim heading and one paragraph beside a plum 2 panel with two panes: Simon's Grok bots on the left, T3 Code threads on the right. A loop of about 17 seconds: Simon's request appears, then each bot wakes, works and finishes in turn, and the T3 bot sends a lilac dot to each new thread. Threads move from Working (lilac, dashed spinner) to Pull request. The bots are blob avatars after Simon's Grok app, 40px, in `--bot-*` colors matched to the plum lightness. T3 uses lilac, since the handoff to T3 Code is the section's one accent idea. Idle bots sleep with their eyes shut, a working bot bobs and an awake bot blinks. The loop runs only on screen, with the tab in front and motion allowed, and a "Pause the loop" button sits below the panel. The server, no-JS and reduced-motion state is the finished loop.
+`src/components/ai-workflow-section.tsx`, script in `src/content/ai-workflow.ts`. The Claim heading and one paragraph beside a plum 2 panel with two panes: Simon's Grok bots on the left, T3 Code threads on the right. A loop of about 17 seconds: Simon's request appears, then each bot wakes, works and finishes in turn, and the T3 bot sends a lilac dot to each new thread. Threads move from Working (lilac, dashed spinner) to Pull request. The bots are open-bot-avatar avatars, 40px, with blob bodies after Simon's Grok app and colors matched to the plum lightness. T3 uses lilac, since the handoff to T3 Code is the section's one accent idea. A bot waiting for work is dimmed and idles, a working bot runs the library's working state, and a finished bot idles happy. The server renders a flat still of each bot, which the live avatar replaces. The loop runs only on screen, with the tab in front and motion allowed, and a "Pause the loop" button sits below the panel. The server, no-JS and reduced-motion state is the finished loop.
 
 ### Activity heatmap
 
