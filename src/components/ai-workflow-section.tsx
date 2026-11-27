@@ -13,8 +13,8 @@ export function AiWorkflowSection() {
           How I work with AI
         </h2>
         <p className="mt-5 max-w-[38ch] text-muted">
-          I plan with a team of Grok bots. When a task needs code, the T3 bot hands it to T3 Code, where agents open a
-          pull request.
+          My Grok bots run the work. Product and design write the spec, an engineer builds it in T3 Code, and nothing
+          merges until code review and QA pass.
         </p>
       </div>
       <AgentLoop />

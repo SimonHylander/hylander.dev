@@ -2,26 +2,38 @@
 
 import { renderAvatarSvg, type AvatarDefinition } from "open-bot-avatar";
 import { mountAvatar, type AvatarOptions, type MountedAvatar } from "open-bot-avatar/dom";
-import { useEffect, useRef, useState } from "react";
-import { bots, hold, request, settledThread, steps, threads, type Bot, type BotStatus, type ThreadStatus } from "@/content/ai-workflow";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  bots,
+  hold,
+  request,
+  settledThread,
+  steps,
+  thread,
+  type Bot,
+  type BotStatus,
+  type Stop,
+  type ThreadStatus,
+} from "@/content/ai-workflow";
 import { tools } from "@/content/tools";
 
 const reducedMotion = "(prefers-reduced-motion: reduce)";
 const lastStep = steps.length - 1;
 const t3Mark = tools.find(({ name }) => name === "T3 Code");
-const t3 = bots.find(({ id }) => id === "t3")!;
+const engineer = bots.find(({ id }) => id === "engineer")!;
 /** Plum, the eye color in Simon's Grok avatars. */
 const eyeColor = "#0f0c1d";
 
 const looks = {
   idle: { state: "idle", mood: "neutral" },
   busy: { state: "working", mood: "neutral" },
+  waiting: { state: "waiting", mood: "neutral" },
   done: { state: "idle", mood: "happy" },
 } as const satisfies Record<BotStatus, Pick<AvatarOptions, "state" | "mood">>;
 
 const definition = ({ id, name, body, eyes }: Bot): AvatarDefinition => ({ version: 1, id, name, body: { path: body }, eyes });
 
-/** A flat still of the bot, about 1 KB, for the server, no-JS and the thread badges. */
+/** A flat still of the bot, about 1 KB, for the server, no-JS and the thread badge. */
 const still = (bot: Bot, status: BotStatus, size: number) =>
   renderAvatarSvg(definition(bot), { ...looks[status], color: bot.color, eyeColor, size, depth: 0, reducedMotion: true });
 
@@ -56,34 +68,58 @@ function BotAvatar({ bot, status }: { bot: Bot; status: BotStatus }) {
   );
 }
 
-const t3Badge = still(t3, "done", 16);
+const engineerBadge = still(engineer, "done", 16);
 
-function Status({ status }: { status: ThreadStatus }) {
-  if (status === "review") {
+const pullRequest = (
+  <>
+    <circle cx="18" cy="18" r="3" />
+    <circle cx="6" cy="6" r="3" />
+    <path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12" />
+  </>
+);
+
+const labels = {
+  review: { label: "In review", tone: "text-ink", icon: pullRequest },
+  changes: { label: "Changes requested", tone: "text-ink", icon: pullRequest },
+  passed: { label: "Merge gate passed", tone: "text-ink", icon: <path d="M5 12.5l4.5 4.5L19 7.5" /> },
+  merged: {
+    label: "Merged",
+    tone: "text-muted",
+    icon: (
+      <>
+        <circle cx="18" cy="18" r="3" />
+        <circle cx="6" cy="6" r="3" />
+        <path d="M6 21V9a9 9 0 0 0 9 9" />
+      </>
+    ),
+  },
+} satisfies Record<Exclude<ThreadStatus, "hidden" | "working">, { label: string; tone: string; icon: ReactNode }>;
+
+function Status({ status }: { status: Exclude<ThreadStatus, "hidden"> }) {
+  if (status === "working") {
     return (
-      <span className="flex items-center gap-1.5 text-meta text-ink">
-        <svg aria-hidden viewBox="0 0 24 24" className="size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:round]">
-          <circle cx="18" cy="18" r="3" />
-          <circle cx="6" cy="6" r="3" />
-          <path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12" />
+      <span className="flex items-center gap-1.5 text-meta text-lilac">
+        <svg aria-hidden viewBox="0 0 16 16" className="size-3.5 animate-[spin_3s_linear_infinite] fill-none stroke-current stroke-[1.5]">
+          <circle cx="8" cy="8" r="6.25" strokeDasharray="2.4 2.5" />
         </svg>
-        Pull request
+        Working
       </span>
     );
   }
+  const { label, tone, icon } = labels[status];
   return (
-    <span className="flex items-center gap-1.5 text-meta text-lilac">
-      <svg aria-hidden viewBox="0 0 16 16" className="size-3.5 animate-[spin_3s_linear_infinite] fill-none stroke-current stroke-[1.5]">
-        <circle cx="8" cy="8" r="6.25" strokeDasharray="2.4 2.5" />
+    <span key={status} className={`flex items-center gap-1.5 text-meta ${tone} motion-safe:animate-[fade-in_400ms_var(--ease)]`}>
+      <svg aria-hidden viewBox="0 0 24 24" className="size-3.5 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]">
+        {icon}
       </svg>
-      Working
+      {label}
     </span>
   );
 }
 
 /**
- * Sends a lilac dot from the T3 bot to a thread row, timed to land as the row appears. The arc bends 28px
- * to the left of travel: up when the panes sit side by side, sideways when they stack.
+ * Sends a lilac dot from one stop to another, timed to land as the next frame shows. The arc bends 28px
+ * up or to the left of travel, so it clears the bot names and goes over the gap between the panes.
  */
 function pulse(layer: HTMLElement, from: Element, to: Element) {
   const origin = layer.getBoundingClientRect();
@@ -92,7 +128,9 @@ function pulse(layer: HTMLElement, from: Element, to: Element) {
   const start = { x: a.left + a.width / 2 - origin.left, y: a.top + a.height / 2 - origin.top };
   const end = { x: b.left + b.width / 2 - origin.left, y: b.top + b.height / 2 - origin.top };
   const length = Math.hypot(end.x - start.x, end.y - start.y) || 1;
-  const bend = { x: ((end.y - start.y) / length) * 28, y: ((start.x - end.x) / length) * 28 };
+  const normal = { x: (end.y - start.y) / length, y: (start.x - end.x) / length };
+  const side = normal.x + normal.y > 0 ? -28 : 28;
+  const bend = { x: normal.x * side, y: normal.y * side };
   const at = (x: number, y: number, scale = 1) => `translate(${x}px, ${y}px) scale(${scale})`;
   const dot = document.createElement("span");
   dot.className = "absolute -top-1.5 -left-1.5 size-3 rounded-full bg-lilac";
@@ -110,8 +148,8 @@ function pulse(layer: HTMLElement, from: Element, to: Element) {
 }
 
 /**
- * Simon's Grok product team planning a change, then the T3 bot starting threads in T3 Code. Loops
- * while on screen, the tab is in front, motion is allowed and the visitor has not paused it. Renders
+ * Simon's Grok product team taking a change from spec to merge, with the engineer building it in T3 Code.
+ * Loops while on screen, the tab is in front, motion is allowed and the visitor has not paused it. Renders
  * the finished state on the server, without JavaScript and under reduced motion.
  */
 export function AgentLoop() {
@@ -119,8 +157,7 @@ export function AgentLoop() {
   const [paused, setPaused] = useState(false);
   const stepRef = useRef(step);
   const layerRef = useRef<HTMLDivElement>(null);
-  const t3Ref = useRef<HTMLLIElement>(null);
-  const threadRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const stops = useRef<Partial<Record<Stop, HTMLElement | null>>>({});
   const snapshot = steps[step]?.snapshot ?? steps[lastStep]!.snapshot;
 
   useEffect(() => {
@@ -145,8 +182,9 @@ export function AgentLoop() {
           timer = undefined;
           go(next);
           const send = steps[next]?.send;
-          const target = send === undefined ? null : threadRefs.current[send];
-          if (target && t3Ref.current) pulse(layer, t3Ref.current, target);
+          const from = send && stops.current[send[0]];
+          const to = send && stops.current[send[1]];
+          if (from && to) pulse(layer, from, to);
           sync();
         }, next === 0 ? (started ? hold : 1200) : steps[next]!.ms);
         started = true;
@@ -189,14 +227,20 @@ export function AgentLoop() {
               </div>
               <ul className="mt-2">
                 {bots.map((bot) => {
-                  const { id, name } = bot;
-                  const { status, note } = snapshot.bots[id];
+                  const { status, note } = snapshot.bots[bot.id];
                   return (
-                    <li key={id} ref={id === "t3" ? t3Ref : undefined} className="flex items-center gap-3 py-2">
-                      <BotAvatar bot={bot} status={status} />
+                    <li key={bot.id} className="flex items-center gap-3 py-2">
+                      <span
+                        ref={(node) => {
+                          stops.current[bot.id] = node;
+                        }}
+                        className="shrink-0"
+                      >
+                        <BotAvatar bot={bot} status={status} />
+                      </span>
                       <div className="min-w-0">
                         <p className={`truncate text-sm font-medium transition-colors duration-500 ease-out ${status === "idle" ? "text-muted" : "text-ink"}`}>
-                          {name}
+                          {bot.name}
                         </p>
                         <p key={note} className="truncate text-sm text-muted motion-safe:animate-[fade-in_400ms_var(--ease)]">
                           {note}
@@ -220,35 +264,29 @@ export function AgentLoop() {
               Code
             </p>
             <ul aria-hidden className="mt-3 border-t border-line">
-              {threads.map(({ title, branch }, index) => {
-                const status = snapshot.threads[index] ?? "hidden";
-                return (
-                  <li
-                    key={branch}
-                    className={`flex gap-3 border-b border-line py-3 transition-[opacity,translate] duration-500 ease-out ${status === "hidden" ? "-translate-y-1.5 opacity-0" : ""}`}
-                  >
-                    <span
-                      ref={(node) => {
-                        threadRefs.current[index] = node;
-                      }}
-                      className="flex h-lh items-center text-sm [&>svg]:size-4"
-                      dangerouslySetInnerHTML={{ __html: t3Badge }}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-ink">{title}</p>
-                      <div className="mt-1 flex items-center justify-between gap-3">
-                        <span className="truncate font-mono text-[0.75rem] text-muted">{branch}</span>
-                        {status !== "hidden" && <Status status={status} />}
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
+              <li
+                className={`flex gap-3 border-b border-line py-3 transition-[opacity,translate] duration-500 ease-out ${snapshot.thread === "hidden" ? "-translate-y-1.5 opacity-0" : ""}`}
+              >
+                <span
+                  ref={(node) => {
+                    stops.current.thread = node;
+                  }}
+                  className="flex h-lh items-center text-sm [&>svg]:size-4"
+                  dangerouslySetInnerHTML={{ __html: engineerBadge }}
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-ink">{thread.title}</p>
+                  <div className="mt-1 flex items-center justify-between gap-3">
+                    <span className="truncate font-mono text-[0.75rem] text-muted">{thread.branch}</span>
+                    {snapshot.thread !== "hidden" && <Status status={snapshot.thread} />}
+                  </div>
+                </div>
+              </li>
               <li className="border-b border-line py-3 pl-7">
                 <p className="truncate text-sm font-medium text-muted">{settledThread.title}</p>
                 <div className="mt-1 flex items-center justify-between gap-3">
                   <span className="truncate font-mono text-[0.75rem] text-muted">{settledThread.branch}</span>
-                  <span className="text-meta text-muted">Merged</span>
+                  <Status status="merged" />
                 </div>
               </li>
             </ul>
@@ -267,9 +305,10 @@ export function AgentLoop() {
         </button>
       </div>
       <figcaption className="sr-only">
-        {request} Simon sends the request to his product team of Grok bots. The product manager writes a spec, the
-        designer sketches the layout and the engineer splits it into two tasks. The T3 bot starts a thread for each
-        task in T3 Code, where coding agents work on a branch and open a pull request. The QA engineer tests both.
+        {request} Simon sends the request to his product team of Grok bots. The product manager and the designer
+        write the spec together and send it to the engineering manager, who delegates it to the engineer. The engineer
+        builds it in T3 Code and opens a pull request. The code reviewer asks for changes, the engineer fixes them,
+        and the merge gate passes. The QA engineer tests the change, and it merges.
       </figcaption>
     </figure>
   );
