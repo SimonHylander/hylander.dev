@@ -13,8 +13,8 @@ export function AiWorkflowSection() {
           How I work with AI
         </h2>
         <p className="mt-5 max-w-[38ch] text-muted">
-          My Grok bots run the work, and each one does its part in its own T3 Code thread. Nothing merges until code
-          review passes and QA has checked the change in the browser.
+          I use a team of Grok bots that plans work and hands it to my remote T3 Code environments. They build and
+          verify each planned change end to end, so I can spend my time on the decisions that need me.
         </p>
       </div>
       <AgentLoop />
