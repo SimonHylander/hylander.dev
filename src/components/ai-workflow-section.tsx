@@ -13,8 +13,8 @@ export function AiWorkflowSection() {
           How I work with AI
         </h2>
         <p className="mt-5 max-w-[38ch] text-muted">
-          My Grok bots run the work. Product and design write the spec, an engineer builds it in T3 Code, and nothing
-          merges until code review and QA pass.
+          My Grok bots run the work, and each one does its part in its own T3 Code thread. Nothing merges until code
+          review passes and QA has checked the change in the browser.
         </p>
       </div>
       <AgentLoop />

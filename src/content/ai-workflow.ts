@@ -1,9 +1,11 @@
 /**
- * The "How I work with AI" loop on the home page: Simon's Grok product team takes a change from spec to
- * merge, with the engineer building it in T3 Code. Bots follow Simon's Grok bot list.
+ * The "How I work with AI" loop on the home page: Simon's Grok product team takes a dark mode toggle for a
+ * sample settings page from spec to merge. Each bot does its part in its own T3 Code thread, QA checks the
+ * page in the T3 Code browser, and the pull request on GitHub ends with QA's before and after screenshots.
+ * Bots follow Simon's Grok bot list.
  */
 
-export const request = "Add a section on how I work with AI.";
+export const request = "Add a dark mode toggle to settings.";
 
 /**
  * Each bot's open-bot-avatar body: overlapping circles in a 100 by 100 box, after the avatars in Simon's
@@ -58,27 +60,38 @@ export const bots = [
 export type Bot = (typeof bots)[number];
 export type BotId = Bot["id"];
 
-/** The engineer's thread in T3 Code. */
-export const thread = { title: "Add the AI section", branch: "ai-section" };
+/** The T3 Code thread each bot starts, listed in bot order. */
+export const threads = {
+  pm: { title: "Spec the dark mode toggle", branch: "spec/dark-mode" },
+  designer: { title: "Design the toggle", branch: "design/dark-mode" },
+  em: { title: "Plan the dark mode work", branch: "plan/dark-mode" },
+  engineer: { title: "Build the dark mode toggle", branch: "dark-mode-toggle" },
+  reviewer: { title: "Review pull request #42", branch: "review/42" },
+  qa: { title: "Test dark mode in the browser", branch: "qa/dark-mode" },
+} satisfies Record<BotId, { title: string; branch: string }>;
 
-/** An earlier thread from this site's history, already merged, below the new one. */
-export const settledThread = { title: "Tighten the Treddy.se case study prose", branch: "treddy-se" };
+/** The pull request the engineer opens, shown on GitHub at the end. */
+export const pullRequest = { title: "Add a dark mode toggle", number: 42, branch: "dark-mode-toggle" };
 
 export type BotStatus = "idle" | "busy" | "waiting" | "done";
-export type ThreadStatus = "hidden" | "working" | "changes" | "passed" | "merged";
+export type ThreadStatus = "working" | "done" | "pr" | "changes" | "approved" | "passed" | "merged";
+/** What the right pane shows: the T3 Code threads, its browser at desktop or phone width, or the pull request. */
+export type View = "threads" | "desktop" | "mobile" | "pr";
 
 type BotState = { status: BotStatus; note: string };
 
 export type Snapshot = {
   bots: Record<BotId, BotState>;
-  thread: ThreadStatus;
+  threads: Partial<Record<BotId, ThreadStatus>>;
+  view: View;
 };
 
 type Frame = {
   /** What happens in this step, shown above the panes. */
   caption: string;
   bots?: Partial<Record<BotId, BotState>>;
-  thread?: ThreadStatus;
+  threads?: Partial<Record<BotId, ThreadStatus>>;
+  view?: View;
 };
 
 const start: Snapshot = {
@@ -90,66 +103,81 @@ const start: Snapshot = {
     reviewer: { status: "idle", note: "Ready" },
     qa: { status: "idle", note: "Ready" },
   },
-  thread: "hidden",
+  threads: {},
+  view: "threads",
 };
 
 const frames: readonly Frame[] = [
-  { caption: "Simon asks his Grok team for a change." },
+  { caption: "Simon asks his Grok team for a dark mode toggle." },
   {
-    caption: "The product manager and designer write the spec together.",
-    bots: { pm: { status: "busy", note: "Writing the spec" }, designer: { status: "busy", note: "Sketching the layout" } },
+    caption: "The product manager and designer each start a T3 Code thread for the spec.",
+    threads: { pm: "working", designer: "working" },
+    bots: { pm: { status: "busy", note: "Writing the spec" }, designer: { status: "busy", note: "Designing the toggle" } },
   },
   {
-    caption: "The engineering manager plans the work and delegates it to the engineer.",
+    caption: "The engineering manager plans the work in its own thread and hands it to the engineer.",
+    threads: { pm: "done", designer: "done", em: "working" },
     bots: {
-      pm: { status: "done", note: "Spec sent to engineering" },
-      designer: { status: "done", note: "Layout added to the spec" },
+      pm: { status: "done", note: "Spec is ready" },
+      designer: { status: "done", note: "Design is ready" },
       em: { status: "busy", note: "Planning the work" },
     },
   },
   {
-    caption: "The engineer builds it in a T3 Code thread.",
-    thread: "working",
-    bots: { em: { status: "done", note: "Delegated to Engineer" }, engineer: { status: "busy", note: "Building in T3 Code" } },
+    caption: "The engineer builds the toggle in a T3 Code thread and opens a pull request.",
+    threads: { em: "done", engineer: "working" },
+    bots: { em: { status: "done", note: "Handed to Engineer" }, engineer: { status: "busy", note: "Building the toggle" } },
   },
   {
-    caption: "The code reviewer reviews the pull request and asks for changes.",
-    thread: "changes",
-    bots: { engineer: { status: "waiting", note: "Waiting for review" }, reviewer: { status: "busy", note: "Reviewing the pull request" } },
+    caption: "The code reviewer reviews the pull request in its thread and asks for changes.",
+    threads: { engineer: "pr", reviewer: "changes" },
+    bots: { engineer: { status: "waiting", note: "Waiting for review" }, reviewer: { status: "busy", note: "Reviewing pull request #42" } },
   },
   {
-    caption: "The engineer fixes the review comments and pushes again.",
-    thread: "working",
-    bots: { reviewer: { status: "waiting", note: "Asked for changes" }, engineer: { status: "busy", note: "Fixing the review comments" } },
+    caption: "The engineer fixes the review comments in the same thread.",
+    threads: { engineer: "working" },
+    bots: { reviewer: { status: "waiting", note: "Asked for changes" }, engineer: { status: "busy", note: "Fixing the comments" } },
   },
   {
     caption: "The code reviewer approves, and the merge gate passes.",
-    thread: "passed",
+    threads: { engineer: "passed", reviewer: "approved" },
     bots: { engineer: { status: "waiting", note: "Pushed the fixes" }, reviewer: { status: "busy", note: "Reviewing again" } },
   },
   {
-    caption: "The QA engineer tests the change on mobile and desktop.",
+    caption: "The QA engineer opens the page in the T3 Code browser and tests the toggle.",
+    view: "desktop",
+    threads: { qa: "working" },
     bots: {
-      reviewer: { status: "done", note: "Merge gate passed" },
-      engineer: { status: "done", note: "Review passed" },
-      qa: { status: "busy", note: "Testing on mobile and desktop" },
+      reviewer: { status: "done", note: "Approved" },
+      engineer: { status: "done", note: "Merge gate passed" },
+      qa: { status: "busy", note: "Testing at 1280px" },
     },
   },
   {
-    caption: "The tests pass, and the change merges.",
-    thread: "merged",
-    bots: { qa: { status: "done", note: "Tests pass" } },
+    caption: "It checks the same page at phone width and takes screenshots.",
+    view: "mobile",
+    bots: { qa: { status: "busy", note: "Testing at 390px" } },
+  },
+  {
+    caption: "QA posts before and after screenshots on the pull request, and it merges.",
+    view: "pr",
+    threads: { qa: "done", engineer: "merged" },
+    bots: { qa: { status: "done", note: "Tests pass" }, engineer: { status: "done", note: "Pull request merged" } },
   },
 ];
 
 /** How long each step shows. */
 export const stepMs = 2800;
 /** How long the last step holds before the loop starts over. */
-export const hold = 4000;
+export const hold = 5000;
 
 /** Each frame as the full state it leaves on screen, with its caption. */
 export const steps = frames.reduce<{ caption: string; snapshot: Snapshot }[]>((acc, frame) => {
   const previous = acc.at(-1)?.snapshot ?? start;
-  const snapshot: Snapshot = { bots: { ...previous.bots, ...frame.bots }, thread: frame.thread ?? previous.thread };
+  const snapshot: Snapshot = {
+    bots: { ...previous.bots, ...frame.bots },
+    threads: { ...previous.threads, ...frame.threads },
+    view: frame.view ?? previous.view,
+  };
   return [...acc, { caption: frame.caption, snapshot }];
 }, []);
