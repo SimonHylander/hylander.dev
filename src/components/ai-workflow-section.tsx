@@ -6,7 +6,7 @@ export function AiWorkflowSection() {
     <section
       id="ai"
       aria-labelledby="ai-heading"
-      className="grid scroll-mt-16 gap-10 border-t border-line py-16 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-16 md:py-24"
+      className="grid scroll-mt-16 gap-10 border-t border-line py-16 md:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16"
     >
       <div>
         <h2 id="ai-heading" className="text-claim font-semibold tracking-[-0.025em] text-balance">
