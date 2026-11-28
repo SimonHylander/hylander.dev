@@ -67,9 +67,11 @@ const toPath = (value: string, base: string) => {
   return url.host === new URL(base).host || url.host === "hylander.dev" ? `${url.pathname}${url.hash}` : url.href;
 };
 
-/** Image URLs differ by cache-busting query strings between frameworks, so they compare by path only. */
-const normalizeMeta = (key: string, value: string, base: string) =>
-  /^(og|twitter):image$/.test(key) || key === "og:url" ? toPath(value, base).replace(/\?.*$/, "") : value;
+/**
+ * Image URLs differ by cache-busting query strings between frameworks, so those are dropped. Hosts
+ * stay: a preview must still name https://hylander.dev as canonical.
+ */
+const normalizeMeta = (key: string, value: string) => (/^(og|twitter):image$/.test(key) ? value.replace(/\?.*$/, "") : value);
 
 function parseHtml(html: string, base: string): NonNullable<Page["html"]> {
   const head = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i)?.[1] ?? "";
@@ -79,7 +81,7 @@ function parseHtml(html: string, base: string): NonNullable<Page["html"]> {
   for (const [tag] of head.matchAll(/<meta\b[^>]*>/gi)) {
     const key = attr(tag, "name") ?? attr(tag, "property");
     const content = attr(tag, "content");
-    if (key && content !== null && key !== "next-size-adjust") meta[key] = normalizeMeta(key, content, base);
+    if (key && content !== null && key !== "next-size-adjust") meta[key] = normalizeMeta(key, content);
     const charset = attr(tag, "charset");
     if (charset) meta.charset = charset.toLowerCase();
   }
@@ -90,7 +92,7 @@ function parseHtml(html: string, base: string): NonNullable<Page["html"]> {
     const href = attr(tag, "href");
     if (!rel || !href || /stylesheet|preload|modulepreload|preconnect|dns-prefetch/.test(rel)) continue;
     links[`${rel}${attr(tag, "type") ? ` ${attr(tag, "type")}` : ""}${attr(tag, "sizes") ? ` ${attr(tag, "sizes")}` : ""}`] =
-      toPath(href, base).replace(/\?.*$/, "");
+      rel === "canonical" ? href : toPath(href, base).replace(/\?.*$/, "");
   }
 
   const jsonLd = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)].map(([, json]) =>
@@ -164,7 +166,7 @@ async function snapshot(base: string, out: string) {
     pages[path] = page;
     js[path] = await jsBytes(base, raw);
     // Every Open Graph image a page points at must serve a PNG.
-    const image = page.html?.meta["og:image"];
+    const image = page.html?.meta["og:image"] && new URL(page.html.meta["og:image"]).pathname;
     if (image && !pages[image]) pages[image] = (await fetchPage(base, image)).page;
   }
   for (const path of fixedPaths) pages[path] = (await fetchPage(base, path)).page;

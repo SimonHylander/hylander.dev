@@ -1,12 +1,20 @@
 // Browser smoke test for the migration: hydration errors, client navigation, the ⌘K palette,
 // fonts and the home loader on a client-side visit. Uses the system Chrome through playwright-core.
 //
-//   NODE_PATH=<dir with playwright-core> node docs/tanstack-start/smoke.ts http://localhost:3000
+// Node resolves ESM imports from the script's own directory, so run a copy from a directory that has
+// the dependency installed:
+//   mkdir -p /tmp/harness && cp docs/tanstack-start/*.ts /tmp/harness && cd /tmp/harness
+//   npm i playwright-core@1.65.1 pngjs@7.0.0 pixelmatch@7.1.0
+//   node smoke.ts http://localhost:3000
+// Set VERCEL_BYPASS to a Protection Bypass for Automation secret to test a protected preview.
 import { chromium } from "playwright-core";
 
 const base = process.argv[2] ?? "http://localhost:3000";
 const browser = await chromium.launch({ executablePath: process.env.CHROME ?? "/run/current-system/sw/bin/google-chrome-stable" });
-const page = await browser.newPage();
+const bypass = process.env.VERCEL_BYPASS;
+const page = await browser.newPage({
+  extraHTTPHeaders: bypass ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "true" } : {},
+});
 const errors: string[] = [];
 page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
 page.on("console", (message) => {

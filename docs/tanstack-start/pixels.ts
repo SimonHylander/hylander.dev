@@ -1,7 +1,8 @@
 // Pixel diff between two deployments: full-page screenshots at desktop and phone width, reduced motion,
 // compared with pixelmatch. Writes a diff PNG per page into <out-dir>.
 //
-//   NODE_PATH=<dir with playwright-core, pngjs, pixelmatch> node docs/tanstack-start/pixels.ts <before> <after> <out-dir>
+// Run a copy from a directory with the dependencies installed, as described in smoke.ts:
+//   node pixels.ts <before> <after> <out-dir>
 import { mkdir, writeFile } from "node:fs/promises";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
@@ -15,8 +16,13 @@ const widths = [1280, 390];
 const browser = await chromium.launch({ executablePath: process.env.CHROME ?? "/run/current-system/sw/bin/google-chrome-stable" });
 await mkdir(out, { recursive: true });
 
+const bypass = process.env.VERCEL_BYPASS;
+const extraHTTPHeaders: Record<string, string> = bypass
+  ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "true" }
+  : {};
+
 async function shot(base: string, path: string, width: number) {
-  const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
+  const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce", extraHTTPHeaders });
   await page.goto(new URL(path, base).href, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   // Lazy images only load near the viewport, so scroll through the page before the capture.
@@ -56,5 +62,26 @@ for (const path of paths) {
     if (share >= 0.001) failed = true;
   }
 }
+// Open Graph images are PNGs already: compare them directly. The renderer changed between frameworks.
+const ogImages = ["/opengraph-image", "/work/treddy-se/opengraph-image", "/work/ai-code-review/opengraph-image"];
+for (const path of ogImages) {
+  const [a, b] = await Promise.all(
+    [before, after].map(async (base) =>
+      PNG.sync.read(Buffer.from(await (await fetch(new URL(path, base), { headers: extraHTTPHeaders })).arrayBuffer())),
+    ),
+  );
+  if (!a || !b || a.width !== b.width || a.height !== b.height) {
+    console.log(`DIFF  ${path}: size ${a?.width}x${a?.height} -> ${b?.width}x${b?.height}`);
+    failed = true;
+    continue;
+  }
+  const diff = new PNG({ width: a.width, height: a.height });
+  const changed = pixelmatch(a.data, b.data, diff.data, a.width, a.height, { threshold: 0.1 });
+  const share = changed / (a.width * a.height);
+  await writeFile(`${out}/og${path.replace(/\W+/g, "_")}.png`, PNG.sync.write(diff));
+  console.log(`${share < 0.001 ? "SAME " : "DIFF "} ${path}: ${changed} px (${(share * 100).toFixed(3)}%)`);
+  if (share >= 0.001) failed = true;
+}
+
 await browser.close();
 if (failed) process.exitCode = 1;

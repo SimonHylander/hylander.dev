@@ -5,7 +5,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 226232,
+      "bytes": 226217,
       "html": {
         "lang": "en",
         "title": "Simon Hylander",
@@ -17,9 +17,9 @@
           "description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
           "og:title": "Simon Hylander",
           "og:description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
-          "og:url": "/",
+          "og:url": "https://hylander.dev",
           "og:site_name": "Simon Hylander",
-          "og:image": "/opengraph-image",
+          "og:image": "https://hylander.dev/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -28,14 +28,14 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "Simon Hylander",
           "twitter:description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
-          "twitter:image": "/opengraph-image",
+          "twitter:image": "https://hylander.dev/opengraph-image",
           "twitter:image:alt": "Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
           "twitter:image:height": "630"
         },
         "links": {
-          "canonical": "/",
+          "canonical": "https://hylander.dev",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -104,7 +104,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 37901,
+      "bytes": 37886,
       "html": {
         "lang": "en",
         "title": "CV | Simon Hylander",
@@ -116,7 +116,7 @@
           "description": "Career history of Simon Hylander.",
           "og:title": "CV",
           "og:description": "Career history of Simon Hylander.",
-          "og:url": "/cv",
+          "og:url": "https://hylander.dev/cv",
           "og:site_name": "Simon Hylander",
           "og:type": "website",
           "twitter:card": "summary_large_image",
@@ -124,7 +124,7 @@
           "twitter:description": "Career history of Simon Hylander."
         },
         "links": {
-          "canonical": "/cv",
+          "canonical": "https://hylander.dev/cv",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -177,7 +177,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 68575,
+      "bytes": 68560,
       "html": {
         "lang": "en",
         "title": "Treddy.se | Simon Hylander",
@@ -189,9 +189,9 @@
           "description": "I led the architecture and development of Treddy, a service that makes second-hand trades between people safe, from payment link to partner API.",
           "og:title": "Treddy.se",
           "og:description": "I led the architecture and development of Treddy, a service that makes second-hand trades between people safe, from payment link to partner API.",
-          "og:url": "/work/treddy-se",
+          "og:url": "https://hylander.dev/work/treddy-se",
           "og:site_name": "Simon Hylander",
-          "og:image": "/work/treddy-se/opengraph-image",
+          "og:image": "https://hylander.dev/work/treddy-se/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -201,14 +201,14 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "Treddy.se",
           "twitter:description": "I led the architecture and development of Treddy, a service that makes second-hand trades between people safe, from payment link to partner API.",
-          "twitter:image": "/work/treddy-se/opengraph-image",
+          "twitter:image": "https://hylander.dev/work/treddy-se/opengraph-image",
           "twitter:image:alt": "Case study by Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
           "twitter:image:height": "630"
         },
         "links": {
-          "canonical": "/work/treddy-se",
+          "canonical": "https://hylander.dev/work/treddy-se",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -278,7 +278,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 51257,
+      "bytes": 51242,
       "html": {
         "lang": "en",
         "title": "Next.js Migration | Simon Hylander",
@@ -290,9 +290,9 @@
           "description": "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
           "og:title": "Next.js Migration",
           "og:description": "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
-          "og:url": "/work/byggdagboken-migration",
+          "og:url": "https://hylander.dev/work/byggdagboken-migration",
           "og:site_name": "Simon Hylander",
-          "og:image": "/work/byggdagboken-migration/opengraph-image",
+          "og:image": "https://hylander.dev/work/byggdagboken-migration/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -302,14 +302,14 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "Next.js Migration",
           "twitter:description": "I led the migration of Byggdagboken's web platform from PHP and Angular.js to Next.js on AWS Lambda.",
-          "twitter:image": "/work/byggdagboken-migration/opengraph-image",
+          "twitter:image": "https://hylander.dev/work/byggdagboken-migration/opengraph-image",
           "twitter:image:alt": "Case study by Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
           "twitter:image:height": "630"
         },
         "links": {
-          "canonical": "/work/byggdagboken-migration",
+          "canonical": "https://hylander.dev/work/byggdagboken-migration",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -379,7 +379,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 32184,
+      "bytes": 32169,
       "html": {
         "lang": "en",
         "title": "AI code review at Byggdagboken | Simon Hylander",
@@ -391,9 +391,9 @@
           "description": "AI review before submission cut the time senior engineers spend on review by 80%.",
           "og:title": "AI code review at Byggdagboken",
           "og:description": "AI review before submission cut the time senior engineers spend on review by 80%.",
-          "og:url": "/work/ai-code-review",
+          "og:url": "https://hylander.dev/work/ai-code-review",
           "og:site_name": "Simon Hylander",
-          "og:image": "/work/ai-code-review/opengraph-image",
+          "og:image": "https://hylander.dev/work/ai-code-review/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -403,14 +403,14 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "AI code review at Byggdagboken",
           "twitter:description": "AI review before submission cut the time senior engineers spend on review by 80%.",
-          "twitter:image": "/work/ai-code-review/opengraph-image",
+          "twitter:image": "https://hylander.dev/work/ai-code-review/opengraph-image",
           "twitter:image:alt": "Case study by Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
           "twitter:image:height": "630"
         },
         "links": {
-          "canonical": "/work/ai-code-review",
+          "canonical": "https://hylander.dev/work/ai-code-review",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -474,7 +474,7 @@
       "status": 200,
       "location": null,
       "contentType": "text/html",
-      "bytes": 33942,
+      "bytes": 33927,
       "html": {
         "lang": "en",
         "title": "Uppgraderingspaket | Simon Hylander",
@@ -486,9 +486,9 @@
           "description": "AI price matching for PC hardware, with RAG chat search over scraped products.",
           "og:title": "Uppgraderingspaket",
           "og:description": "AI price matching for PC hardware, with RAG chat search over scraped products.",
-          "og:url": "/work/uppgraderingspaket",
+          "og:url": "https://hylander.dev/work/uppgraderingspaket",
           "og:site_name": "Simon Hylander",
-          "og:image": "/work/uppgraderingspaket/opengraph-image",
+          "og:image": "https://hylander.dev/work/uppgraderingspaket/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -498,14 +498,14 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "Uppgraderingspaket",
           "twitter:description": "AI price matching for PC hardware, with RAG chat search over scraped products.",
-          "twitter:image": "/work/uppgraderingspaket/opengraph-image",
+          "twitter:image": "https://hylander.dev/work/uppgraderingspaket/opengraph-image",
           "twitter:image:alt": "Case study by Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
           "twitter:image:height": "630"
         },
         "links": {
-          "canonical": "/work/uppgraderingspaket",
+          "canonical": "https://hylander.dev/work/uppgraderingspaket",
           "icon image/svg+xml": "/logo.svg",
           "icon any": "/favicon/favicon.ico"
         },
@@ -596,7 +596,7 @@
       "status": 404,
       "location": null,
       "contentType": "text/html",
-      "bytes": 23226,
+      "bytes": 23211,
       "html": {
         "lang": "en",
         "title": "Simon Hylander",
@@ -609,9 +609,9 @@
           "description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
           "og:title": "Simon Hylander",
           "og:description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
-          "og:url": "/",
+          "og:url": "https://hylander.dev",
           "og:site_name": "Simon Hylander",
-          "og:image": "/opengraph-image",
+          "og:image": "https://hylander.dev/opengraph-image",
           "og:image:type": "image/png",
           "og:image:width": "1200",
           "og:image:height": "630",
@@ -620,7 +620,7 @@
           "twitter:card": "summary_large_image",
           "twitter:title": "Simon Hylander",
           "twitter:description": "Senior Software Engineer in Stockholm. I build integration platforms, web apps and AI tools.",
-          "twitter:image": "/opengraph-image",
+          "twitter:image": "https://hylander.dev/opengraph-image",
           "twitter:image:alt": "Simon Hylander",
           "twitter:image:type": "image/png",
           "twitter:image:width": "1200",
@@ -708,11 +708,11 @@
     }
   },
   "jsBytes": {
-    "/": 930269,
-    "/cv": 634914,
-    "/work/treddy-se": 652350,
-    "/work/byggdagboken-migration": 647020,
-    "/work/ai-code-review": 640121,
-    "/work/uppgraderingspaket": 641343
+    "/": 930264,
+    "/cv": 634909,
+    "/work/treddy-se": 652345,
+    "/work/byggdagboken-migration": 647015,
+    "/work/ai-code-review": 640116,
+    "/work/uppgraderingspaket": 641338
   }
 }

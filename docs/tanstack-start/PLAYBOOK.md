@@ -8,7 +8,7 @@ The migration is done when all of these hold against a Vercel preview of the Tan
 
 1. `node scripts/parity.ts diff parity/next-local.json <preview snapshot>` reports no differences except the accepted ones listed under [Accepted differences](#accepted-differences).
 2. `docs/tanstack-start/smoke.ts` passes all checks.
-3. `docs/tanstack-start/pixels.ts` reports every page identical except image pixels on case studies with screenshots.
+3. `docs/tanstack-start/pixels.ts` reports every page and every Open Graph image identical, except screenshot pixels on case studies.
 4. The Vercel-only checks in [Phase 4](#phase-4-vercel-cutover) pass on the preview.
 
 ## Versions
@@ -25,7 +25,7 @@ Pinned in the spike on 2026-11-28:
 | `@mdx-js/rollup` | 3.1.1 |
 | `@tailwindcss/vite` | 4.3.5 |
 | `vite-imagetools` | 12.0.2 |
-| `satori` / `@resvg/resvg-js` | 0.63.2 / 2.6.2 |
+| `satori` / `@resvg/resvg-js` | 0.29.0 / 2.6.2. `next/og` bundles satori 0.29.0. Version 0.63.2 drops the card footer. |
 | `@fontsource-variable/familjen-grotesk` / `@fontsource/geist-mono` | 5.3.0 / 5.3.0 |
 
 ## Phase 0: Harness (this PR)
@@ -34,7 +34,9 @@ Lands on Next.js before any migration code.
 
 - `scripts/parity.ts` snapshots every URL in the sitemap plus the redirects, the 404, robots, the favicon and each Open Graph image. It records status, redirect target, title, meta tags, canonical and icon links, JSON-LD, headings, visible text and links. `diff` exits 1 on any difference.
 - `docs/tanstack-start/smoke.ts` checks hydration errors, client navigation, the ⌘K palette, fonts and the home loader in Chrome.
-- `docs/tanstack-start/pixels.ts` compares full-page screenshots at 1280 and 390 px.
+- `docs/tanstack-start/pixels.ts` compares full-page screenshots at 1280 and 390 px, and the Open Graph PNGs pixel by pixel.
+- The browser scripts need `playwright-core@1.65.1`, `pngjs@7.0.0` and `pixelmatch@7.1.0`. Install those in a scratch directory and run copies of the scripts from there, as the header of `smoke.ts` shows. Node does not resolve ESM imports through `NODE_PATH`. `tsconfig.json` excludes `docs/` so `next build` does not type-check them.
+- All three scripts read `VERCEL_BYPASS` to reach a protected preview.
 - `parity/next-local.json` is the baseline: `pnpm build && pnpm start`, then `node scripts/parity.ts snapshot http://localhost:3000 parity/next-local.json`.
 
 Take the baseline from a local build of the base commit, not from production. Production can run a different commit.
@@ -49,7 +51,7 @@ One PR. It removes Next.js and adds Vite, TanStack Start and Nitro. The site doe
 
    ```sh
    pnpm remove next @next/mdx @mdx-js/loader eslint-config-next @tailwindcss/postcss
-   pnpm add @tanstack/react-start @tanstack/react-router @tanstack/router-plugin nitro satori @resvg/resvg-js \
+   pnpm add @tanstack/react-start @tanstack/react-router @tanstack/router-plugin nitro satori@0.29.0 @resvg/resvg-js \
      @fontsource-variable/familjen-grotesk @fontsource/geist-mono
    pnpm add -D vite @vitejs/plugin-react @mdx-js/rollup @tailwindcss/vite vite-imagetools \
      typescript-eslint eslint-plugin-react-hooks @tanstack/eslint-plugin-router
@@ -97,7 +99,7 @@ Each item names the file in the spike to copy or the edit to make.
 
 ### Metadata
 
-`lib/metadata.ts` becomes `pageHead()`. It returns `{ meta, links }` with every tag Next generated: title with the `| Simon Hylander` suffix, description, canonical, `og:*`, `article:published_time` and `twitter:*`, plus the `og:image` and `twitter:image` width, height, type and alt. The root route sets the site defaults through `pageHead()`. TanStack dedupes meta by name and property, so a child's tags replace the root's.
+`lib/metadata.ts` becomes `pageHead()`. Write the home URL as `https://hylander.dev` with no trailing slash, as Next did, so the canonical does not change. It returns `{ meta, links }` with every tag Next generated: title with the `| Simon Hylander` suffix, description, canonical, `og:*`, `article:published_time` and `twitter:*`, plus the `og:image` and `twitter:image` width, height, type and alt. The root route sets the site defaults through `pageHead()`. TanStack dedupes meta by name and property, so a child's tags replace the root's.
 
 Escape `<` in the JSON-LD with `<`, as the old layout did.
 
@@ -106,12 +108,21 @@ Escape `<` in the JSON-LD with `<`, as the old layout did.
 - Add `import "@tanstack/react-start/server-only"` to `lib/env.ts`, `lib/contributions.ts`, `lib/ask-sources.ts` and `lib/og-image.tsx`. A client import of these files then fails the build.
 - Read the environment only inside `createServerFn` handlers and server routes.
 - The root loader calls `getAskSources`, a server function that returns the source ids, or `null` without `ANTHROPIC_API_KEY`. Set `staleTime: Infinity` so client navigations do not refetch it. `getCommands(askEnabled)` and `AskSection({ sources })` take the result as an argument instead of reading `env`.
-- `ActivityHeatmap` takes `days` as a prop. Remove `next: { revalidate }` from the fetches. The ISR rule on `/` does the daily refresh.
+- `ActivityHeatmap` takes `days` as a prop. Remove `next: { revalidate }` from the fetches. The ISR rule on `/` caches the server render for a day. A client navigation to `/` calls the `getHeatmap` server function directly, and `/_serverFn/**` bypasses ISR. So the handler calls `setResponseHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400")` to let the CDN cache that call for a day too. Without it, every client visit to `/` fetches from GitHub.
 - `ask-sources.ts` reads the case study MDX with `import.meta.glob("../content/work/*.mdx", { query: "?raw", import: "default", eager: true })`. This replaces `readFileSync` and `outputFileTracingIncludes`.
+
+### Drafts
+
+Next rendered MDX on the server, so a draft never reached the browser. Every module the client imports now ships in its JS, and `getCommands` imports the writing index. A runtime `draft` filter therefore leaves the draft's full text in the client bundle. The spike's first build did exactly that.
+
+- Register drafts in `src/content/writing/index.ts` (and the work index, if it ever has one) inside `import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === "1" ? { slug: await import("./slug.mdx") } : {}`. Vite replaces that condition at build time and drops the false branch.
+- Keep the condition inline. Rolldown does not fold a `showDrafts` constant imported from another module, and it still emits the draft as a public chunk.
+- `collection.ts` uses the same `import.meta.env` check. `SHOW_DRAFTS=1` becomes `VITE_SHOW_DRAFTS=1`.
+- Gate: `grep -rl "<draft title>" .output` finds nothing after `pnpm build`, and finds the draft after `VITE_SHOW_DRAFTS=1 pnpm build`.
 
 ### Open Graph images
 
-Do not use `@vercel/og`. Version 1.0.3 calls `require("fs")` inside Nitro's ESM bundle and crashes the server at startup. Render with `satori`, then `@resvg/resvg-js`, and return `new Response(png, { headers: { "Content-Type": "image/png" } })`.
+Do not use `@vercel/og`. Version 1.0.3 calls `require("fs")` inside Nitro's ESM bundle and crashes the server at startup. Render with `satori@0.29.0`, then `@resvg/resvg-js`, and return `new Response(png, { headers: { "Content-Type": "image/png" } })`. Pin satori: 0.29.0 matches `next/og` to the pixel, and 0.63.2 pushes the host footer off the card.
 
 ### Links and navigation
 
@@ -142,9 +153,10 @@ Run each gate in order. Do not start the next one until the current one passes.
 | Vercel output | `NITRO_PRESET=vercel pnpm build`, then read `.vercel/output/config.json` | 308 on the 6 retired paths. ISR routes for `/` (`expiration: 86400`) and the catch-all. `/api/ask` and `/_serverFn/**` route to `__server`. `maxDuration: 30`. |
 | Parity | `pnpm build && PORT=3202 pnpm start`, snapshot, then diff against `parity/next-local.json` | Only the [accepted differences](#accepted-differences) |
 | Browser | `smoke.ts http://localhost:3202` | 10/10 PASS |
-| Pixels | `pixels.ts <next> <start> <dir>` | Every page identical. Case studies differ only in screenshot pixels. |
+| Drafts | `grep -rl "<draft title>" .output` | No match |
+| Pixels | `pixels.ts <next> <start> <dir>` | Every page and OG image identical. Case studies differ only in screenshot pixels. |
 
-The spike passed every gate. Gzipped HTML and JS went down on every page: `/` from 275 KB to 208 KB, `/cv` from 191 KB to 153 KB, `/work/treddy-se` from 195 KB to 158 KB. Every page now ships all case study MDX in the entry chunk, because `getCommands` and the home page import the content index. This is cheaper than the Next.js runtime at four case studies. Revisit it if the content grows.
+The spike passed every gate. Gzipped HTML and JS went down on every page: `/` from 275 KB to 208 KB, `/cv` from 191 KB to 153 KB, `/work/treddy-se` from 195 KB to 158 KB. Every page now ships all published MDX in the entry chunk, because `getCommands` and the home page import the content index. This is cheaper than the Next.js runtime at four case studies. Revisit it if the content grows.
 
 ## Phase 4: Vercel cutover
 
@@ -152,6 +164,7 @@ The spike passed every gate. Gzipped HTML and JS went down on every page: `/` fr
 2. Snapshot the preview with `VERCEL_BYPASS=<Protection Bypass for Automation secret> node scripts/parity.ts snapshot <preview-url> parity/start-preview.json`, then diff it against the baseline. Create the secret in the Vercel project under Settings → Deployment Protection.
 3. Check these on the preview. Local builds cannot exercise them:
    - `/` returns `x-vercel-cache: HIT` on a second request, and its `age` grows past a deploy-time render.
+   - The `getHeatmap` server function call made on a client navigation to `/` returns `x-vercel-cache: HIT` on a second visit.
    - `POST /api/ask` from the page returns a streamed answer. A `curl` without BotID headers returns 403.
    - The 11th request within a minute returns 429, which confirms the Firewall rule `ask` still applies.
    - Vercel Analytics records a page view after a client-side navigation.
@@ -181,4 +194,4 @@ A separate PR after the cutover:
 | R1 | `nitro` is an RC (`3.0.261103-rc`) and the TanStack docs mark `nitro/vite` as under active development. | Pin exact versions. The parity and smoke gates catch regressions on upgrade. |
 | R2 | ISR, BotID, the rate limit and Analytics are verified only in the build output, not on Vercel. | Phase 4 step 3 checks each one on the preview before merge. |
 | R3 | The real `/api/ask` stream is unverified. No API key was available, so a probe route checked the streaming path instead. | Phase 4 step 3. |
-| R4 | All MDX ships in the client entry chunk. | It is measured smaller than Next today. Split the content index if it grows. |
+| R4 | All published MDX ships in the client entry chunk. | It is measured smaller than Next today. Split the content index if it grows. Drafts are excluded by the Drafts gate. |
