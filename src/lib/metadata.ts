@@ -17,7 +17,8 @@ type PageHeadInput = {
  */
 export function pageHead({ title, description, path, publishedTime, image }: PageHeadInput) {
   const ogTitle = title ?? profile.name;
-  const url = new URL(path, profile.url).href;
+  // Next wrote the home page's URL without a trailing slash. Keep it, so canonicals do not change.
+  const url = path === "/" ? new URL(profile.url).origin : new URL(path, profile.url).href;
   const imageTags = image
     ? [
         { property: "og:image", content: new URL(image.path, profile.url).href },

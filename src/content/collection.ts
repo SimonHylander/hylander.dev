@@ -23,11 +23,11 @@ export const postSchema = z.object({
   summary: z.string().min(1),
   date: z.iso.date(),
   pillar: z.enum(pillars),
-  /** Drafts render in `next dev` and with SHOW_DRAFTS=1, and are left out of production builds. */
+  /** Drafts render in `pnpm dev` and with VITE_SHOW_DRAFTS=1, and are left out of production builds. */
   draft: z.boolean().default(false),
 });
 
-const showDrafts = process.env.NODE_ENV === "development" || process.env.SHOW_DRAFTS === "1";
+const showDrafts = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === "1";
 
 /** Shape of `export const metadata` in every case study. */
 export const caseStudySchema = postSchema.extend({

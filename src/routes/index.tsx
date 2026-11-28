@@ -1,5 +1,6 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
+import { setResponseHeader } from "@tanstack/react-start/server";
 import { AiWorkflowSection } from "@/components/ai-workflow-section";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
@@ -12,17 +13,19 @@ import { pageHead } from "@/lib/metadata";
 
 const github = profile.socials.find(({ label }) => label === "GitHub");
 
-/** The heatmap's days, or null when it is off or GitHub returned nothing usable. */
-const getHeatmap = createServerFn().handler(() =>
-  SHOW_HEATMAP && github ? getContributions(new URL(github.href).pathname.slice(1)) : null,
-);
+/**
+ * The heatmap's days, or null when it is off or GitHub returned nothing usable. The ISR rule caches
+ * the server render of /. A client navigation to / calls this function directly, so the CDN caches
+ * its response for a day too.
+ */
+const getHeatmap = createServerFn().handler(() => {
+  setResponseHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400");
+  return SHOW_HEATMAP && github ? getContributions(new URL(github.href).pathname.slice(1)) : null;
+});
 
 export const Route = createFileRoute("/")({
   loader: () => getHeatmap(),
-  head: () => ({
-    meta: pageHead({ description: profile.positioning, path: "/", image: { path: "/opengraph-image", alt: profile.name } }).meta,
-    links: [{ rel: "canonical", href: new URL("/", profile.url).href }],
-  }),
+  head: () => pageHead({ description: profile.positioning, path: "/", image: { path: "/opengraph-image", alt: profile.name } }),
   component: HomePage,
 });
 
