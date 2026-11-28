@@ -19,7 +19,7 @@ export function CareerTimeline() {
     <section id="career" aria-labelledby="career-heading" className="scroll-mt-20 border-t border-line py-16 md:py-24">
       <div className="flex items-baseline justify-between gap-4">
         <h2 id="career-heading" className="text-claim font-semibold tracking-[-0.025em]">
-          {now - first} years, {career.length} companies
+          Work
         </h2>
         <Link
           href="/cv"
