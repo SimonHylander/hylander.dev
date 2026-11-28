@@ -122,7 +122,7 @@ The scene: a hiring manager opens the link from LinkedIn in the evening, on a la
 
 **Layout rhythm.** Sticky 64px top bar. Hero 64px (mobile) to 96px (desktop) below it, then 64px to the Shipping heatmap, and 64px (mobile) to 96px (desktop) from the heatmap to the first hairline. Sections 64px (mobile) to 96px (desktop) of padding on each side of their hairline. Page gutter 20px mobile, 32px from `sm`, 48px from `lg`.
 
-**Home order.** Hero, then the case study deck, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
+**Home order.** Hero, then the case study deck, How I work with AI, Tools I build with, Ask when its key is set, the career timeline, and the contact footer.
 
 **Slots.** `src/components/slots.tsx` places the interactive pieces: the activity heatmap (between the hero and the work, off while `SHOW_HEATMAP` is false) and a per-case-study artifact (above the case study prose).
 
@@ -147,7 +147,7 @@ Restrained strategy: tinted plum neutrals and one accent. The accent covers well
 
 **The One Accent Rule.** Lilac marks one idea per view. In the hero that idea is the accent phrase and the button that acts on it. If two lilac ideas compete, one of them becomes ink.
 
-**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities.
+**The Token-Only Rule.** `globals.css` resets Tailwind's palette (`--color-*: initial`), so only the seven tokens exist as color utilities. The Grok bot colors in `src/content/ai-workflow.ts` and the heatmap ramp are the only off-token colors.
 
 **Print.** `@media print` remaps the tokens to white, black and grays, so `/cv` prints as a plain document.
 
@@ -237,9 +237,13 @@ The first section under `#work`, from `src/components/work-deck.tsx`. A "Project
 
 `src/components/tools-section.tsx`, data in `src/content/tools.ts`. The Claim heading beside a list in 3 columns (2 below `sm`). One 56px hairline row per tool: the mark at 20px in muted, then the name at 16px 500. The rows are static, with no hover state. Marks are single-path SVGs in `currentColor`, so no brand colors enter the palette.
 
+### How I work with AI
+
+`src/components/ai-workflow-section.tsx`, script in `src/content/ai-workflow.ts`. The Claim heading and one paragraph beside a plum 2 panel, stacked above it below 1024px so the panel gets the full width. Above two panes, a step counter and a one-line caption say what happens in each of ten steps, about 3 seconds each. The left pane lists Simon's Grok bots, and the bot at work has a plum 3 row highlight. The loop follows one sample change, a dark mode toggle for a settings page, from spec to merge. The right pane has three views. First, T3 Code's thread list, where each bot starts its own thread as it starts work, with its badge, branch and status: Working (lilac, dashed spinner), Done, Pull request, Changes requested, Approved, Merge gate passed or Merged. Next, the T3 Code browser, where the QA engineer tests the settings page at 1280px and then at phone width, with the new row outlined in dashed lilac. Last, the merged pull request on GitHub, with the QA engineer's before and after screenshots. The sample settings page uses only palette tokens, light before (ink) and dark after (plum), and is sized in em so the preview and the screenshots share one component. The bots are open-bot-avatar avatars, 40px, with blob bodies after Simon's Grok app and colors matched to the plum lightness. The engineering manager, who hands out the work, takes lilac. A bot waiting for work is dimmed and idles, a working bot runs the library's working state, a bot waiting on another uses the waiting state, and a finished bot idles happy. The server renders a flat still of each bot, which the live avatar replaces. The loop runs only on screen, with the tab in front and motion allowed, and a "Pause the loop" button sits below the panel. The server, no-JS and reduced-motion state is the last step, the merged pull request.
+
 ### Activity heatmap
 
-Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps are the only off-token colors and exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
+Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
 
 ### Case study meta row
 
