@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import type { Command } from "@/lib/commands";
 import { copyEmail } from "./copy-email";
@@ -31,7 +31,7 @@ function groupResults(results: Command[]) {
  * Escape closes it, and focus returns to whatever was focused before it opened.
  */
 export function CommandPalette({ commands }: { commands: Command[] }) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const [query, setQuery] = useState("");
@@ -75,14 +75,14 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
       case "copy-email":
         return void copyEmail();
       case "route":
-        return router.push(command.href);
+        return void navigate(command.link);
       case "external":
         return window.location.assign(command.href);
       case "focus": {
         // The dialog's close handler restores focus, so point it at the target instead of the trigger.
         const target = document.getElementById(command.target);
         if (target) returnFocusRef.current = target;
-        else router.push(command.href);
+        else void navigate(command.link);
         return;
       }
     }

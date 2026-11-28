@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import {
   useEffect,
   useEffectEvent,
@@ -221,7 +221,7 @@ export function WorkDeckViewer({ heading, items }: { heading: ReactNode; items: 
                 ref={(element) => {
                   cardRefs.current[index] = element;
                 }}
-                href={`/work/${item.slug}`}
+                to="/work/$slug" params={{ slug: item.slug }}
                 draggable={false}
                 onClick={(event) => onCardClick(event, index)}
                 onFocus={(event) => {

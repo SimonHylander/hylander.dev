@@ -1,3 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { anthropic, type AnthropicLanguageModelOptions } from "@ai-sdk/anthropic";
 import { checkRateLimit } from "@vercel/firewall";
 import { createTextStreamResponse, streamText, toTextStream } from "ai";
@@ -6,9 +7,7 @@ import { askInputSchema } from "@/lib/ask";
 import { askSystemMessage } from "@/lib/ask-sources";
 import { env } from "@/lib/env";
 
-export const maxDuration = 30;
-
-/** BotID and the Firewall rate limit only work on Vercel. Locally (`next dev`, `next start`) both are skipped. */
+/** BotID and the Firewall rate limit only work on Vercel. Locally (`pnpm dev`, `pnpm start`) both are skipped. */
 const onVercel = Boolean(process.env.VERCEL);
 
 const error = (status: 400 | 403 | 429 | 503, message: string) => Response.json({ error: message }, { status });
@@ -16,12 +15,14 @@ const error = (status: 400 | 403 | 429 | 503, message: string) => Response.json(
 /**
  * POST /api/ask: answers one question about Simon's work from the site's own pages and streams
  * plain text back. Errors are JSON `{ error }` with a status code; see README for the limits.
+ * vite.config.ts gives this route a 30 second function limit.
  */
-export async function POST(request: Request) {
+async function POST({ request }: { request: Request }) {
   if (!env.ANTHROPIC_API_KEY) return error(503, "Ask is not configured on this deployment.");
 
   if (onVercel) {
-    const { isBot } = await checkBotId();
+    // Outside Next.js BotID cannot read the request on its own, so it gets the headers.
+    const { isBot } = await checkBotId({ advancedOptions: { headers: Object.fromEntries(request.headers) } });
     if (isBot) return error(403, "This looks like an automated request.");
 
     const { rateLimited } = await checkRateLimit("ask", { request });
@@ -50,3 +51,5 @@ export async function POST(request: Request) {
 
   return createTextStreamResponse({ stream: toTextStream({ stream: result.stream }) });
 }
+
+export const Route = createFileRoute("/api/ask")({ server: { handlers: { POST } } });

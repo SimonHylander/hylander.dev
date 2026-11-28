@@ -3,6 +3,9 @@
 /* Hallmark · waive 26b · the pause toggle is never disabled · under reduced motion the loop never plays and the toggle hides */
 /* Hallmark · waive 84 · the real T3 Code thread list names private client repos · the loop shows the Grok to T3 Code handoff, which no one screenshot holds */
 @import "tailwindcss";
+@import "@fontsource-variable/familjen-grotesk";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/500.css";
 @import "./code.css";
 
 /* Design tokens. DESIGN.md documents each one. Print overrides them at the bottom of this file. */
@@ -28,8 +31,8 @@
   --color-lilac: var(--lilac);
   --color-line: var(--line);
 
-  --font-sans: var(--font-familjen), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: "Familjen Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
 
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;

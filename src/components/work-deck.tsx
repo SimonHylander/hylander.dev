@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { WorkArtifact, WorkArtifactPreview } from "@/components/artifacts";
 import { pillarLabels } from "@/content/collection";
 import { work, type CaseStudy } from "@/content/work";
@@ -131,7 +131,7 @@ function Detail({ entry, index }: { entry: CaseStudy; index: number }) {
           </ul>
         )}
         <Link
-          href={`/work/${entry.slug}`}
+          to="/work/$slug" params={{ slug: entry.slug }}
           className="mt-7 inline-flex rounded-md bg-lilac px-4 py-2.5 font-medium text-plum transition-[filter] duration-200 ease-out hover:brightness-110"
         >
           Read the case study →

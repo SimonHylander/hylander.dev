@@ -1,16 +1,35 @@
-import type { Metadata } from "next";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { AiWorkflowSection } from "@/components/ai-workflow-section";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
 import { ActivityHeatmapSlot } from "@/components/slots";
 import { ToolsSection } from "@/components/tools-section";
 import { WorkDeck } from "@/components/work-deck";
-import { profile } from "@/content/profile";
+import { profile, SHOW_HEATMAP } from "@/content/profile";
+import { getContributions } from "@/lib/contributions";
+import { pageHead } from "@/lib/metadata";
 
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+const github = profile.socials.find(({ label }) => label === "GitHub");
+
+/** The heatmap's days, or null when it is off or GitHub returned nothing usable. */
+const getHeatmap = createServerFn().handler(() =>
+  SHOW_HEATMAP && github ? getContributions(new URL(github.href).pathname.slice(1)) : null,
+);
+
+export const Route = createFileRoute("/")({
+  loader: () => getHeatmap(),
+  head: () => ({
+    meta: pageHead({ description: profile.positioning, path: "/", image: { path: "/opengraph-image", alt: profile.name } }).meta,
+    links: [{ rel: "canonical", href: new URL("/", profile.url).href }],
+  }),
+  component: HomePage,
+});
 
 // Section order follows the content map in PRODUCT.md. Contact is the footer, on every page.
-export default function HomePage() {
+function HomePage() {
+  const days = Route.useLoaderData();
+  const askSources = useLoaderData({ from: "__root__" });
   const { currentJob } = profile;
 
   return (
@@ -48,7 +67,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ActivityHeatmapSlot />
+      <ActivityHeatmapSlot days={days} />
 
       <div id="work" className="scroll-mt-16">
         <WorkDeck />
@@ -58,7 +77,7 @@ export default function HomePage() {
 
       <ToolsSection />
 
-      <AskSection />
+      <AskSection sources={askSources} />
 
       <CareerTimeline />
     </>

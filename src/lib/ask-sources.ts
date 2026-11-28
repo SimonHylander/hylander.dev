@@ -1,5 +1,4 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import "@tanstack/react-start/server-only";
 import type { SystemModelMessage } from "ai";
 import { career, currentJob } from "@/content/career";
 import { pillarLabels } from "@/content/collection";
@@ -18,10 +17,11 @@ type Source = { id: SourceId; title: string; text: string };
 /**
  * A case study's MDX body without the metadata export, imports, MDX comments (the TODO notes)
  * and component tags such as `<BuildDiagram>`, so the model sees only the published prose.
- * next.config.ts traces these files into the /api/ask function.
  */
 function readCaseStudyBody(slug: string) {
-  return readFileSync(join(process.cwd(), "src/content/work", `${slug}.mdx`), "utf8")
+  const source = caseStudySources[`../content/work/${slug}.mdx`];
+  if (source === undefined) throw new Error(`No MDX source for case study "${slug}"`);
+  return source
     .replace(/^export const metadata = \{[\s\S]*?^\};?$/m, "")
     .replace(/^import .*$/gm, "")
     .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
@@ -29,6 +29,9 @@ function readCaseStudyBody(slug: string) {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
+
+/** The raw MDX of every case study, bundled into the server build. */
+const caseStudySources = import.meta.glob<string>("../content/work/*.mdx", { query: "?raw", import: "default", eager: true });
 
 const lines = (...items: (string | false | undefined)[]) => items.filter(Boolean).join("\n");
 

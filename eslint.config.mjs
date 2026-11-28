@@ -1,9 +1,11 @@
+import pluginRouter from "@tanstack/eslint-plugin-router";
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import reactHooks from "eslint-plugin-react-hooks";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", ".agents/**", ".impeccable/**"]),
+  ...tseslint.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  ...pluginRouter.configs["flat/recommended"],
+  globalIgnores([".output/**", ".vercel/**", ".nitro/**", ".tanstack/**", "src/routeTree.gen.ts", ".agents/**", ".impeccable/**"]),
 ]);

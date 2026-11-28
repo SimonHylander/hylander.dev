@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { profile } from "@/content/profile";
-import { getCommands } from "@/lib/commands";
+import type { Command } from "@/lib/commands";
 import { CommandPalette } from "./command-palette";
 
 const linkClass =
@@ -11,28 +10,28 @@ const linkClass =
  * Sticky top bar: the "SH" logo links home, then Work, CV, Contact and the palette trigger.
  * Work and CV hide below `sm`, where the palette covers them.
  */
-export function SiteHeader() {
+export function SiteHeader({ commands }: { commands: Command[] }) {
   return (
     <header className="sticky top-0 z-10 -mx-5 flex h-16 items-center justify-between bg-plum px-5 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 print:hidden">
       <Link
-        href="/"
+        to="/"
         aria-label={`${profile.name}, home`}
         className="transition-[filter] duration-200 ease-out hover:brightness-110"
       >
-        <Image src="/logo.svg" alt="" width={32} height={32} priority />
+        <img src="/logo.svg" alt="" width={32} height={32} fetchPriority="high" />
       </Link>
       <nav aria-label="Main" className="flex items-center gap-1">
-        <Link href="/#work" className={`${linkClass} max-sm:hidden`}>
+        <Link to="/" hash="work" className={`${linkClass} max-sm:hidden`}>
           Work
         </Link>
-        <Link href="/cv" className={`${linkClass} max-sm:hidden`}>
+        <Link to="/cv" className={`${linkClass} max-sm:hidden`}>
           CV
         </Link>
         {/* The contact footer is on every page, so the hash never needs a route change. */}
         <a href="#contact" className={linkClass}>
           Contact
         </a>
-        <CommandPalette commands={getCommands()} />
+        <CommandPalette commands={commands} />
       </nav>
     </header>
   );

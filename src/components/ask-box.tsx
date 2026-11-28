@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link, linkOptions } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { askErrorSchema, askInputSchema, parseAnswer, type SourceId } from "@/lib/ask";
 
@@ -157,7 +157,7 @@ function Answer({ text, sources, streaming }: { text: string; sources: SourceId[
           {cited.map((id, index) => (
             <Fragment key={id}>
               {index > 0 && ", "}
-              <Link href={id} className="link">
+              <Link {...sourceLink(id)} className="link">
                 {id}
               </Link>
             </Fragment>
@@ -166,4 +166,11 @@ function Answer({ text, sources, streaming }: { text: string; sources: SourceId[
       )}
     </>
   );
+}
+
+/** The router link for a cited page. Case study ids carry their slug. */
+function sourceLink(id: SourceId) {
+  return id === "/" || id === "/cv"
+    ? linkOptions({ to: id })
+    : linkOptions({ to: "/work/$slug", params: { slug: id.slice("/work/".length) } });
 }

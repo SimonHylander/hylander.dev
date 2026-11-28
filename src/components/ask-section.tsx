@@ -1,13 +1,12 @@
-import { askSourceIds } from "@/lib/ask-sources";
-import { env } from "@/lib/env";
+import type { SourceId } from "@/lib/ask";
 import { AskBox } from "./ask-box";
 
 /**
- * "Ask about my work" on the home page. Renders nothing unless ANTHROPIC_API_KEY is set. The home
- * page is static, so the check runs at build time. Hidden without JavaScript and in print.
+ * "Ask about my work" on the home page. `sources` is null unless ANTHROPIC_API_KEY is set, and then
+ * the section renders nothing. Hidden without JavaScript and in print.
  */
-export function AskSection() {
-  if (!env.ANTHROPIC_API_KEY) return null;
+export function AskSection({ sources }: { sources: SourceId[] | null }) {
+  if (!sources) return null;
 
   return (
     <section
@@ -20,7 +19,7 @@ export function AskSection() {
         Ask about my work
       </h2>
       <div className="mt-8 max-w-[44rem]">
-        <AskBox sources={askSourceIds} />
+        <AskBox sources={sources} />
       </div>
     </section>
   );

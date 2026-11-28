@@ -1,35 +1,38 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { BackLink } from "@/components/back-link";
 import { WorkArtifactSlot } from "@/components/slots";
 import { pillarLabels } from "@/content/collection";
 import { work, type CaseStudy } from "@/content/work";
 import { formatYears } from "@/lib/format";
-import { pageMetadata } from "@/lib/metadata";
+import { profile } from "@/content/profile";
+import { pageHead } from "@/lib/metadata";
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return work.entries.map(({ slug }) => ({ slug }));
-}
-
-export async function generateMetadata({ params }: PageProps<"/work/[slug]">) {
-  const entry = work.find((await params).slug);
-  if (!entry) notFound();
-  return pageMetadata({
-    title: entry.title,
-    description: entry.summary,
-    path: `/work/${entry.slug}`,
-    publishedTime: entry.date,
-  });
-}
+export const Route = createFileRoute("/work/$slug")({
+  // Every case study is linked from the home page, so the prerender crawl reaches each one.
+  loader: ({ params }) => {
+    const index = work.entries.findIndex((entry) => entry.slug === params.slug);
+    if (index === -1) throw notFound();
+    return index;
+  },
+  head: ({ loaderData: index }) => {
+    const entry = index === undefined ? undefined : work.entries[index];
+    if (!entry) return {};
+    return pageHead({
+      title: entry.title,
+      description: entry.summary,
+      path: `/work/${entry.slug}`,
+      publishedTime: entry.date,
+      image: { path: `/work/${entry.slug}/opengraph-image`, alt: `Case study by ${profile.name}` },
+    });
+  },
+  component: WorkPage,
+});
 
 // One case study: header and meta from metadata, the MDX body, the stack, then prev/next.
-export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
-  const { slug } = await params;
-  const index = work.entries.findIndex((entry) => entry.slug === slug);
+function WorkPage() {
+  const index = Route.useLoaderData();
   const entry = work.entries[index];
-  if (!entry) notFound();
+  if (!entry) throw notFound();
   const { Content } = entry;
 
   const meta = [
@@ -41,7 +44,7 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
 
   return (
     <article className="reading pt-10 pb-24 sm:pt-14">
-      <BackLink href="/#work">Work</BackLink>
+      <BackLink link={{ to: "/", hash: "work" }}>Work</BackLink>
 
       <header className="mt-8 space-y-3">
         <h1 className="text-hero font-bold tracking-[-0.02em] text-balance sm:text-hero-lg">{entry.title}</h1>
@@ -93,7 +96,7 @@ function CaseStudyPager({ previous, next }: { previous?: CaseStudy; next?: CaseS
   return (
     <nav aria-label="Projects" className="mt-16 grid gap-4 border-t border-line pt-6 sm:grid-cols-2">
       {links.map(({ entry, label, align }) => (
-        <Link key={label} href={`/work/${entry.slug}`} className={`group space-y-0.5 ${align}`}>
+        <Link key={label} to="/work/$slug" params={{ slug: entry.slug }} className={`group space-y-0.5 ${align}`}>
           <span className="block text-meta text-muted">{label}</span>
           <span className="block font-medium transition-colors duration-200 ease-out group-hover:text-lilac">
             {entry.title}

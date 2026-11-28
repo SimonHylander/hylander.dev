@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { career, type PartialDate } from "@/content/career";
 import { formatYears } from "@/lib/format";
 
@@ -22,7 +22,7 @@ export function CareerTimeline() {
           Work
         </h2>
         <Link
-          href="/cv"
+          to="/cv"
           className="shrink-0 rounded-md border border-line px-3.5 py-2 text-sm font-medium transition-colors duration-200 ease-out hover:border-muted hover:bg-plum-2"
         >
           Full CV

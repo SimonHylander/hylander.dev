@@ -1,7 +1,5 @@
+import "@tanstack/react-start/server-only";
 import { z } from "zod";
-
-/** Re-fetch the calendar at most once a day. */
-const revalidate = 60 * 60 * 24;
 
 const day = z.object({
   date: z.iso.date(),
@@ -56,7 +54,6 @@ async function fromGraphql(login: string, token: string) {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables: { login } }),
-    next: { revalidate },
   });
   if (!response.ok) throw new Error(`GraphQL responded ${response.status}`);
   const { weeks } = graphqlResponse.parse(await response.json()).data.user.contributionsCollection.contributionCalendar;
@@ -75,7 +72,7 @@ async function fromGraphql(login: string, token: string) {
  * `<tool-tip for="{id}">` as "N contributions on …" or "No contributions on …".
  */
 async function fromHtml(login: string) {
-  const response = await fetch(`https://github.com/users/${login}/contributions`, { next: { revalidate } });
+  const response = await fetch(`https://github.com/users/${login}/contributions`);
   if (!response.ok) throw new Error(`Calendar page responded ${response.status}`);
   const html = await response.text();
 
@@ -96,7 +93,7 @@ async function fromHtml(login: string) {
 }
 
 /**
- * Simon's public GitHub contributions for the last year, cached for a day. Uses the GraphQL API
+ * Simon's public GitHub contributions for the last year. The home page's ISR rule in vite.config.ts caches them for a day. Uses the GraphQL API
  * when `GITHUB_TOKEN` is set, the public calendar page otherwise. Returns null, with a build
  * warning, when neither yields a valid calendar.
  */

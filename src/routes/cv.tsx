@@ -1,16 +1,16 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { career } from "@/content/career";
 import { profile } from "@/content/profile";
 import { formatPeriod } from "@/lib/format";
-import { pageMetadata } from "@/lib/metadata";
+import { pageHead } from "@/lib/metadata";
 
-export const metadata = pageMetadata({
-  title: "CV",
-  description: `Career history of ${profile.name}.`,
-  path: "/cv",
+export const Route = createFileRoute("/cv")({
+  head: () => pageHead({ title: "CV", description: `Career history of ${profile.name}.`, path: "/cv" }),
+  component: CvPage,
 });
 
 // Full career history. It replaces a PDF: the print styles in globals.css drop the site chrome.
-export default function CvPage() {
+function CvPage() {
   return (
     <article className="reading pt-10 pb-24 sm:pt-14 print:pt-0">
       <header className="space-y-2 border-b border-line pb-8 print:pb-5">

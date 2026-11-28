@@ -1,6 +1,7 @@
 import { ActivityHeatmap } from "@/components/activity-heatmap";
 import { WorkArtifact, type Placement } from "@/components/artifacts";
 import type { CaseStudySlug } from "@/content/work";
+import type { ContributionDay } from "@/lib/contributions";
 
 /*
  * Where the interactive pieces plug into the pages. Each one enhances text that already reads
@@ -8,8 +9,8 @@ import type { CaseStudySlug } from "@/content/work";
  */
 
 /** Activity heatmap, between the hero and the work. Hidden when `SHOW_HEATMAP` is false. */
-export function ActivityHeatmapSlot() {
-  return <ActivityHeatmap />;
+export function ActivityHeatmapSlot({ days }: { days: ContributionDay[] | null }) {
+  return <ActivityHeatmap days={days} />;
 }
 
 /** Per-case-study artifact, above the case study prose. */

@@ -1,4 +1,6 @@
-import { ImageResponse } from "next/og";
+import "@tanstack/react-start/server-only";
+import { Resvg } from "@resvg/resvg-js";
+import satori from "satori";
 import { profile } from "@/content/profile";
 
 export const ogImageSize = { width: 1200, height: 630 };
@@ -16,13 +18,15 @@ async function loadFont(weight: 500 | 700, text: string) {
   return fetch(url).then((response) => response.arrayBuffer());
 }
 
-/** Open Graph image in the site palette: the SH mark, a muted eyebrow, the title and a description. */
+/**
+ * Open Graph image in the site palette: the SH mark, a muted eyebrow, the title and a description.
+ */
 export async function renderOgImage({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
   const host = new URL(profile.url).host;
   const text = `SH${eyebrow}${title}${description}${host}`;
   const [medium, bold] = await Promise.all([loadFont(500, text), loadFont(700, text)]);
 
-  return new ImageResponse(
+  const svg = await satori(
     (
       <div
         style={{
@@ -71,4 +75,8 @@ export async function renderOgImage({ eyebrow, title, description }: { eyebrow: 
       ],
     },
   );
+  const png = new Resvg(svg, { fitTo: { mode: "width", value: ogImageSize.width } }).render().asPng();
+  return new Response(new Uint8Array(png), {
+    headers: { "Content-Type": "image/png" },
+  });
 }
