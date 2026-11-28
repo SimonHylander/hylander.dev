@@ -19,7 +19,7 @@ export function SiteHeader() {
         aria-label={`${profile.name}, home`}
         className="transition-[filter] duration-200 ease-out hover:brightness-110"
       >
-        <Image src="/logo-mark.svg" alt="" width={32} height={32} priority />
+        <Image src="/logo.svg" alt="" width={32} height={32} priority />
       </Link>
       <nav aria-label="Main" className="flex items-center gap-1">
         <Link href="/#work" className={`${linkClass} max-sm:hidden`}>
