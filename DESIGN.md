@@ -174,7 +174,7 @@ Both load through `next/font/google` as `--font-familjen` and `--font-geist-mono
 
 ## Elevation
 
-Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three plum steps (plum, plum 2, plum 3) and 1px `line` borders. The palette's backdrop is plum at 75% opacity, with no blur.
+Flat. No drop shadows, no gradients, no blur, no glass. Depth comes from three plum steps (plum, plum 2, plum 3) and 1px `line` borders. The palette's backdrop is plum at 75% opacity, with no blur. The home page sky is the one painted surface, and it uses the same three plum steps.
 
 ### Named Rules
 
@@ -241,6 +241,10 @@ The first section under `#work`, from `src/components/work-deck.tsx`. A "Project
 
 `src/components/ai-workflow-section.tsx`, script in `src/content/ai-workflow.ts`. The Claim heading and one paragraph beside a plum 2 panel, stacked above it below 1024px so the panel gets the full width. Above two panes, a step counter and a one-line caption say what happens in each of ten steps, about 3 seconds each. The left pane lists Simon's Grok bots, and the bot at work has a plum 3 row highlight. The loop follows one sample change, a dark mode toggle for a settings page, from spec to merge. The right pane has three views. First, T3 Code's thread list, where each bot starts its own thread as it starts work, with its badge, branch and status: Working (lilac, dashed spinner), Done, Pull request, Changes requested, Approved, Merge gate passed or Merged. Next, the T3 Code browser, where the QA engineer tests the settings page at 1280px and then at phone width, with the new row outlined in dashed lilac. Last, the merged pull request on GitHub, with the QA engineer's before and after screenshots. The sample settings page uses only palette tokens, light before (ink) and dark after (plum), and is sized in em so the preview and the screenshots share one component. The bots are open-bot-avatar avatars, 40px, with blob bodies after Simon's Grok app and colors matched to the plum lightness. The engineering manager, who hands out the work, takes lilac. A bot waiting for work is dimmed and idles, a working bot runs the library's working state, a bot waiting on another uses the waiting state, and a finished bot idles happy. The server renders a flat still of each bot, which the live avatar replaces. The loop runs only on screen, with the tab in front and motion allowed, and a "Pause the loop" button sits below the panel. The server, no-JS and reduced-motion state is the last step, the merged pull request.
 
+### Sky (signature)
+
+`src/components/sky.tsx`, on the home page only. A bank of night cumulus drifts behind the content: a fixed WebGL canvas below the top bar, drawn by one fragment shader. The clouds are plum 2 in shade and plum 3 where the light from the upper left reaches them, so muted text keeps 6:1 over them and hairlines stay visible. The sky is clear at the top and the bank builds toward the bottom right. It is at full strength behind the hero and the contact footer and at 60% behind the sections between, and it rises a tenth as fast as the page scrolls. The clouds drift left at about 4px a second and reshape slower than they drift, over four to ten minutes. The shader runs at 30 frames a second on at most 800,000 pixels, and stops with the tab. Under reduced motion the clouds hold still. Without JavaScript or WebGL the page is flat plum. Articles, `/cv` and print have no sky.
+
 ### Activity heatmap
 
 Off while `SHOW_HEATMAP` is false: the calendar is nearly empty before Oct 2026. "Shipping": a 7-row table, one 9px `rounded-[2px]` cell per day and one column per week, 2px gaps. Five levels: plum 2, `oklch(0.42 0.07 304)`, `oklch(0.55 0.09 305)`, `oklch(0.7 0.1 306)`, lilac. These three in-between steps exist only for this ramp. The grid is one tab stop with arrow-key movement; hovering or focusing a day writes its count into the muted note below. On narrow screens the scroller opens on the latest week (a right-to-left scroller, so no JavaScript is needed).
@@ -255,6 +259,7 @@ A `dl` between two hairlines: Role, Years (mono), Pillar, Result. The Result val
 - Hero: one CSS-only rise (6px, 700ms, 70ms stagger: headline, name, "Now" line, then buttons).
 - Partner graph pulses: 1.1s on `cubic-bezier(.45, 0, .2, 1)`, one every 700ms. Canary split 450ms, review bars 700ms, pipeline chips 280ms apart.
 - Palette 200ms, toast 240ms, hover shifts 300ms.
+- Sky: the only ambient loop. It fades in over 1.2s once the shader is ready.
 - `prefers-reduced-motion: reduce` collapses every animation and transition.
 
 ## Do's and Don'ts

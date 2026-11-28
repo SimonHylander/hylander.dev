@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AiWorkflowSection } from "@/components/ai-workflow-section";
 import { AskSection } from "@/components/ask-section";
 import { CareerTimeline } from "@/components/career-timeline";
+import { Sky } from "@/components/sky";
 import { ActivityHeatmapSlot } from "@/components/slots";
 import { ToolsSection } from "@/components/tools-section";
 import { WorkDeck } from "@/components/work-deck";
@@ -15,6 +16,8 @@ export default function HomePage() {
 
   return (
     <>
+      <Sky />
+
       <section aria-labelledby="intro" className="pt-16 pb-16 sm:pt-24">
         <div>
           <h1 id="intro" className="reveal text-display font-semibold tracking-[-0.03em] text-balance">
